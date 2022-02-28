@@ -1,2 +1,2 @@
-# team-18
+# Sykkelappen
 Sykkel
