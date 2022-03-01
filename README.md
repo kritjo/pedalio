@@ -1,2 +1,2 @@
 # Sykkelappen
-Sykkeler og sånn
+Sykkeler og sånn, litt app
