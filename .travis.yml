@@ -5,7 +5,7 @@ before_install:
   - yes | sdkmanager "platforms;android-32"
 android:
   components:
-    - android-23
+    - android-32
   licenses:
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
