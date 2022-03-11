@@ -10,8 +10,6 @@ env:
   
 before_install:
   - touch $HOME/.android/repositories.cfg
-  - yes | sdkmanager "platforms;android-32"
-  - yes | sdkmanager "build-tools;30.0.2"
   
 android:
   components:
