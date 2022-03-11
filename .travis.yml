@@ -1,6 +1,9 @@
 language: android
 dist: trusty
 jdk: openjdk11
+before_install:
+  - yes | sdkmanager "platforms;android-23"
+  - yes | sdkmanager "platforms;android-32"
 android:
   components:
     - android-23
