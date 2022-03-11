@@ -4,3 +4,7 @@ jdk: openjdk11
 android:
   components:
     - android-23
+  licenses:
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
+    - '*'
