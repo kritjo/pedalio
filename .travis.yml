@@ -1,7 +1,7 @@
 language: android
 dist: trusty
 sudo: required
-jdk: openjdk11
+jdk: oraclejdk8
 
 env:
   global:
@@ -19,6 +19,9 @@ android:
     - tools
     - platform-tools
   licenses:
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
     - '.*'
 
 before_script:
