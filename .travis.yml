@@ -10,6 +10,7 @@ env:
   
 before_install:
   - touch $HOME/.android/repositories.cfg
+  - export JAVA_HOME=~/openjdk11
   - yes | $ANDROID_HOME/tools/bin/sdkmanager "build-tools;30.0.3"
   - yes | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-32"
   
