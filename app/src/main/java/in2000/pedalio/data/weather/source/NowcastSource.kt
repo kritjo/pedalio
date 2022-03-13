@@ -8,8 +8,18 @@ import com.github.kittinunf.fuel.coroutines.awaitStringResponse
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
+/**
+ * Data Sorce for Nowcast API
+ */
 class NowcastSource {
     companion object {
+        /**
+         * Do API call
+         * @param endpoint Which Nowcast endpoint to use
+         * @param lat Latitude
+         * @param lon Longitude
+         * @return A nowcast data class
+         */
         @JvmStatic
         suspend fun getNowcast(
             endpoint: String,
