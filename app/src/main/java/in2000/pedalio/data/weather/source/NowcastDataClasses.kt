@@ -2,6 +2,9 @@ package in2000.pedalio.data.weather.source
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Class to represent Nowcast API response
+ */
 @Serializable
 data class NowcastCompleteDataClass(
     val geometry: Geometry,
@@ -65,6 +68,7 @@ data class Next1Hours(
 @Serializable
 data class Details(
     val air_temperature: Double? = null,
+    val precipitation_amount: Double? = null,
     val precipitation_rate: Double? = null,
     val relative_humidity: Double? = null,
     val wind_from_direction: Double? = null,
