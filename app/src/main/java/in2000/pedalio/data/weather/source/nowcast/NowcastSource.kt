@@ -1,4 +1,4 @@
-package in2000.pedalio.data.weather.source
+package in2000.pedalio.data.weather.source.nowcast
 
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
