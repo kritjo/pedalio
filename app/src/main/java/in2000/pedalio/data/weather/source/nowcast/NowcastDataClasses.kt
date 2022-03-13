@@ -1,4 +1,4 @@
-package in2000.pedalio.data.weather.source
+package in2000.pedalio.data.weather.source.nowcast
 
 import kotlinx.serialization.Serializable
 
@@ -61,7 +61,7 @@ data class Instant(
 
 @Serializable
 data class Next1Hours(
-    val details: DetailsX,
+    val details: Details,
     val summary: Summary
 )
 
@@ -74,11 +74,6 @@ data class Details(
     val wind_from_direction: Double? = null,
     val wind_speed: Double? = null,
     val wind_speed_of_gust: Double? = null
-)
-
-@Serializable
-data class DetailsX(
-    val precipitation_amount: Double
 )
 
 @Serializable

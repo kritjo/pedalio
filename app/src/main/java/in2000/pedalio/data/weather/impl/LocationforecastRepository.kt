@@ -1,25 +1,22 @@
 package in2000.pedalio.data.weather.impl
 
 import in2000.pedalio.data.weather.WeatherRepository
-import in2000.pedalio.data.weather.source.nowcast.NowcastSource
+import in2000.pedalio.data.weather.source.locationforecast.LocationforecastSource
 import kotlinx.coroutines.runBlocking
 import kotlin.math.floor
 
-/**
- * Implementation of Weather using Nowcast API. Provides no caching.
- * Source of truth: Nowcast API.
- */
-class NowcastRepository(
+class LocationforecastRepository(
     private val endpoint: String
 ) : WeatherRepository() {
+
     override fun getTemp(lat: Double,
                          lon: Double,
                          timeDelta: Int): Double? {
         return runBlocking {
-            NowcastSource
-                .getNowcast(endpoint, lat, lon)
+            LocationforecastSource
+                .getLocationforecast(endpoint, lat, lon)
                 .properties
-                .timeseries[floor((timeDelta / 5).toDouble()).toInt()]
+                .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
                 .data
                 .instant
                 .details
@@ -31,14 +28,14 @@ class NowcastRepository(
                                       lon: Double,
                                       timeDelta: Int): Double? {
         return runBlocking {
-            NowcastSource
-                .getNowcast(endpoint, lat, lon)
+            LocationforecastSource
+                .getLocationforecast(endpoint, lat, lon)
                 .properties
-                .timeseries[floor((timeDelta / 5).toDouble()).toInt()]
+                .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
                 .data
-                .instant
-                .details
-                .precipitation_rate
+                .next_1_hours
+                ?.details
+                ?.precipitation_amount
         }
     }
 
@@ -46,10 +43,10 @@ class NowcastRepository(
                                   lon: Double,
                                   timeDelta: Int): Double? {
         return runBlocking {
-            NowcastSource
-                .getNowcast(endpoint, lat, lon)
+            LocationforecastSource
+                .getLocationforecast(endpoint, lat, lon)
                 .properties
-                .timeseries[floor((timeDelta / 5).toDouble()).toInt()]
+                .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
                 .data
                 .instant
                 .details
@@ -61,10 +58,10 @@ class NowcastRepository(
                                      lon: Double,
                                      timeDelta: Int): Double? {
         return runBlocking {
-            NowcastSource
-                .getNowcast(endpoint, lat, lon)
+            LocationforecastSource
+                .getLocationforecast(endpoint, lat, lon)
                 .properties
-                .timeseries[floor((timeDelta / 5).toDouble()).toInt()]
+                .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
                 .data
                 .instant
                 .details
@@ -76,10 +73,10 @@ class NowcastRepository(
                                   lon: Double,
                                   timeDelta: Int): Double? {
         return runBlocking {
-            NowcastSource
-                .getNowcast(endpoint, lat, lon)
+            LocationforecastSource
+                .getLocationforecast(endpoint, lat, lon)
                 .properties
-                .timeseries[floor((timeDelta / 5).toDouble()).toInt()]
+                .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
                 .data
                 .instant
                 .details
@@ -91,10 +88,10 @@ class NowcastRepository(
                               lon: Double,
                               timeDelta: Int): Double? {
         return runBlocking {
-            NowcastSource
-                .getNowcast(endpoint, lat, lon)
+            LocationforecastSource
+                .getLocationforecast(endpoint, lat, lon)
                 .properties
-                .timeseries[floor((timeDelta / 5).toDouble()).toInt()]
+                .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
                 .data
                 .instant
                 .details
@@ -106,10 +103,10 @@ class NowcastRepository(
                               lon: Double,
                               timeDelta: Int): Double? {
         return runBlocking {
-            NowcastSource
-                .getNowcast(endpoint, lat, lon)
+            LocationforecastSource
+                .getLocationforecast(endpoint, lat, lon)
                 .properties
-                .timeseries[floor((timeDelta / 5).toDouble()).toInt()]
+                .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
                 .data
                 .instant
                 .details
@@ -119,14 +116,6 @@ class NowcastRepository(
 
     override fun radarCoverage(lat: Double,
                                lon: Double): Boolean {
-        val cov = runBlocking {
-            NowcastSource
-                .getNowcast(endpoint, lat, lon)
-                .properties
-                .meta
-                .radar_coverage
-        }
-        if (cov == "ok") return true
-        return false
+        throw UnsupportedOperationException("Not implemented by Locationforecast")
     }
 }
