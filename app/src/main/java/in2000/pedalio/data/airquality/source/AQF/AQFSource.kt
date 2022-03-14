@@ -7,7 +7,10 @@ import com.github.kittinunf.fuel.coroutines.awaitStringResponse
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-
+/**
+ * Air Quality Forecast source from met api (weatherapi)
+ *
+ */
 class AQFSource {
     companion object {
         @JvmStatic
