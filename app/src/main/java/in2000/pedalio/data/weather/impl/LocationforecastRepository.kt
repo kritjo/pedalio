@@ -5,6 +5,12 @@ import in2000.pedalio.data.weather.source.locationforecast.LocationforecastSourc
 import kotlinx.coroutines.runBlocking
 import kotlin.math.floor
 
+/**
+ * Implementation of Weather using LocationForecast API. Provides no caching.
+ * Source of truth: LocationForecast API.
+ * TODO: Discuss whether we should use runBlocking or suspend or something else.
+ * @property endpoint
+ */
 class LocationforecastRepository(
     private val endpoint: String
 ) : WeatherRepository() {

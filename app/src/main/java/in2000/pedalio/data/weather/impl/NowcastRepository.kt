@@ -8,6 +8,7 @@ import kotlin.math.floor
 /**
  * Implementation of Weather using Nowcast API. Provides no caching.
  * Source of truth: Nowcast API.
+ * TODO: Discuss whether we should use runBlocking or suspend or something else.
  */
 class NowcastRepository(
     private val endpoint: String

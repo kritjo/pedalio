@@ -20,7 +20,7 @@ class AQFSource {
                 Pair("lon", lon.toString())
             )
             val (req: Request, _: Response, res: String) = Fuel.get(endpoint, parameters).awaitStringResponse()
-            return Json.decodeFromString<AQFDataClass>(res)
+            return Json.decodeFromString(res)
         }
     }
 }
