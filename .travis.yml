@@ -19,8 +19,7 @@ android:
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
-    - sys-img-armeabi-v7a-android-$ANDROID_API_LEVEL
-    - sys-img-armeabi-v7a-android-$EMULATOR_API
+    - sys-img-armeabi-v7a-addon-google_apis-google-$EMULATOR_API
  
 before_install:
   - chmod +x gradlew
@@ -33,7 +32,7 @@ before_install:
   - chmod +x gradlew
 
 before_script:
-  - echo no | android create avd --force -n test -t android-$EMULATOR_API --abi armeabi-v7a
+  - echo no | android create avd --force -n test -t android-$EMULATOR_API --abi google_apis/armeabi-v7a
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
 
