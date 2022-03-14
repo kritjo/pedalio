@@ -13,13 +13,16 @@ android:
     - '.*'
  
   components:
+    - tools
+    - tools
+    - platform-tools
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
     - android-$ANDROID_API_LEVEL
     - android-$EMULATOR_API
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
-    - sys-img-armeabi-v7a-addon-google_apis-google-$EMULATOR_API
+    - sys-img-armeabi-v7a-google_apis-26
  
 before_install:
   - chmod +x gradlew
@@ -31,15 +34,9 @@ before_install:
   - $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
   - chmod +x gradlew
 
-before_script:
-  - echo no | android create avd --force -n test -t android-$EMULATOR_API --abi google_apis/armeabi-v7a
-  - emulator -avd test -no-audio -no-window &
-  - android-wait-for-emulator
 
 script:
-  - ./gradlew clean build
-  - ./gradlew test
-  - ./gradlew build check
+  - ./gradlew clean test build
   
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
