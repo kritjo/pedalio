@@ -1,6 +1,5 @@
-package in2000.pedalio.data.airquality.source
+package in2000.pedalio.data.airquality.source.AQF
 
-import android.util.Log
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
