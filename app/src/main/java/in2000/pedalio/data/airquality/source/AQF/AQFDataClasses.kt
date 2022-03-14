@@ -1,4 +1,4 @@
-package in2000.pedalio.data.airquality.source
+package in2000.pedalio.data.airquality.source.AQF
 
 data class AQFDataClass(
     val data: Data = Data(),
