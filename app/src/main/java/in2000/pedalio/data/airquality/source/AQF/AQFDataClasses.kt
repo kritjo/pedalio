@@ -1,21 +1,27 @@
 package in2000.pedalio.data.airquality.source.AQF
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class AQFDataClass(
     val data: Data = Data(),
     val meta: Meta = Meta()
 )
 
+@Serializable
 data class Data(
     val time: List<Time> = listOf()
 )
 
+@Serializable
 data class Meta(
     val location: Location = Location(),
     val reftime: String = "",
-    val sublocations: List<Any> = listOf(),
+    val sublocations: List<Location> = listOf(),
     val superlocation: Superlocation = Superlocation()
 )
 
+@Serializable
 data class Time(
     val from: String = "",
     val reason: Reason = Reason(),
@@ -23,11 +29,13 @@ data class Time(
     val variables: Variables = Variables()
 )
 
+@Serializable
 data class Reason(
     val sources: List<String> = listOf(),
     val variables: List<String> = listOf()
 )
 
+@Serializable
 data class Variables(
     val AQI: Measurement = Measurement(),
     val AQI_no2: Measurement = Measurement(),
@@ -68,11 +76,13 @@ data class Variables(
     val pm25_nonlocal_fraction_seasalt: Measurement = Measurement()
 )
 
+@Serializable
 data class Measurement(
     val units: String = "",
     val value: Double = 0.0
 )
 
+@Serializable
 data class Location(
     val areaclass: String = "",
     val areacode: String = "",
@@ -83,6 +93,7 @@ data class Location(
     val superareacode: String = ""
 )
 
+@Serializable
 data class Superlocation(
     val areaclass: String = "",
     val areacode: String = "",
