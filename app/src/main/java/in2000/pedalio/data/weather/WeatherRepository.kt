@@ -10,9 +10,9 @@ abstract class WeatherRepository() {
      * @param lon Longitude of position for temp
      * @param timeDelta in minutes
      */
-   abstract fun getTemp(lat: Double,
-                        lon: Double,
-                        timeDelta: Int = 0): Double?
+   abstract suspend fun getTemp(lat: Double,
+                                lon: Double,
+                                timeDelta: Int = 0): Double?
 
     /**
      * @return Percipitation in mm/h after timeDelta minutes
@@ -20,7 +20,7 @@ abstract class WeatherRepository() {
      * @param lon Longitude of position for percipitation
      * @param timeDelta in minutes
      */
-   abstract fun getPercipitationRate(lat: Double,
+   abstract suspend fun getPercipitationRate(lat: Double,
                                      lon: Double,
                                      timeDelta: Int = 0): Double?
 
@@ -30,7 +30,7 @@ abstract class WeatherRepository() {
      * @param lon Longitude of position for percipitation
      * @param timeDelta in minutes
      */
-   abstract fun getPercipitation(lat: Double,
+   abstract suspend fun getPercipitation(lat: Double,
                                  lon: Double,
                                  timeDelta: Int = 0): Double?
 
@@ -40,7 +40,7 @@ abstract class WeatherRepository() {
      * @param lon Longitude of position for humidity
      * @param timeDelta in minutes
      */
-   abstract fun getRelativeHumidity(lat: Double,
+   abstract suspend fun getRelativeHumidity(lat: Double,
                                     lon: Double,
                                     timeDelta: Int = 0): Double?
 
@@ -50,7 +50,7 @@ abstract class WeatherRepository() {
      * @param lon Longitude of position for wind
      * @param timeDelta in minutes
      */
-   abstract fun getWindDirection(lat: Double,
+   abstract suspend fun getWindDirection(lat: Double,
                                  lon: Double,
                                  timeDelta: Int = 0): Double?
 
@@ -60,7 +60,7 @@ abstract class WeatherRepository() {
      * @param lon Longitude of position for wind
      * @param timeDelta in minutes
      */
-   abstract fun getWindSpeed(lat: Double,
+   abstract suspend fun getWindSpeed(lat: Double,
                              lon: Double,
                              timeDelta: Int = 0): Double?
 
@@ -70,13 +70,13 @@ abstract class WeatherRepository() {
      * @param lon Longitude of position for wind
      * @param timeDelta in minutes
      */
-   abstract fun getGustSpeed(lat: Double,
+   abstract suspend fun getGustSpeed(lat: Double,
                              lon: Double,
                              timeDelta: Int = 0): Double?
 
     /**
      * @return Whether we have radar coverage of the specified location
      */
-   abstract fun radarCoverage(lat: Double,
+   abstract suspend fun radarCoverage(lat: Double,
                               lon: Double): Boolean
 }

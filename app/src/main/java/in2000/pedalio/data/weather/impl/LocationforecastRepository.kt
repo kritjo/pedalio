@@ -8,18 +8,16 @@ import kotlin.math.floor
 /**
  * Implementation of Weather using LocationForecast API. Provides no caching.
  * Source of truth: LocationForecast API.
- * TODO: Discuss whether we should use runBlocking or suspend or something else.
  * @property endpoint
  */
 class LocationforecastRepository(
     private val endpoint: String
 ) : WeatherRepository() {
 
-    override fun getTemp(lat: Double,
+    override suspend fun getTemp(lat: Double,
                          lon: Double,
                          timeDelta: Int): Double? {
-        return runBlocking {
-            LocationforecastSource
+        return LocationforecastSource
                 .getLocationforecast(endpoint, lat, lon)
                 .properties
                 .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
@@ -27,14 +25,13 @@ class LocationforecastRepository(
                 .instant
                 .details
                 .air_temperature
-        }
+
     }
 
-    override fun getPercipitationRate(lat: Double,
-                                      lon: Double,
-                                      timeDelta: Int): Double? {
-        return runBlocking {
-            LocationforecastSource
+    override suspend fun getPercipitationRate(lat: Double,
+                                              lon: Double,
+                                              timeDelta: Int): Double? {
+        return LocationforecastSource
                 .getLocationforecast(endpoint, lat, lon)
                 .properties
                 .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
@@ -42,14 +39,12 @@ class LocationforecastRepository(
                 .next_1_hours
                 ?.details
                 ?.precipitation_amount
-        }
     }
 
-    override fun getPercipitation(lat: Double,
-                                  lon: Double,
-                                  timeDelta: Int): Double? {
-        return runBlocking {
-            LocationforecastSource
+    override suspend fun getPercipitation(lat: Double,
+                                          lon: Double,
+                                          timeDelta: Int): Double? {
+        return LocationforecastSource
                 .getLocationforecast(endpoint, lat, lon)
                 .properties
                 .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
@@ -57,14 +52,13 @@ class LocationforecastRepository(
                 .instant
                 .details
                 .precipitation_amount
-        }
+
     }
 
-    override fun getRelativeHumidity(lat: Double,
-                                     lon: Double,
-                                     timeDelta: Int): Double? {
-        return runBlocking {
-            LocationforecastSource
+    override suspend fun getRelativeHumidity(lat: Double,
+                                             lon: Double,
+                                             timeDelta: Int): Double? {
+        return LocationforecastSource
                 .getLocationforecast(endpoint, lat, lon)
                 .properties
                 .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
@@ -72,14 +66,13 @@ class LocationforecastRepository(
                 .instant
                 .details
                 .relative_humidity
-        }
+
     }
 
-    override fun getWindDirection(lat: Double,
-                                  lon: Double,
-                                  timeDelta: Int): Double? {
-        return runBlocking {
-            LocationforecastSource
+    override suspend fun getWindDirection(lat: Double,
+                                          lon: Double,
+                                          timeDelta: Int): Double? {
+        return LocationforecastSource
                 .getLocationforecast(endpoint, lat, lon)
                 .properties
                 .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
@@ -87,14 +80,13 @@ class LocationforecastRepository(
                 .instant
                 .details
                 .wind_from_direction
-        }
+
     }
 
-    override fun getWindSpeed(lat: Double,
-                              lon: Double,
-                              timeDelta: Int): Double? {
-        return runBlocking {
-            LocationforecastSource
+    override suspend fun getWindSpeed(lat: Double,
+                                      lon: Double,
+                                      timeDelta: Int): Double? {
+        return LocationforecastSource
                 .getLocationforecast(endpoint, lat, lon)
                 .properties
                 .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
@@ -102,14 +94,13 @@ class LocationforecastRepository(
                 .instant
                 .details
                 .wind_speed
-        }
+
     }
 
-    override fun getGustSpeed(lat: Double,
-                              lon: Double,
-                              timeDelta: Int): Double? {
-        return runBlocking {
-            LocationforecastSource
+    override suspend fun getGustSpeed(lat: Double,
+                                      lon: Double,
+                                      timeDelta: Int): Double? {
+        return LocationforecastSource
                 .getLocationforecast(endpoint, lat, lon)
                 .properties
                 .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
@@ -117,11 +108,10 @@ class LocationforecastRepository(
                 .instant
                 .details
                 .wind_speed_of_gust
-        }
     }
 
-    override fun radarCoverage(lat: Double,
-                               lon: Double): Boolean {
+    override suspend fun radarCoverage(lat: Double,
+                                       lon: Double): Boolean {
         throw UnsupportedOperationException("Not implemented by Locationforecast")
     }
 }
