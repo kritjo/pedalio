@@ -7,61 +7,61 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class LocationForecastCompleteDataClass(
-    val geometry: Geometry,
-    val properties: Properties,
-    val type: String
+    val geometry: Geometry? = null,
+    val properties: Properties? = null,
+    val type: String? = null
 )
 
 @Serializable
 data class Geometry(
-    val coordinates: List<Double>,
-    val type: String
+    val coordinates: List<Double>? = null,
+    val type: String? = null
 )
 
 @Serializable
 data class Properties(
-    val meta: Meta,
-    val timeseries: List<Timesery>
+    val meta: Meta? = null,
+    val timeseries: List<Timesery>? = null
 )
 
 @Serializable
 data class Meta(
-    val units: Units,
-    val updated_at: String
+    val units: Units? = null,
+    val updated_at: String? = null
 )
 
 @Serializable
 data class Timesery(
-    val `data`: Data,
-    val time: String
+    val `data`: Data? = null,
+    val time: String? = null
 )
 
 @Serializable
 data class Units(
-    val air_pressure_at_sea_level: String,
-    val air_temperature: String,
-    val air_temperature_max: String,
-    val air_temperature_min: String,
-    val air_temperature_percentile_10: String,
-    val air_temperature_percentile_90: String,
-    val cloud_area_fraction: String,
-    val cloud_area_fraction_high: String,
-    val cloud_area_fraction_low: String,
-    val cloud_area_fraction_medium: String,
-    val dew_point_temperature: String,
-    val fog_area_fraction: String,
-    val precipitation_amount: String,
-    val precipitation_amount_max: String,
-    val precipitation_amount_min: String,
-    val probability_of_precipitation: String,
-    val probability_of_thunder: String,
-    val relative_humidity: String,
-    val ultraviolet_index_clear_sky: String,
-    val wind_from_direction: String,
-    val wind_speed: String,
-    val wind_speed_of_gust: String,
-    val wind_speed_percentile_10: String,
-    val wind_speed_percentile_90: String
+    val air_pressure_at_sea_level: String? = null,
+    val air_temperature: String? = null,
+    val air_temperature_max: String? = null,
+    val air_temperature_min: String? = null,
+    val air_temperature_percentile_10: String? = null,
+    val air_temperature_percentile_90: String? = null,
+    val cloud_area_fraction: String? = null,
+    val cloud_area_fraction_high: String? = null,
+    val cloud_area_fraction_low: String? = null,
+    val cloud_area_fraction_medium: String? = null,
+    val dew_point_temperature: String? = null,
+    val fog_area_fraction: String? = null,
+    val precipitation_amount: String? = null,
+    val precipitation_amount_max: String? = null,
+    val precipitation_amount_min: String? = null,
+    val probability_of_precipitation: String? = null,
+    val probability_of_thunder: String? = null,
+    val relative_humidity: String? = null,
+    val ultraviolet_index_clear_sky: String? = null,
+    val wind_from_direction: String? = null,
+    val wind_speed: String? = null,
+    val wind_speed_of_gust: String? = null,
+    val wind_speed_percentile_10: String? = null,
+    val wind_speed_percentile_90: String? = null
 )
 
 @Serializable
@@ -74,25 +74,25 @@ data class Data(
 
 @Serializable
 data class Instant(
-    val details: Details
+    val details: Details? = null
 )
 
 @Serializable
 data class Next12Hours(
-    val details: Details,
-    val summary: Summary
+    val details: Details? = null,
+    val summary: Summary? = null
 )
 
 @Serializable
 data class Next1Hours(
-    val details: Details,
-    val summary: Summary
+    val details: Details? = null,
+    val summary: Summary? = null
 )
 
 @Serializable
 data class Next6Hours(
-    val details: Details,
-    val summary: Summary
+    val details: Details? = null,
+    val summary: Summary? = null
 )
 
 @Serializable
@@ -125,6 +125,6 @@ data class Details(
 
 @Serializable
 data class Summary(
-    val symbol_code: String,
-    val symbol_confidence: String
+    val symbol_code: String? = null,
+    val symbol_confidence: String? = null
 )
