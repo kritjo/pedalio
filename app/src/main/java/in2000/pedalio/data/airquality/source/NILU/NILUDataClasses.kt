@@ -1,7 +1,8 @@
 package in2000.pedalio.data.airquality.source.NILU
 
-class NILUDataClass : ArrayList<NILUDataItem>()
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class NILUDataItem(
     val area: String = "",
     val color: String = "",

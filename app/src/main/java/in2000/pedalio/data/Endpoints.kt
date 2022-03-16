@@ -8,6 +8,6 @@ class Endpoints {
 
         // Air quality API endpoints
         const val AIRQUALITY_FORECAST = "https://in2000-apiproxy.ifi.uio.no/weatherapi/airqualityforecast/0.1/"
-        const val NILU_FORECAST = "https://api.nilu.no/obs/utd/"
+        const val NILU_FORECAST = "https://api.nilu.no/aq/utd"
     }
 }
