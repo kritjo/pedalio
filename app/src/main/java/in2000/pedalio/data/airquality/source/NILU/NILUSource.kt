@@ -10,13 +10,18 @@ import kotlinx.serialization.json.Json
 class NILUSource {
     companion object {
         @JvmStatic
-        suspend fun getForecast(endpoint : String, lat : Double, lon : Double, component : COMPONENTS) : NILUDataClass {
+        suspend fun getNow(endpoint : String, lat : Double, lon : Double, radius: Int, component : COMPONENTS) : List<NILUDataItem> {
             // build string
-            val url = "$endpoint/$lat/$lon/3?method=within&components=component"
-            val (req: Request, _: Response, res: String) = Fuel.get(url).awaitStringResponse()
+            val url = "$endpoint/$lat/$lon/$radius"
+            val parameters = listOf(
+                Pair("method", "within"),
+                Pair("components", component)
+            )
+            val (req: Request, _: Response, res: String) = Fuel.get(url, parameters).awaitStringResponse()
             return Json.decodeFromString(res)
         }
     }
+
     enum class COMPONENTS(s: String) {
         CO("co"),
         NO("no"),
@@ -26,6 +31,7 @@ class NILUSource {
         PM1("pm1"),
         PM10("pm10"),
         PM2_5("pm2.5"),
-        SO2("so2")
+        SO2("so2"),
+        ALL("")
     }
 }

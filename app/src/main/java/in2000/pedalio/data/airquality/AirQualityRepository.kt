@@ -8,7 +8,7 @@ abstract class AirQualityRepository {
      * @param timeDelta in minutes
      * @return Gets NOX value for the given location and timeDelta in ug/m3
      */
-    abstract suspend fun getNOX(lat: Double, lon: Double, timeDelta: Int = 0): Double
+    abstract suspend fun getNO2(lat: Double, lon: Double, timeDelta: Int = 0): Double
 
     /**
      * @param lat latitude
