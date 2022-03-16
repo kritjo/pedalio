@@ -26,6 +26,10 @@ class MainActivity : AppCompatActivity() {
 
             tomtomMap.centerOn(focusArea)
             tomtomMap.addMarker(MarkerBuilder(oslo))
+            tomtomMap.isMyLocationEnabled = true
+            val location = tomtomMap.userLocation
+
+
         }
     }
 
