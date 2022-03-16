@@ -49,6 +49,16 @@ dependencies {
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
     implementation 'com.github.kittinunf.fuel:fuel-coroutines:2.3.1'
 
-
+    // Tomtom, doc: https://developer.tomtom.com/blog/build-different/android-project-setup-tomtom-maps-sdk
+    //library required to display map
+    implementation("com.tomtom.online:sdk-maps:2.4782")
+    //library required for search
+    implementation("com.tomtom.online:sdk-search:2.4782")
+    //library required for routing
+    implementation("com.tomtom.online:sdk-routing:2.4782")
+    //library required for traffic
+    implementation("com.tomtom.online:sdk-traffic:2.4782")
+    //extension library for kotlin support
+    implementation("com.tomtom.online:sdk-maps-ktx-extensions:2.4782")
 
 }
