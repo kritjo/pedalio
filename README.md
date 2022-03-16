@@ -1,5 +1,5 @@
 # Sykkelappen
-[![Build Status](https://app.travis-ci.com/kritjo/in2000-team18.svg?token=XNJomQjS96GCoqhWwVWP&branch=main)](https://app.travis-ci.com/kritjo/in2000-team18)
-###### (Gruppa: Igor, Jonas, Kristian, Martha, Axel)
+[![Android CI](https://github.com/kritjo/in2000-team18/actions/workflows/android.yml/badge.svg)](https://github.com/kritjo/in2000-team18/actions/workflows/android.yml)
+###### (Gruppa: Igor, Jonas, Kristian, Martha, Axel, Omar)
 
 Sykkeler og sånn, litt app
