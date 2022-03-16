@@ -17,7 +17,7 @@ class NILUSource {
                 Pair("method", "within"),
                 Pair("components", component)
             )
-            val (req: Request, _: Response, res: String) = Fuel.get(url, parameters).awaitStringResponse()
+            val (_: Request, _: Response, res: String) = Fuel.get(url, parameters).awaitStringResponse()
             return Json.decodeFromString(res)
         }
     }
@@ -32,6 +32,10 @@ class NILUSource {
         PM10("pm10"),
         PM2_5("pm2.5"),
         SO2("so2"),
-        ALL("")
+        ALL("all") {
+            override fun toString(): String {
+                return ""
+            }
+        }
     }
 }
