@@ -37,10 +37,20 @@ class DateTime {
                 set(Calendar.HOUR_OF_DAY, split[3])
                 set(Calendar.MINUTE, split[4])
                 set(Calendar.SECOND, split[5])
-                if (split.size > 6) {
+                if (iso.contains(".")) {
                     set(Calendar.MILLISECOND, split[6])
+                    if (iso.contains("+")) {
+                        val gc =  GregorianCalendar(TimeZone.getTimeZone("+" + split[7]))
+                        gc.timeInMillis = timeInMillis
+                        return gc.timeInMillis
+                    }
                 } else {
                     set(Calendar.MILLISECOND, 0)
+                    if (iso.contains("+")) {
+                        val gc =  GregorianCalendar(TimeZone.getTimeZone("+" + split[6]))
+                        gc.timeInMillis = timeInMillis
+                        return gc.timeInMillis
+                    }
                 }
             }
             return calendar.timeInMillis
