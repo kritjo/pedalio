@@ -1,6 +1,7 @@
 package in2000.pedalio.utils
 
 import android.icu.util.Calendar
+import android.icu.util.TimeZone
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -29,7 +30,7 @@ class DateTime {
 
         @JvmStatic
         fun iso_to_milli(iso: String): Long {
-            val calendar = Calendar.getInstance().apply {
+            val calendar = Calendar.getInstance(TimeZone.GMT_ZONE).apply {
                 val split = iso.split("Z")[0].split("-", "T", ":", ".", "+").map { it.toInt() }
                 set(Calendar.YEAR, split[0])
                 set(Calendar.MONTH, split[1]-1) // January is 0
@@ -37,10 +38,20 @@ class DateTime {
                 set(Calendar.HOUR_OF_DAY, split[3])
                 set(Calendar.MINUTE, split[4])
                 set(Calendar.SECOND, split[5])
-                if (split.size > 6) {
+                if (iso.contains(".")) {
                     set(Calendar.MILLISECOND, split[6])
+                    if (iso.contains("+")) {
+                        set(Calendar.HOUR_OF_DAY, get(Calendar.HOUR_OF_DAY) - split[7])
+                    } else if (iso.contains("-")) {
+                        set(Calendar.HOUR_OF_DAY, get(Calendar.HOUR_OF_DAY) + split[7])
+                    }
                 } else {
                     set(Calendar.MILLISECOND, 0)
+                    if (iso.contains("+")) {
+                        set(Calendar.HOUR_OF_DAY, get(Calendar.HOUR_OF_DAY) - split[6])
+                    } else if (iso.contains("-")) {
+                        set(Calendar.HOUR_OF_DAY, get(Calendar.HOUR_OF_DAY) + split[6])
+                    }
                 }
             }
             return calendar.timeInMillis
@@ -56,7 +67,7 @@ class DateTime {
                 timeInMillis = epochMilliSecond
             }
             if (calendar.get(Calendar.MINUTE) >= 30) {
-                calendar.roll(Calendar.HOUR, 1)
+                calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY) + 1)
             }
             calendar.set(Calendar.MINUTE, 0)
             calendar.set(Calendar.SECOND, 0)
