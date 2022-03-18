@@ -8,11 +8,11 @@ on:
 
 jobs:
   test:
-    runs-on: macos-latest
+    runs-on: self-hosted
     strategy:
       matrix:
-        api-level: [26, 29]
-        target: [default, google_apis]
+        api-level: [26]
+        target: [google_apis]
     steps:
       - name: checkout
         uses: actions/checkout@v2
