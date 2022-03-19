@@ -61,4 +61,7 @@ dependencies {
     //extension library for kotlin support
     implementation("com.tomtom.online:sdk-maps-ktx-extensions:2.4782")
 
+    // Timber, A logger with a small, extensible API which provides utility on top of Android's normal Log class.
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+
 }
