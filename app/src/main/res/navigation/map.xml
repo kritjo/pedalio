@@ -14,13 +14,17 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+
 <navigation
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/nav_graph"
-        app:startDestination="@+id/home">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        app:startDestination="@+id/mapBase">
 
-    <include app:graph="@navigation/home"/>
-    <include app:graph="@navigation/map"/>
-
+    <fragment
+            android:id="@+id/mapBase"
+            android:name="in2000.pedalio.ui.map.TomTomMapBase"
+            android:label="@string/title_map"
+            tools:layout="@layout/fragment_tomtommapbase"/>
 </navigation>
