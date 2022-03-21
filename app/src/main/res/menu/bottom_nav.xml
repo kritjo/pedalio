@@ -21,4 +21,9 @@
             android:icon="@drawable/ic_home"
             android:contentDescription="@string/cd_home"
             android:title="@string/title_home" />
+    <item
+            android:id="@+id/map"
+            android:icon="@drawable/ic_map"
+            android:contentDescription="@string/cd_map"
+            android:title="@string/title_map" />
 </menu>
