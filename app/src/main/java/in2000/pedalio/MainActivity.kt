@@ -2,45 +2,40 @@ package in2000.pedalio
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.tomtom.online.sdk.common.location.BoundingBox
-import com.tomtom.online.sdk.common.location.LatLng
-import com.tomtom.online.sdk.map.*
-import timber.log.Timber
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-    lateinit var mapView: MapView
+
+    private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Timber.plant(Timber.DebugTree())
-        mapView = findViewById<MapView>(R.id.map_fragment);
-        mapView.addOnMapReadyCallback { tomtomMap ->
-            val osloTopLeft = LatLng(59.92194833346756, 10.718651865762322)
-            val osloBottomRight = LatLng(59.903811901433464, 10.764555190843193)
-            val boundingBox = BoundingBox(osloTopLeft, osloBottomRight)
-            val oslo = LatLng(59.9440703, 10.7189933)
-            val focusArea: CameraFocusArea = CameraFocusArea.Builder(boundingBox)
-                .pitch(5.0)
-                .bearing(MapConstants.ORIENTATION_NORTH.toDouble())
-                .build()
 
-            tomtomMap.centerOn(focusArea)
-            tomtomMap.addMarker(MarkerBuilder(oslo))
-            tomtomMap.isMyLocationEnabled = true
-            val location = tomtomMap.userLocation
+        val navHostFragment = supportFragmentManager.findFragmentById(
+            R.id.nav_host_container
+        ) as NavHostFragment
+        navController = navHostFragment.navController
 
+        // Setup the bottom navigation view with navController
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNavigationView.setupWithNavController(navController)
 
-        }
+        // Setup the ActionBar with navController and 3 top level destinations
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.titleScreen)
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
-    override fun onResume() {
-        super.onResume()
-        mapView.onResume()
-    }
-
-    override fun onPause() {
-        mapView.onPause()
-        super.onPause()
-
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration)
     }
 }
