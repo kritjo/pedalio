@@ -20,6 +20,9 @@ class TomtomRoutingSource (context : Context) {
     private val apiKey: String = "beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
     private val routingApi: RoutingApi = OnlineRoutingApi.create(context, apiKey);
 
+    /**
+     * Creates route specification used in getRouteFromLocations
+     */
     private fun createRouteSpecification(
         waypoints: List<LatLng>,
         considerTraffic: Boolean = false
@@ -38,7 +41,13 @@ class TomtomRoutingSource (context : Context) {
             .build()
     }
 
-    fun getRouteFromLocations(locations: List<LatLng>, origin : LatLng? = null, destination: LatLng? = null, considerTraffic: Boolean = false): Result<RoutePlan> {
+    /**
+     * Get route from locations
+     * @param waypoints list of locations
+     * @param considerTraffic consider traffic
+     * @return route
+     */
+    fun getRouteFromLocations(locations: List<LatLng>, considerTraffic: Boolean = false): Result<RoutePlan> {
         val routeSpecification = createRouteSpecification(locations, considerTraffic)
         return routingApi.planRoute(routeSpecification)
     }
