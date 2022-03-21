@@ -1,10 +1,11 @@
-package in2000.pedalio
+package in2000.pedalio.ui.map
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import in2000.pedalio.R
 
 import com.tomtom.online.sdk.common.location.BoundingBox
 import com.tomtom.online.sdk.common.location.LatLng
@@ -18,10 +19,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [maptt.newInstance] factory method to
+ * Use the [TomTomMapBase.newInstance] factory method to
  * create an instance of this fragment.
  */
-class maptt : Fragment() {
+class TomTomMapBase : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -40,7 +41,7 @@ class maptt : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_maptt, container, false)
+        val view = inflater.inflate(R.layout.fragment_tomtommapbase, container, false)
 
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
@@ -60,10 +61,9 @@ class maptt : Fragment() {
             tomtomMap.centerOn(focusArea)
             tomtomMap.addMarker(MarkerBuilder(oslo))
             tomtomMap.isMyLocationEnabled = true
-            val location = tomtomMap.userLocation
         }
 
-        return view;
+        return view
     }
 
     override fun onResume() {
@@ -89,7 +89,7 @@ class maptt : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            maptt().apply {
+            TomTomMapBase().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

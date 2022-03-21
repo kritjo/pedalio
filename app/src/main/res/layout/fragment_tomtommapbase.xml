@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".maptt">
+    tools:context="in2000.pedalio.ui.map.TomTomMapBase">
 
     <fragment xmlns:tomtom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/fragment_tomtom"
@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tomtom:mapsApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
-        tomtom:trafficApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8" />
+        tomtom:trafficApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
+            tools:ignore="FragmentTagUsage" />
 
 
 </FrameLayout>
