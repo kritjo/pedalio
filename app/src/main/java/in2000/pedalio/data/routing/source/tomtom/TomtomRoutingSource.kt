@@ -39,18 +39,7 @@ class TomtomRoutingSource (context : Context) {
     }
 
     fun getRouteFromLocations(locations: List<LatLng>, origin : LatLng? = null, destination: LatLng? = null, considerTraffic: Boolean = false): Result<RoutePlan> {
-        val routeSpecification: RouteSpecification = if (origin != null && destination != null) {
-            // check if origin are start and destination are end of locations
-            if (origin == locations[0] && destination == locations[locations.size - 1]) {
-                createRouteSpecification(locations, considerTraffic)
-            } else {
-                // put origin and destination at the beginning and end of locations list
-                createRouteSpecification(listOf(origin) + locations + listOf(destination), considerTraffic)
-            }
-        } else {
-            // if only locations are given assume that they are at start and end of locations
-            createRouteSpecification(locations, considerTraffic)
-        }
+        val routeSpecification = createRouteSpecification(locations, considerTraffic)
         return routingApi.planRoute(routeSpecification)
     }
 }
