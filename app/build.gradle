@@ -61,4 +61,9 @@ dependencies {
     //extension library for kotlin support
     implementation("com.tomtom.online:sdk-maps-ktx-extensions:2.4782")
 
+    // Navigation
+    implementation 'androidx.navigation:navigation-common-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
+
 }
