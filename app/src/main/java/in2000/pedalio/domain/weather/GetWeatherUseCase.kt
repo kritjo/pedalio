@@ -1,5 +1,5 @@
 package in2000.pedalio.domain.weather
 
-class GetCurrentTemperatureUseCase {
+class GetWeatherUseCase {
     // TODO: Implement
 }
