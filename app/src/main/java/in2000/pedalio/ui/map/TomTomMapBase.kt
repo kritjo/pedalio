@@ -22,13 +22,9 @@ private const val ARG_LON = "lon"
  * create an instance of this fragment.
  */
 class TomTomMapBase : Fragment() {
-    lateinit var mapView: MapView
+    private lateinit var mapView: MapView
 
     private val mapViewModel: MapViewModel by activityViewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +37,7 @@ class TomTomMapBase : Fragment() {
         return view
     }
 
-    fun onPosChange(mapView: MapView, pos: LatLng) {
+    private fun onPosChange(mapView: MapView, pos: LatLng) {
         mapView.addOnMapReadyCallback { tomtomMap ->
             val cameraPosition: CameraPosition = CameraPosition.builder()
                 .pitch(5.0)
@@ -72,7 +68,7 @@ class TomTomMapBase : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment maptt.
+         * @return A new instance of fragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
@@ -80,8 +76,8 @@ class TomTomMapBase : Fragment() {
             val bundle = Bundle()
             bundle.putString(ARG_LAT, "59.91")
             bundle.putString(ARG_LON, "10.75")
-            val ttmb = TomTomMapBase()
-            ttmb.arguments = bundle
+            val mapBase = TomTomMapBase()
+            mapBase.arguments = bundle
         }
     }
 }
