@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         tomtom:mapsApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
         tomtom:trafficApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
-            tools:ignore="FragmentTagUsage" />
+        tools:ignore="FragmentTagUsage" />
 
 
 </FrameLayout>
