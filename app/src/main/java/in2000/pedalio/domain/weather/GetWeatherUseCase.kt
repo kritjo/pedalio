@@ -1,7 +1,6 @@
 package in2000.pedalio.domain.weather
 
 import com.tomtom.online.sdk.common.location.LatLng
-import in2000.pedalio.data.weather.WeatherRepository
 import in2000.pedalio.data.weather.impl.LocationforecastRepository
 import in2000.pedalio.data.weather.impl.NowcastRepository
 
@@ -17,7 +16,7 @@ class GetWeatherUseCase(val nowcastRepository: NowcastRepository, val locationfo
 
         return if(timeDelta == 0) {
             val temp = nowcastRepository.getTemp(latLng.latitude, latLng.longitude, 0)
-            val percipitation = nowcastRepository.getPercipitation(latLng.latitude, latLng.longitude, 0) // using nowcast as it is more accurate
+            val percipitation = nowcastRepository.getPercipitation(latLng.latitude, latLng.longitude, 0)
             val humidity = nowcastRepository.getRelativeHumidity(latLng.latitude, latLng.longitude, 0)
             WeatherDataPoint(temp, percipitation, humidity)
         } else if(timeDelta <= 60){
