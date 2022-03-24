@@ -13,9 +13,6 @@ import com.tomtom.online.sdk.map.*
 import com.tomtom.online.sdk.map.MapView
 import in2000.pedalio.viewmodel.MapViewModel
 
-private const val ARG_LAT = "lat"
-private const val ARG_LON = "lon"
-
 /**
  * A simple [Fragment] subclass.
  * Use the [TomTomMapBase.newInstance] factory method to
@@ -64,20 +61,11 @@ class TomTomMapBase : Fragment() {
     companion object {
         /**
          * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
+         * this fragment.
          * @return A new instance of fragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: Double, param2: Double) {
-            val bundle = Bundle()
-            bundle.putString(ARG_LAT, "59.91")
-            bundle.putString(ARG_LON, "10.75")
-            val mapBase = TomTomMapBase()
-            mapBase.arguments = bundle
-        }
+        fun newInstance() = TomTomMapBase()
     }
 }
