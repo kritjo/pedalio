@@ -1,5 +1,5 @@
 # Pedalio App
-[![Android CI](https://github.com/kritjo/in2000-team18/actions/workflows/android.yml/badge.svg)](https://github.com/kritjo/in2000-team18/actions/workflows/android.yml)
+[![Gradle CI](https://github.com/kritjo/in2000-team18/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/kritjo/in2000-team18/actions/workflows/gradle.yml)
 ###### (Gruppa: Igor, Jonas, Kristian, Martha, Axel, Omar)
 
 ## APIer:
