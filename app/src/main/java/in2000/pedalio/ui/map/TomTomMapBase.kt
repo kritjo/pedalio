@@ -75,8 +75,11 @@ class TomTomMapBase : Fragment() {
                 }
 
                 addBubbles(tomtomMap.currentBounds, "icon_bubble", bubbles)
+
             }
+
         }
+
     }
 
     override fun onCreateView(
@@ -116,10 +119,11 @@ class TomTomMapBase : Fragment() {
      * @param coordinates the coordinates of the line
      * @param color the color of the line
      */
-    fun drawPolyline(coordinates: List<LatLng>, color: Int) {
+    fun drawPolyline(coordinates: List<LatLng>, color: Int, width: Float = 3.0f) {
         val polyline = PolylineBuilder.create()
             .coordinates(coordinates)
             .color(color)
+            .width(width)
             .build()
         tomtomMap.overlaySettings.addOverlay(polyline)
     }
@@ -182,6 +186,7 @@ class TomTomMapBase : Fragment() {
 
         bubbles.forEach {
             if (boundingBox.contains(it.latLng)) {
+
                 val x = tomtomMap.pixelForLatLng(it.latLng).x
                 val y = tomtomMap.pixelForLatLng(it.latLng).y
                 val params = RelativeLayout.LayoutParams(
@@ -192,7 +197,9 @@ class TomTomMapBase : Fragment() {
                 params.leftMargin = x.toInt() - bubbleSize / 2
                 params.topMargin = y.toInt() - bubbleSize / 2
 
+
                 it.button.tag = tag
+
                 overlay?.addView(it.button, params)
             }
         }
