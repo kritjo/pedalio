@@ -19,6 +19,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
 
+    // This is to showcase functionality, should rather use domain layer and repositories
     init {
         val sharedPreferences = application.getSharedPreferences("user_pos", MODE_PRIVATE)
         if (!sharedPreferences.contains("is_enabled")) {

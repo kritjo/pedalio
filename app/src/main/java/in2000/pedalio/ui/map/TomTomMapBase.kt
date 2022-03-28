@@ -22,7 +22,6 @@ import in2000.pedalio.viewmodel.MapViewModel
  * create an instance of this fragment.
  */
 class TomTomMapBase : Fragment() {
-    private lateinit var fragView: View
     private lateinit var mapView: MapView
     private lateinit var tomtomMap: TomtomMap
 
@@ -31,7 +30,10 @@ class TomTomMapBase : Fragment() {
     fun onMapReady(map: TomtomMap) {
         this.tomtomMap = map
 
+        // Draw a line on the map when viewModel says so.
         mapViewModel.polyline.observe(viewLifecycleOwner) {drawPolyline(it.first, it.second)}
+
+        // Draw a polygon on the map when viewModel says so.
         mapViewModel.polygons.observe(viewLifecycleOwner) {it.forEach { polygon ->
             drawPolygon(polygon.first, polygon.second, polygon.third)
         }}
@@ -40,9 +42,10 @@ class TomTomMapBase : Fragment() {
             overlayBubble.button = Button(this.requireContext())
             overlayBubble.button.text = overlayBubble.text
             overlayBubble.button.setTextColor(overlayBubble.color)
+            overlayBubble.button.setBackgroundResource(R.drawable.overlay_bubble)
         }
             tomtomMap.addOnCameraChangedListener {
-                addBubble(tomtomMap.currentBounds)
+                addBubbles(tomtomMap.currentBounds)
             }
         }
     }
@@ -54,13 +57,18 @@ class TomTomMapBase : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_tomtommapbase, container, false)
         mapView = view.findViewById(R.id.fragment_tomtom)
-        mapViewModel.currentPos.observe(viewLifecycleOwner) { onPosChange(mapView, it) }
+        mapViewModel.currentPos.observe(viewLifecycleOwner) { onPosChange(it) }
         mapView.addOnMapReadyCallback { onMapReady(it) }
-        fragView = view
         return view
     }
 
-    private fun onPosChange(mapView: MapView, pos: LatLng) {
+    /**
+     * onPosChange is called when the current position changes.
+     * It updates the map to the new position.
+     *
+     * @param pos the new position
+     */
+    private fun onPosChange(pos: LatLng) {
         mapView.addOnMapReadyCallback { tomtomMap ->
             val cameraPosition: CameraPosition = CameraPosition.builder()
                 .pitch(5.0)
@@ -73,27 +81,42 @@ class TomTomMapBase : Fragment() {
         }
     }
 
-    // Draw a polyline on the map
-    fun drawPolyline(points: List<LatLng>, color: Int) {
+    /**
+     * Draws a line on the map using the given coordinates.
+     *
+     * @param coordinates the coordinates of the line
+     * @param color the color of the line
+     */
+    fun drawPolyline(coordinates: List<LatLng>, color: Int) {
         val polyline = PolylineBuilder.create()
-            .coordinates(points)
+            .coordinates(coordinates)
             .color(color)
             .build()
         tomtomMap.overlaySettings.addOverlay(polyline)
     }
 
-    // Draw a polygon on the map
-    fun drawPolygon(points: List<LatLng>, color: Int, opacity: Float) {
+    /**
+     * Draw a polygon on the map.
+     *
+     * @param coordinates The coordinates at the vertices of the polygon.
+     * @param color The fill color of the polygon.
+     * @param opacity The opacity of the polygon.
+     */
+    fun drawPolygon(coordinates: List<LatLng>, color: Int, opacity: Float) {
         val polygon = PolygonBuilder.create()
-            .coordinates(points)
+            .coordinates(coordinates)
             .color(color)
             .opacity(opacity)
             .build()
         tomtomMap.overlaySettings.addOverlay(polygon)
     }
 
-    // Add a text label to the map
-    fun addBubble(boundingBox: BoundingBox) {
+    /**
+     * Draws/updates the bubbles on the map from the list of overlayBubbles in the viewModel.
+     *
+     * @param boundingBox the current bounding box of the map.
+     */
+    fun addBubbles(boundingBox: BoundingBox) {
         val overlay = view?.findViewById<RelativeLayout>(R.id.overlay)
         overlay?.removeAllViews()
         mapViewModel.overlayBubbles.value?.forEach {
@@ -104,6 +127,7 @@ class TomTomMapBase : Fragment() {
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT
                 )
+                // Anchor the button to x,y on screen
                 params.leftMargin = x.toInt()
                 params.topMargin = y.toInt()
 
