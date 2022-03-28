@@ -1,6 +1,7 @@
 package in2000.pedalio.ui.map
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -44,11 +45,15 @@ class TomTomMapBase : Fragment() {
             overlayBubble.button.setTextColor(overlayBubble.color)
             overlayBubble.button.setBackgroundResource(R.drawable.overlay_bubble)
             overlayBubble.button.setPadding(30, 10, 30, 10)
+            overlayBubble.button.maxHeight = 70
         }
+
             tomtomMap.addOnCameraChangedListener {
                 addBubbles(tomtomMap.currentBounds)
             }
+
         }
+
     }
 
     override fun onCreateView(
@@ -88,10 +93,11 @@ class TomTomMapBase : Fragment() {
      * @param coordinates the coordinates of the line
      * @param color the color of the line
      */
-    fun drawPolyline(coordinates: List<LatLng>, color: Int) {
+    fun drawPolyline(coordinates: List<LatLng>, color: Int, width: Float = 3.0f) {
         val polyline = PolylineBuilder.create()
             .coordinates(coordinates)
             .color(color)
+            .width(width)
             .build()
         tomtomMap.overlaySettings.addOverlay(polyline)
     }
@@ -121,7 +127,7 @@ class TomTomMapBase : Fragment() {
         val overlay = view?.findViewById<RelativeLayout>(R.id.overlay)
         overlay?.removeAllViews()
         mapViewModel.overlayBubbles.value?.forEach {
-            if (boundingBox.contains(it.latLng)) {
+            if (boundingBox.contains(it.latLng) && tomtomMap.zoomLevel > 9.1f) {
                 val x = tomtomMap.pixelForLatLng(it.latLng).x
                 val y = tomtomMap.pixelForLatLng(it.latLng).y
                 val params = RelativeLayout.LayoutParams(
@@ -131,6 +137,9 @@ class TomTomMapBase : Fragment() {
                 // Anchor the button to x,y on screen
                 params.leftMargin = x.toInt()
                 params.topMargin = y.toInt()
+
+
+                it.button.textSize = 12f
 
                 overlay?.addView(it.button, params)
             }
