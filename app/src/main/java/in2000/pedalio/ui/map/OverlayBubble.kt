@@ -12,11 +12,11 @@ import com.tomtom.online.sdk.common.location.LatLng
  * @property color the color of the text
  */
 class OverlayBubble(
-    var latLng: LatLng,
+    override var latLng: LatLng,
     var text: String,
     @ColorInt var textColor: Int,
     @ColorInt var backgroundColor: Int
-    ) {
-    lateinit var button: Button
+    ) : Bubble {
+    override lateinit var button: Button
 }
 

@@ -4,13 +4,13 @@ import android.app.Application
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.graphics.Color
-import android.graphics.drawable.Icon
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.tomtom.online.sdk.common.location.LatLng
 import in2000.pedalio.R
 import in2000.pedalio.ui.map.IconBubble
 import in2000.pedalio.ui.map.OverlayBubble
+import kotlin.math.roundToInt
 
 class MapViewModel(application: Application) : AndroidViewModel(application) {
     val currentPos = MutableLiveData(LatLng())
@@ -23,6 +23,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
     var iconBubbles = MutableLiveData(mutableListOf<IconBubble>())
+
+    var zoomDensityScaler = 3.0f
 
     // This is to showcase functionality, should rather use domain layer and repositories
     init {
@@ -95,16 +97,32 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
             listOf(
                 IconBubble(
                     LatLng(59.90, 10.75),
-                    R.drawable.ic_launcher_background),
+                    R.drawable.ic_launcher_foreground,
+                    Color.DKGRAY),
                 IconBubble(
                     LatLng(59.93,10.7522454),
-                    R.drawable.ic_map)
+                    R.drawable.ic_map,
+                    Color.TRANSPARENT)
             ))
     }
 
     fun getBubbleSquareSize(context: Context): Int {
         // Get screen size
         val density = context.resources.displayMetrics.densityDpi
-        return density / 3
+        return (density / zoomDensityScaler).roundToInt()
+    }
+
+    fun updateBubbleZoomLevel(oldZoomLevel: Double, newZoomLevel: Double): Boolean {
+        if (oldZoomLevel.toInt() != newZoomLevel.toInt()) {
+            zoomDensityScaler = when (newZoomLevel.toInt()) {
+                // TODO: Design people decide scale
+                in 0..3 -> 10f
+                in 4..6 -> 5f
+                in 7..10 -> 4f
+                else -> 3f
+            }
+            return true
+        }
+        return false
     }
 }

@@ -12,7 +12,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -34,9 +33,10 @@ class TomTomMapBase : Fragment() {
 
     private val mapViewModel: MapViewModel by activityViewModels()
 
-    val bubbleSize by lazy {
-        mapViewModel.getBubbleSquareSize(requireContext())
-    }
+    fun bubbleSize() = mapViewModel.getBubbleSquareSize(requireContext())
+
+    var zoomLevel = 0.0
+    var zoomChanged = 0
 
     fun onMapReady(map: TomtomMap) {
         this.tomtomMap = map
@@ -49,18 +49,32 @@ class TomTomMapBase : Fragment() {
             drawPolygon(polygon.first, polygon.second, polygon.third)
         }}
 
-        mapViewModel.overlayBubbles.observe(viewLifecycleOwner) {it.forEach { overlayBubble ->
-            initializeOverlayBubble(overlayBubble)
+        mapViewModel.overlayBubbles.observe(viewLifecycleOwner) { bubbles ->
+            bubbles.forEach { overlayBubble ->
+                initializeOverlayBubble(overlayBubble)
         }
-            tomtomMap.addOnCameraChangedListener {
-                addOverlayBubbles(tomtomMap.currentBounds)
+            tomtomMap.addOnCameraChangedListener { cameraPosition ->
+                if (mapViewModel.updateBubbleZoomLevel(zoomLevel, cameraPosition.zoom)) zoomChanged = 2
+                if (zoomChanged > 0) {
+                    bubbles.forEach { initializeOverlayBubble(it) }
+                    zoomChanged--
+                }
+
+                addBubbles(tomtomMap.currentBounds, "overlay_bubble", bubbles)
             }
         }
-        mapViewModel.iconBubbles.observe(viewLifecycleOwner) {it.forEach { iconBubble ->
-            initializeIconBubble(iconBubble)
+        mapViewModel.iconBubbles.observe(viewLifecycleOwner) { bubbles ->
+            bubbles.forEach { iconBubble ->
+                initializeIconBubble(iconBubble)
         }
-            tomtomMap.addOnCameraChangedListener {
-                addIconBubbles(tomtomMap.currentBounds)
+            tomtomMap.addOnCameraChangedListener { cameraPosition ->
+                if (mapViewModel.updateBubbleZoomLevel(zoomLevel, cameraPosition.zoom)) zoomChanged = 2
+                if (zoomChanged > 0) {
+                    bubbles.forEach { initializeIconBubble(it) }
+                    zoomChanged--
+                }
+
+                addBubbles(tomtomMap.currentBounds, "icon_bubble", bubbles)
             }
         }
     }
@@ -126,21 +140,47 @@ class TomTomMapBase : Fragment() {
         tomtomMap.overlaySettings.addOverlay(polygon)
     }
 
+
     /**
-     * Draws/updates the bubbles on the map from the list of overlayBubbles in the viewModel.
+     * Initializes an overlay bubble view. The button parameters are set.
+     *
+     * @param overlayBubble the overlay bubble to initialize
+     */
+    private fun initializeOverlayBubble(overlayBubble: OverlayBubble) {
+        overlayBubble.button = Button(this.requireContext())
+        overlayBubble.button.text = overlayBubble.text
+        overlayBubble.button.setTextColor(overlayBubble.textColor)
+        val bubbleSize = bubbleSize()
+        val shape = ShapeDrawable(object : OvalShape() {
+            override fun draw(canvas: Canvas, paint: Paint) {
+                super.draw(canvas, paint)
+                paint.color = overlayBubble.backgroundColor
+                paint.style = Paint.Style.FILL
+                canvas.drawCircle(bubbleSize / 2f, bubbleSize / 2f, bubbleSize / 2f, paint)
+            }
+        })
+        overlayBubble.button.background = shape
+    }
+
+    /**
+     * Draws/updates the bubbles on the map from the list of bubbles in the viewModel.
      *
      * @param boundingBox the current bounding box of the map.
+     * @param tag the tag of the bubble.
+     * @param bubbles the list of bubbles to draw.
      */
-    fun addOverlayBubbles(boundingBox: BoundingBox) {
+    private fun addBubbles(boundingBox: BoundingBox, tag: String, bubbles: List<Bubble>) {
         val overlay = view?.findViewById<RelativeLayout>(R.id.overlay)
 
-        // This atrocious double loop is needed because of how the .children iterator works.
-        // Once a child is removed, the iterator will skip over the following child.
-        overlay?.children?.forEach {
-            overlay.children.forEach { if (it.tag == "overlayBubble") overlay.removeView(it) }
+        // Reverse indexed for loop over children to avoid ConcurrentModificationException
+        for (i in overlay?.children.orEmpty().count().downTo(0)) {
+            if (overlay?.getChildAt(i)?.tag == tag) {
+                overlay.removeViewAt(i)
+            }
         }
+        val bubbleSize = bubbleSize()
 
-        mapViewModel.overlayBubbles.value?.forEach {
+        bubbles.forEach {
             if (boundingBox.contains(it.latLng)) {
                 val x = tomtomMap.pixelForLatLng(it.latLng).x
                 val y = tomtomMap.pixelForLatLng(it.latLng).y
@@ -152,60 +192,7 @@ class TomTomMapBase : Fragment() {
                 params.leftMargin = x.toInt() - bubbleSize / 2
                 params.topMargin = y.toInt() - bubbleSize / 2
 
-                it.button.tag = "overlayBubble"
-                overlay?.addView(it.button, params)
-            }
-        }
-    }
-
-
-    /**
-     * Initializes an overlay bubble view. The button parameters are set.
-     *
-     * @param overlayBubble the overlay bubble to initialize
-     */
-    private fun initializeOverlayBubble(overlayBubble: OverlayBubble) {
-        overlayBubble.button = Button(this.requireContext())
-        overlayBubble.button.text = overlayBubble.text
-        overlayBubble.button.setTextColor(overlayBubble.textColor)
-        val shape = ShapeDrawable(object : OvalShape() {
-            override fun draw(canvas: android.graphics.Canvas, paint: android.graphics.Paint) {
-                super.draw(canvas, paint)
-                paint.color = overlayBubble.backgroundColor
-                paint.style = android.graphics.Paint.Style.FILL
-                canvas.drawCircle(bubbleSize / 2f, bubbleSize / 2f, bubbleSize / 2f, paint)
-            }
-        })
-        overlayBubble.button.background = shape
-    }
-
-    /**
-     * Draws/updates the icon bubbles on the map from the list of iconBubbles in the viewModel.
-     *
-     * @param boundingBox the current bounding box of the map.
-     */
-    fun addIconBubbles(boundingBox: BoundingBox) {
-        val overlay = view?.findViewById<RelativeLayout>(R.id.overlay)
-
-        // This atrocious double loop is needed because of how the .children iterator works.
-        // Once a child is removed, the iterator will skip over the following child.
-        overlay?.children?.forEach {
-            overlay.children.forEach { if (it.tag == "iconBubble") overlay.removeView(it) }
-        }
-
-        mapViewModel.iconBubbles.value?.forEach {
-            if (boundingBox.contains(it.latLng)) {
-                val x = tomtomMap.pixelForLatLng(it.latLng).x
-                val y = tomtomMap.pixelForLatLng(it.latLng).y
-                val params = RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT
-                )
-                // Anchor the button to x,y on screen and center it.
-                params.leftMargin = x.toInt() - bubbleSize / 2
-                params.topMargin = y.toInt() - bubbleSize / 2
-
-                it.button.tag = "iconBubble"
+                it.button.tag = tag
                 overlay?.addView(it.button, params)
             }
         }
@@ -218,10 +205,15 @@ class TomTomMapBase : Fragment() {
      */
     private fun initializeIconBubble(iconBubble: IconBubble) {
         iconBubble.button = ImageButton(this.requireContext())
+        val bubbleSize = bubbleSize()
 
         val shape = ShapeDrawable(object : OvalShape() {
             override fun draw(canvas: Canvas, paint: Paint) {
                 super.draw(canvas, paint)
+                if (iconBubble.color == Color.TRANSPARENT) {
+                    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+                }
+                paint.color = iconBubble.color
                 canvas.drawCircle(bubbleSize / 2f, bubbleSize / 2f, bubbleSize / 2f, paint)
             }
         })
@@ -239,7 +231,6 @@ class TomTomMapBase : Fragment() {
             }
         )
         iconBubble.button.scaleType = ImageView.ScaleType.FIT_CENTER
-
     }
 
 
