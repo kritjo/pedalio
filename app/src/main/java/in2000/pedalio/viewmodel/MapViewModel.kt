@@ -6,6 +6,7 @@ import android.graphics.Color
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.tomtom.online.sdk.common.location.LatLng
+import in2000.pedalio.ui.map.OverlayBubble
 
 class MapViewModel(application: Application) : AndroidViewModel(application) {
     val currentPos = MutableLiveData(LatLng())
@@ -15,6 +16,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     // List of Triple of LatLng, Color, and Opacity
     val polygons = MutableLiveData(listOf<Triple<List<LatLng>, Int, Float>>())
+
+    var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
 
     init {
         val sharedPreferences = application.getSharedPreferences("user_pos", MODE_PRIVATE)
@@ -65,5 +68,18 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                 )
             )
         )
+
+        val currentBubbles = overlayBubbles.value
+        currentBubbles?.addAll(
+            listOf(
+                OverlayBubble(
+                    LatLng(59.9283808, 10.7789658),
+                    "Kristian Hjem",
+                    Color.GREEN,),
+                OverlayBubble(
+                    LatLng(59.9138688,10.7522454),
+                    "POS",
+                    Color.RED,)
+            ))
     }
 }

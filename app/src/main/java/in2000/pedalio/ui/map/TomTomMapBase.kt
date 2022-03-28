@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.RelativeLayout
 import androidx.fragment.app.activityViewModels
+import com.tomtom.online.sdk.common.location.BoundingBox
 import in2000.pedalio.R
 
 import com.tomtom.online.sdk.common.location.LatLng
@@ -19,6 +22,7 @@ import in2000.pedalio.viewmodel.MapViewModel
  * create an instance of this fragment.
  */
 class TomTomMapBase : Fragment() {
+    private lateinit var fragView: View
     private lateinit var mapView: MapView
     private lateinit var tomtomMap: TomtomMap
 
@@ -26,10 +30,21 @@ class TomTomMapBase : Fragment() {
 
     fun onMapReady(map: TomtomMap) {
         this.tomtomMap = map
+
         mapViewModel.polyline.observe(viewLifecycleOwner) {drawPolyline(it.first, it.second)}
         mapViewModel.polygons.observe(viewLifecycleOwner) {it.forEach { polygon ->
             drawPolygon(polygon.first, polygon.second, polygon.third)
         }}
+
+        mapViewModel.overlayBubbles.observe(viewLifecycleOwner) {it.forEach { overlayBubble ->
+            overlayBubble.button = Button(this.requireContext())
+            overlayBubble.button.text = overlayBubble.text
+            overlayBubble.button.setTextColor(overlayBubble.color)
+        }
+            tomtomMap.addOnCameraChangedListener {
+                addBubble(tomtomMap.currentBounds)
+            }
+        }
     }
 
     override fun onCreateView(
@@ -41,6 +56,7 @@ class TomTomMapBase : Fragment() {
         mapView = view.findViewById(R.id.fragment_tomtom)
         mapViewModel.currentPos.observe(viewLifecycleOwner) { onPosChange(mapView, it) }
         mapView.addOnMapReadyCallback { onMapReady(it) }
+        fragView = view
         return view
     }
 
@@ -74,6 +90,26 @@ class TomTomMapBase : Fragment() {
             .opacity(opacity)
             .build()
         tomtomMap.overlaySettings.addOverlay(polygon)
+    }
+
+    // Add a text label to the map
+    fun addBubble(boundingBox: BoundingBox) {
+        val overlay = view?.findViewById<RelativeLayout>(R.id.overlay)
+        overlay?.removeAllViews()
+        mapViewModel.overlayBubbles.value?.forEach {
+            if (boundingBox.contains(it.latLng)) {
+                val x = tomtomMap.pixelForLatLng(it.latLng).x
+                val y = tomtomMap.pixelForLatLng(it.latLng).y
+                val params = RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT
+                )
+                params.leftMargin = x.toInt()
+                params.topMargin = y.toInt()
+
+                overlay?.addView(it.button, params)
+            }
+        }
     }
 
     override fun onResume() {
