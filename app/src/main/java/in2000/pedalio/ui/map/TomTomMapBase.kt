@@ -20,8 +20,17 @@ import in2000.pedalio.viewmodel.MapViewModel
  */
 class TomTomMapBase : Fragment() {
     private lateinit var mapView: MapView
+    private lateinit var tomtomMap: TomtomMap
 
     private val mapViewModel: MapViewModel by activityViewModels()
+
+    fun onMapReady(map: TomtomMap) {
+        this.tomtomMap = map
+        mapViewModel.polyline.observe(viewLifecycleOwner) {drawPolyline(it.first, it.second)}
+        mapViewModel.polygons.observe(viewLifecycleOwner) {it.forEach { polygon ->
+            drawPolygon(polygon.first, polygon.second, polygon.third)
+        }}
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +40,7 @@ class TomTomMapBase : Fragment() {
         val view = inflater.inflate(R.layout.fragment_tomtommapbase, container, false)
         mapView = view.findViewById(R.id.fragment_tomtom)
         mapViewModel.currentPos.observe(viewLifecycleOwner) { onPosChange(mapView, it) }
+        mapView.addOnMapReadyCallback { onMapReady(it) }
         return view
     }
 
@@ -45,6 +55,25 @@ class TomTomMapBase : Fragment() {
             tomtomMap.centerOn(cameraPosition)
             tomtomMap.isMyLocationEnabled = true
         }
+    }
+
+    // Draw a polyline on the map
+    fun drawPolyline(points: List<LatLng>, color: Int) {
+        val polyline = PolylineBuilder.create()
+            .coordinates(points)
+            .color(color)
+            .build()
+        tomtomMap.overlaySettings.addOverlay(polyline)
+    }
+
+    // Draw a polygon on the map
+    fun drawPolygon(points: List<LatLng>, color: Int, opacity: Float) {
+        val polygon = PolygonBuilder.create()
+            .coordinates(points)
+            .color(color)
+            .opacity(opacity)
+            .build()
+        tomtomMap.overlaySettings.addOverlay(polygon)
     }
 
     override fun onResume() {
