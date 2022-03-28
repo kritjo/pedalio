@@ -1,6 +1,7 @@
 package in2000.pedalio.ui.map
 
 import android.widget.Button
+import androidx.annotation.ColorInt
 import com.tomtom.online.sdk.common.location.LatLng
 
 /**
@@ -10,6 +11,12 @@ import com.tomtom.online.sdk.common.location.LatLng
  * @property text the text of the bubble
  * @property color the color of the text
  */
-class OverlayBubble(var latLng: LatLng, var text: String, var color: Int) {
+class OverlayBubble(
+    var latLng: LatLng,
+    var text: String,
+    @ColorInt var textColor: Int,
+    @ColorInt var backgroundColor: Int
+    ) {
     lateinit var button: Button
 }
+

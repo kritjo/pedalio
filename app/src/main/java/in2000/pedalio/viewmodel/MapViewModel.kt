@@ -1,11 +1,15 @@
 package in2000.pedalio.viewmodel
 
 import android.app.Application
+import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.graphics.Color
+import android.graphics.drawable.Icon
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.tomtom.online.sdk.common.location.LatLng
+import in2000.pedalio.R
+import in2000.pedalio.ui.map.IconBubble
 import in2000.pedalio.ui.map.OverlayBubble
 
 class MapViewModel(application: Application) : AndroidViewModel(application) {
@@ -18,6 +22,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     val polygons = MutableLiveData(listOf<Triple<List<LatLng>, Int, Float>>())
 
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
+    var iconBubbles = MutableLiveData(mutableListOf<IconBubble>())
 
     // This is to showcase functionality, should rather use domain layer and repositories
     init {
@@ -76,11 +81,30 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                 OverlayBubble(
                     LatLng(59.9283808, 10.7789658),
                     "Kristian Hjem",
-                    Color.GREEN,),
+                    Color.DKGRAY,
+                    Color.CYAN),
                 OverlayBubble(
                     LatLng(59.9138688,10.7522454),
                     "POS",
-                    Color.RED,)
+                    Color.RED,
+                    Color.YELLOW)
             ))
+
+        val currentIconBubbles = iconBubbles.value
+        currentIconBubbles?.addAll(
+            listOf(
+                IconBubble(
+                    LatLng(59.90, 10.75),
+                    R.drawable.ic_launcher_background),
+                IconBubble(
+                    LatLng(59.93,10.7522454),
+                    R.drawable.ic_map)
+            ))
+    }
+
+    fun getBubbleSquareSize(context: Context): Int {
+        // Get screen size
+        val density = context.resources.displayMetrics.densityDpi
+        return density / 3
     }
 }
