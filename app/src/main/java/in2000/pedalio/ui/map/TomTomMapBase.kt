@@ -43,6 +43,7 @@ class TomTomMapBase : Fragment() {
             overlayBubble.button.text = overlayBubble.text
             overlayBubble.button.setTextColor(overlayBubble.color)
             overlayBubble.button.setBackgroundResource(R.drawable.overlay_bubble)
+            overlayBubble.button.setPadding(30, 10, 30, 10)
         }
             tomtomMap.addOnCameraChangedListener {
                 addBubbles(tomtomMap.currentBounds)
