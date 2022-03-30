@@ -2,16 +2,11 @@ package in2000.pedalio.viewmodel
 
 import android.app.Application
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Color
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.preference.PreferenceManager
 import com.tomtom.online.sdk.common.location.LatLng
 import in2000.pedalio.R
-import in2000.pedalio.data.SettingsKey
-import in2000.pedalio.data.SettingsRepository
 import in2000.pedalio.ui.map.IconBubble
 import in2000.pedalio.ui.map.OverlayBubble
 import kotlin.math.roundToInt
