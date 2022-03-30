@@ -3,10 +3,13 @@ package in2000.pedalio.viewmodel
 import android.app.Application
 import android.content.Context
 import android.graphics.Color
+import android.location.Location
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
 import in2000.pedalio.R
+import in2000.pedalio.data.location.LocationRepository
 import in2000.pedalio.ui.map.IconBubble
 import in2000.pedalio.ui.map.OverlayBubble
 import kotlin.math.roundToInt
@@ -22,6 +25,10 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
     var iconBubbles = MutableLiveData(mutableListOf<IconBubble>())
+
+    val currentLocation =
+        LocationRepository(application.applicationContext, LatLng(0.0,0.0))
+            .currentPosition
 
     private var zoomDensityScaler = 3.0f
 
@@ -90,6 +97,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                     R.drawable.ic_map,
                     Color.TRANSPARENT)
             ))
+
+
     }
 
     fun getBubbleSquareSize(context: Context): Int {
