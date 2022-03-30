@@ -1,8 +1,10 @@
 package in2000.pedalio.utils
 
 import android.icu.util.Calendar
+import android.icu.util.TimeZone
 import java.time.Instant
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 /**
  * Utility Functions for date and time
@@ -10,6 +12,7 @@ import java.time.format.DateTimeFormatter
  */
 class DateTime {
     companion object {
+        @JvmStatic
         val currentISOTime
             get() = DateTimeFormatter.ISO_INSTANT.format(
                 Instant.ofEpochMilli(
@@ -17,39 +20,54 @@ class DateTime {
                 )
             )
 
+        @JvmStatic
         val currentClosestHour
             get() = closest_hour(Calendar.getInstance().timeInMillis)
 
+        @JvmStatic
         val currentTimeInMillis
             get() = Calendar.getInstance().timeInMillis
 
+        @JvmStatic
         fun iso_to_milli(iso: String): Long {
-            val calendar = Calendar.getInstance().apply {
-                val split = iso.split("Z")[0].split("-", "T", ":", ".").map { it.toInt() }
+            val calendar = Calendar.getInstance(TimeZone.GMT_ZONE).apply {
+                val split = iso.split("Z")[0].split("-", "T", ":", ".", "+").map { it.toInt() }
                 set(Calendar.YEAR, split[0])
                 set(Calendar.MONTH, split[1]-1) // January is 0
                 set(Calendar.DATE, split[2])
-                set(Calendar.HOUR, split[3])
+                set(Calendar.HOUR_OF_DAY, split[3])
                 set(Calendar.MINUTE, split[4])
                 set(Calendar.SECOND, split[5])
-                if (split.size > 6) {
+                if (iso.contains(".")) {
                     set(Calendar.MILLISECOND, split[6])
+                    if (iso.contains("+")) {
+                        set(Calendar.HOUR_OF_DAY, get(Calendar.HOUR_OF_DAY) - split[7])
+                    } else if (iso.contains("-")) {
+                        set(Calendar.HOUR_OF_DAY, get(Calendar.HOUR_OF_DAY) + split[7])
+                    }
                 } else {
                     set(Calendar.MILLISECOND, 0)
+                    if (iso.contains("+")) {
+                        set(Calendar.HOUR_OF_DAY, get(Calendar.HOUR_OF_DAY) - split[6])
+                    } else if (iso.contains("-")) {
+                        set(Calendar.HOUR_OF_DAY, get(Calendar.HOUR_OF_DAY) + split[6])
+                    }
                 }
             }
             return calendar.timeInMillis
         }
 
+        @JvmStatic
         fun milli_to_iso(milli: Long): String = DateTimeFormatter.ISO_INSTANT.format(
                                                     Instant.ofEpochMilli(milli))
 
+        @JvmStatic
         fun closest_hour(epochMilliSecond: Long): String {
             val calendar = Calendar.getInstance().apply{
                 timeInMillis = epochMilliSecond
             }
             if (calendar.get(Calendar.MINUTE) >= 30) {
-                calendar.roll(Calendar.HOUR, 1)
+                calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY) + 1)
             }
             calendar.set(Calendar.MINUTE, 0)
             calendar.set(Calendar.SECOND, 0)
@@ -58,12 +76,14 @@ class DateTime {
             return DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochMilli(calendar.timeInMillis))
         }
 
+        @JvmStatic
         fun timedelta_iso(min: Int): String {
             val calendar = Calendar.getInstance()
             calendar.roll(Calendar.MINUTE, min)
             return DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochMilli(calendar.timeInMillis))
         }
 
+        @JvmStatic
         fun timedelta_milli(min: Int): Long {
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + min)

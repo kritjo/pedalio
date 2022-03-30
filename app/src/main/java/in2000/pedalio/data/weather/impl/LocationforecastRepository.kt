@@ -17,97 +17,118 @@ class LocationforecastRepository(
     override suspend fun getTemp(lat: Double,
                          lon: Double,
                          timeDelta: Int): Double? {
-        return LocationforecastSource
-                .getLocationforecast(endpoint, lat, lon)
-                .properties
-                .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
-                .data
-                .instant
-                .details
-                .air_temperature
+        val forecast = LocationforecastSource
+            .getLocationforecast(endpoint, lat, lon)
+        if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
+            throw IllegalStateException("No time available")
+        return forecast
+            .properties
+            ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
+            ?.data
+            ?.instant
+            ?.details
+            ?.air_temperature
 
     }
 
     override suspend fun getPercipitationRate(lat: Double,
                                               lon: Double,
                                               timeDelta: Int): Double? {
-        return LocationforecastSource
-                .getLocationforecast(endpoint, lat, lon)
-                .properties
-                .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
-                .data
-                .next_1_hours
-                ?.details
-                ?.precipitation_amount
+        val forecast = LocationforecastSource
+            .getLocationforecast(endpoint, lat, lon)
+        if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
+            throw IllegalStateException("No time available")
+        return forecast
+            .properties
+            ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
+            ?.data
+            ?.instant
+            ?.details
+            ?.precipitation_amount
     }
 
     override suspend fun getPercipitation(lat: Double,
                                           lon: Double,
                                           timeDelta: Int): Double? {
-        return LocationforecastSource
-                .getLocationforecast(endpoint, lat, lon)
-                .properties
-                .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
-                .data
-                .instant
-                .details
-                .precipitation_amount
+        val forecast = LocationforecastSource
+            .getLocationforecast(endpoint, lat, lon)
+        if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
+            throw IllegalStateException("No time available")
+        return forecast
+            .properties
+            ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
+            ?.data
+            ?.instant
+            ?.details
+            ?.precipitation_amount
 
     }
 
     override suspend fun getRelativeHumidity(lat: Double,
                                              lon: Double,
                                              timeDelta: Int): Double? {
-        return LocationforecastSource
-                .getLocationforecast(endpoint, lat, lon)
-                .properties
-                .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
-                .data
-                .instant
-                .details
-                .relative_humidity
+        val forecast = LocationforecastSource
+            .getLocationforecast(endpoint, lat, lon)
+        if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
+            throw IllegalStateException("No time available")
+        return forecast
+            .properties
+            ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
+            ?.data
+            ?.instant
+            ?.details
+            ?.relative_humidity
 
     }
 
     override suspend fun getWindDirection(lat: Double,
                                           lon: Double,
                                           timeDelta: Int): Double? {
-        return LocationforecastSource
-                .getLocationforecast(endpoint, lat, lon)
-                .properties
-                .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
-                .data
-                .instant
-                .details
-                .wind_from_direction
+        val forecast = LocationforecastSource
+            .getLocationforecast(endpoint, lat, lon)
+        if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
+            throw IllegalStateException("No time available")
+        return  forecast
+            .properties
+            ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
+            ?.data
+            ?.instant
+            ?.details
+            ?.wind_from_direction
 
     }
 
     override suspend fun getWindSpeed(lat: Double,
                                       lon: Double,
                                       timeDelta: Int): Double? {
-        return LocationforecastSource
-                .getLocationforecast(endpoint, lat, lon)
-                .properties
-                .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
-                .data
-                .instant
-                .details
-                .wind_speed
+        val forecast = LocationforecastSource
+            .getLocationforecast(endpoint, lat, lon)
+        if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
+            throw IllegalStateException("No time available")
+        return  forecast
+            .properties
+            ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
+            ?.data
+            ?.instant
+            ?.details
+            ?.wind_speed
 
     }
 
     override suspend fun getGustSpeed(lat: Double,
                                       lon: Double,
                                       timeDelta: Int): Double? {
-        return LocationforecastSource
-                .getLocationforecast(endpoint, lat, lon)
-                .properties
-                .timeseries[floor((timeDelta / 60).toDouble()).toInt()]
-                .data
-                .instant
-                .details
-                .wind_speed_of_gust
+        val forecast = LocationforecastSource
+            .getLocationforecast(endpoint, lat, lon)
+        if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
+            throw IllegalStateException("No time available")
+        return  forecast
+            .properties
+            ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
+            ?.data
+            ?.instant
+            ?.details
+            ?.wind_speed_of_gust
     }
 
     override suspend fun radarCoverage(lat: Double,
