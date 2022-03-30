@@ -6,4 +6,15 @@
     <string name="cd_home">Home</string>
     <string name="title_map">Map</string>
     <string name="cd_map">Map</string>
+
+    <string name="settings_title">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="basic_header">General</string>
+    <string name="adv_header">Advanced</string>
+    <string name="routing_header">Routing</string>
+    <string name="location_title">Use GPS location</string>
+    <string name="darkmode_title">Dark mode</string>
+    <string name="colorblind_title">Color blind mode</string>
+
 </resources>
