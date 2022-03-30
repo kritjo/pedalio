@@ -1,13 +1,12 @@
 package in2000.pedalio.utils
 import com.tomtom.online.sdk.common.location.LatLng
-import java.lang.Math.pow
 import kotlin.math.pow
 
 
 class MathUtil {
     companion object {
       // Docs : https://gisgeography.com/inverse-distance-weighting-idw-interpolation/#:~:text=Interpolated%20points%20are%20estimated%20based,has%20from%20the%20known%20values.
-        fun InverseDistanceWeighting(here : LatLng, stations : List<Pair<LatLng, Double>>): Double {
+        fun inverseDistanceWeighting(here : LatLng, stations : List<Pair<LatLng, Double>>): Double {
           val POWER = 2;
           var sum = 0.0
           var sumDx = 0.0
