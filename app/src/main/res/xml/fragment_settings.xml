@@ -1,30 +1,38 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory app:title="@string/basic_header">
-        <!--
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />-->
 
-
-        <SwitchPreferenceCompat
-            app:key="location"
-            app:defaultValue="true"
-            app:title="@string/location_title" />
-
-        <!-- TODO: Add default value metric -->
+        <!-- TODO: Add default value: metric -->
         <ListPreference
             app:entries="@array/units_entries"
             app:entryValues="@array/units_entry_values"
             app:key="distance_units"
             app:title="Distance units"
             app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:key="dark_mode"
+            app:defaultValue="false"
+            app:title="@string/darkmode_title" />
 
     </PreferenceCategory>
 
+
     <PreferenceCategory app:title="@string/adv_header">
+        <SwitchPreferenceCompat
+            app:key="colorblind_mode"
+            app:defaultValue="false"
+            app:title="@string/colorblind_title" />
+        <SwitchPreferenceCompat
+            app:key="location"
+            app:defaultValue="true"
+            app:title="@string/location_title" />
+
         <!--
+        <EditTextPreference
+            app:key="signature"
+            app:title="@string/signature_title"
+            app:useSimpleSummaryProvider="true" />
+
         <SwitchPreferenceCompat
             app:key="sync"
             app:title="@string/sync_title" />
