@@ -2,15 +2,15 @@
 
     <PreferenceCategory app:title="@string/basic_header">
 
-        <!-- TODO: Add default value: metric -->
         <ListPreference
             app:entries="@array/units_entries"
             app:entryValues="@array/units_entry_values"
-            app:key="distance_units"
+            app:key="DISTANCE_UNITS"
             app:title="Distance units"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="metric"/>
         <SwitchPreferenceCompat
-            app:key="dark_mode"
+            app:key="THEME"
             app:defaultValue="false"
             app:title="@string/darkmode_title" />
 
@@ -19,31 +19,15 @@
 
     <PreferenceCategory app:title="@string/adv_header">
         <SwitchPreferenceCompat
-            app:key="colorblind_mode"
+            app:key="COLOR_BLIND_MODE"
             app:defaultValue="false"
             app:title="@string/colorblind_title" />
         <SwitchPreferenceCompat
-            app:key="location"
+            app:key="GPS_TOGGLE"
             app:defaultValue="true"
             app:title="@string/location_title" />
 
-        <!--
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
-       -->
     </PreferenceCategory>
 
 </PreferenceScreen>
