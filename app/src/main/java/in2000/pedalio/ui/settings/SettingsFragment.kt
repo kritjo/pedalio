@@ -7,6 +7,6 @@ import in2000.pedalio.R
 class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.layout.fragment_settings, rootKey)
+        setPreferencesFromResource(R.xml.fragment_settings, rootKey)
     }
 }
