@@ -13,6 +13,7 @@ dependencyResolutionManagement {
         maven {
             url 'https://maven.tomtom.com:8443/nexus/content/repositories/releases/'
         }
+        maven { url = uri("https://maven.pkg.jetbrains.space/data2viz/p/maven/public") }
     }
 }
 rootProject.name = "Pedalio"
