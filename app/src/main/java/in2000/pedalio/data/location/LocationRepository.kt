@@ -48,11 +48,31 @@ class LocationRepository(context: Context, defaultLocation: LatLng) {
                 it.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
                     10,
-                    1f
-                ) { location ->
-                    currentPosition.postValue(LatLng(location.latitude, location.longitude))
-                }
+                    1f,
+                    SimpleLocationListener()
+                )
             }
             return@let it
         }
+
+    inner class SimpleLocationListener: android.location.LocationListener {
+        override fun onLocationChanged(location: android.location.Location) {
+            location.let {
+                currentPosition.postValue(LatLng(it.latitude, it.longitude))
+            }
+        }
+
+        // These three methods has to be overridden, see https://stackoverflow.com/a/64643361
+        override fun onStatusChanged(provider: String?, status: Int, extras: android.os.Bundle?) {
+            // DO NOT REMOVE
+        }
+
+        override fun onProviderEnabled(provider: String) {
+            // DO NOT REMOVE
+        }
+
+        override fun onProviderDisabled(provider: String) {
+            // DO NOT REMOVE
+        }
+    }
 }
