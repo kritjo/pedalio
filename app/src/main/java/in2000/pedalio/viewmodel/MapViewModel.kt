@@ -18,8 +18,6 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class MapViewModel(application: Application) : AndroidViewModel(application) {
-    val currentPos = MutableLiveData(LatLng())
-
     // Pair of LatLng and Color
     val polyline = MutableLiveData(Pair(listOf(LatLng()), 0))
 
@@ -35,7 +33,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    val currentLocation =
+    val currentPos =
         LocationRepository(application.applicationContext, LatLng(0.0,0.0))
             .currentPosition
 
