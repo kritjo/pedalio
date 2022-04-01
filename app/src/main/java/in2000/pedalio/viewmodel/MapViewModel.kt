@@ -9,9 +9,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
 import in2000.pedalio.R
+import in2000.pedalio.data.Endpoints
+import in2000.pedalio.data.bikeRoutes.impl.OsloBikeRouteRepostiory
 import in2000.pedalio.data.location.LocationRepository
 import in2000.pedalio.ui.map.IconBubble
 import in2000.pedalio.ui.map.OverlayBubble
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class MapViewModel(application: Application) : AndroidViewModel(application) {
@@ -25,6 +28,12 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
     var iconBubbles = MutableLiveData(mutableListOf<IconBubble>())
+
+    val bikeRoutes = MutableLiveData(listOf<List<LatLng>>()).also {
+        viewModelScope.launch {
+            it.postValue(OsloBikeRouteRepostiory(Endpoints.OSLO_BIKE_ROUTES).getRoutes())
+        }
+    }
 
     val currentLocation =
         LocationRepository(application.applicationContext, LatLng(0.0,0.0))
