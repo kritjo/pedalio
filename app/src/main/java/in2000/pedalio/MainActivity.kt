@@ -1,5 +1,6 @@
 package in2000.pedalio
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
@@ -9,6 +10,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import in2000.pedalio.data.SharedPreferences
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +19,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val settings = SharedPreferences(this)
+        if (!settings.shownWelcomeScreen) {
+            val welcomeIntent = Intent(this, WelcomeActivity::class.java)
+            startActivity(welcomeIntent)
+            settings.shownWelcomeScreen = true
+        }
         setContentView(R.layout.activity_main)
 
         val navHostFragment = supportFragmentManager.findFragmentById(
