@@ -3,17 +3,21 @@ package in2000.pedalio.viewmodel
 import android.app.Application
 import android.content.Context
 import android.graphics.Color
+import android.location.Location
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
 import in2000.pedalio.R
+import in2000.pedalio.data.Endpoints
+import in2000.pedalio.data.bikeRoutes.impl.OsloBikeRouteRepostiory
+import in2000.pedalio.data.location.LocationRepository
 import in2000.pedalio.ui.map.IconBubble
 import in2000.pedalio.ui.map.OverlayBubble
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class MapViewModel(application: Application) : AndroidViewModel(application) {
-    val currentPos = MutableLiveData(LatLng())
-
     // Pair of LatLng and Color
     val polyline = MutableLiveData(Pair(listOf(LatLng()), 0))
 
@@ -22,6 +26,16 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
     var iconBubbles = MutableLiveData(mutableListOf<IconBubble>())
+
+    val bikeRoutes = MutableLiveData(listOf<List<LatLng>>()).also {
+        viewModelScope.launch {
+            it.postValue(OsloBikeRouteRepostiory(Endpoints.OSLO_BIKE_ROUTES).getRoutes())
+        }
+    }
+
+    val currentPos =
+        LocationRepository(application.applicationContext, LatLng(0.0,0.0))
+            .currentPosition
 
     private var zoomDensityScaler = 3.0f
 
@@ -90,6 +104,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                     R.drawable.ic_map,
                     Color.TRANSPARENT)
             ))
+
+
     }
 
     fun getBubbleSquareSize(context: Context): Int {

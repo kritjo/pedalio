@@ -80,6 +80,12 @@ class TomTomMapBase : Fragment() {
 
         }
 
+        mapViewModel.bikeRoutes.observe(viewLifecycleOwner) {
+            it.forEach { bikeRoute ->
+                drawPolyline(bikeRoute, Color.BLUE, 3f)
+            }
+        }
+
     }
 
     override fun onCreateView(
