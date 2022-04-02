@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
             setOf(R.id.titleScreen)
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
