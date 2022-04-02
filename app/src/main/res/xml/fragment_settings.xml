@@ -1,0 +1,33 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/basic_header">
+
+        <ListPreference
+            app:entries="@array/units_entries"
+            app:entryValues="@array/units_entry_values"
+            app:key="DISTANCE_UNITS"
+            app:title="Distance units"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="metric"/>
+        <SwitchPreferenceCompat
+            app:key="THEME"
+            app:defaultValue="false"
+            app:title="@string/darkmode_title" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory app:title="@string/adv_header">
+        <SwitchPreferenceCompat
+            app:key="COLOR_BLIND_MODE"
+            app:defaultValue="false"
+            app:title="@string/colorblind_title" />
+        <SwitchPreferenceCompat
+            app:key="GPS_TOGGLE"
+            app:defaultValue="true"
+            app:title="@string/location_title" />
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

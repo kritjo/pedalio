@@ -26,4 +26,9 @@
             android:icon="@drawable/ic_map"
             android:contentDescription="@string/cd_map"
             android:title="@string/title_map" />
+    <item
+            android:id="@+id/settings"
+            android:icon="@drawable/ic_settings"
+            android:contentDescription="@string/settings_title"
+            android:title="@string/settings_title" />
 </menu>

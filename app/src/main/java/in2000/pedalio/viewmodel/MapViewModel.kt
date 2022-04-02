@@ -2,19 +2,22 @@ package in2000.pedalio.viewmodel
 
 import android.app.Application
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.graphics.Color
+import android.location.Location
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
 import in2000.pedalio.R
+import in2000.pedalio.data.Endpoints
+import in2000.pedalio.data.bikeRoutes.impl.OsloBikeRouteRepostiory
+import in2000.pedalio.data.location.LocationRepository
 import in2000.pedalio.ui.map.IconBubble
 import in2000.pedalio.ui.map.OverlayBubble
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class MapViewModel(application: Application) : AndroidViewModel(application) {
-    val currentPos = MutableLiveData(LatLng())
-
     // Pair of LatLng and Color
     val polyline = MutableLiveData(Pair(listOf(LatLng()), 0))
 
@@ -24,24 +27,21 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
     var iconBubbles = MutableLiveData(mutableListOf<IconBubble>())
 
-    var zoomDensityScaler = 3.0f
+    val bikeRoutes = MutableLiveData(listOf<List<LatLng>>()).also {
+        viewModelScope.launch {
+            it.postValue(OsloBikeRouteRepostiory(Endpoints.OSLO_BIKE_ROUTES).getRoutes())
+        }
+    }
+
+    val currentPos =
+        LocationRepository(application.applicationContext, LatLng(0.0,0.0))
+            .currentPosition
+
+    private var zoomDensityScaler = 3.0f
 
     // This is to showcase functionality, should rather use domain layer and repositories
     init {
-        val sharedPreferences = application.getSharedPreferences("user_pos", MODE_PRIVATE)
-        if (!sharedPreferences.contains("is_enabled")) {
-            // TODO: Actually request permissions, should maybe use domain layer for this
-            // ...
-            // with (sharedPreferences.edit()) {
-            //    putBoolean("is_enabled", true)
-            //    apply()
-            //}
-        }
-        if (sharedPreferences.getBoolean("is_enabled", false)) {
-            // TODO: Get updated user location from data repository
-        } else {
-            currentPos.postValue(LatLng(59.91,10.75))
-        }
+        currentPos.postValue(LatLng(59.91,10.75))
 
         polyline.postValue(
             Pair(
@@ -104,6 +104,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                     R.drawable.ic_map,
                     Color.TRANSPARENT)
             ))
+
+
     }
 
     fun getBubbleSquareSize(context: Context): Int {
