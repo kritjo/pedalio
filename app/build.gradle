@@ -72,9 +72,14 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
 
+
+    implementation 'com.github.MindorksOpenSource:EditDrawableText:1.1.0'
+
+
     implementation('io.data2viz.geojson:core:0.6.4') {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-reflect'
     }
     implementation 'mil.nga:proj:1.1.1'
+
 
 }

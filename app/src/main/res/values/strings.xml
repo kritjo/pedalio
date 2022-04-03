@@ -7,6 +7,11 @@
     <string name="title_map">Map</string>
     <string name="cd_map">Map</string>
 
+    <string name="button">Button</string>
+    <string name="sok">sok</string>
+    <string name="s_k">søk</string>
+
+
     <string name="settings_title">Settings</string>
 
     <!-- Preference Titles -->
@@ -16,5 +21,6 @@
     <string name="location_title">Use GPS location</string>
     <string name="darkmode_title">Dark mode</string>
     <string name="colorblind_title">Color blind mode</string>
+
 
 </resources>

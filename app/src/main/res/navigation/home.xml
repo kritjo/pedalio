@@ -26,5 +26,18 @@
             android:id="@+id/titleScreen"
             android:name="in2000.pedalio.ui.homescreen.Title"
             android:label="@string/title_home"
-            tools:layout="@layout/fragment_title"/>
+            tools:layout="@layout/fragment_title">
+        <action
+            android:id="@+id/action_titleScreen_to_search_window"
+            app:destination="@id/search_window" />
+    </fragment>
+    <fragment
+        android:id="@+id/search_window"
+        android:name="in2000.pedalio.ui.homescreen.search_window"
+        android:label="fragment_search_window"
+        tools:layout="@layout/fragment_search_window" >
+        <action
+            android:id="@+id/action_search_window_to_titleScreen"
+            app:destination="@id/titleScreen" />
+    </fragment>
 </navigation>
