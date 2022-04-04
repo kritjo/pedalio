@@ -23,7 +23,7 @@ import com.tomtom.online.sdk.common.location.BoundingBox
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.map.*
 import in2000.pedalio.R
-import in2000.pedalio.data.SettingsRepository
+import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.viewmodel.MapViewModel
 
 
@@ -52,13 +52,13 @@ class TomTomMapBase : Fragment() {
                 ActivityResultContracts.RequestPermission()
             ) { isGranted: Boolean ->
                 if (isGranted) {
-                    SettingsRepository(requireContext()).askedForGps = true
-                    SettingsRepository(requireContext()).gpsToggle = true
+                    SharedPreferences(requireContext()).askedForGps = true
+                    SharedPreferences(requireContext()).gpsToggle = true
                     mapViewModel.permissionCallback()
                     mapViewModel.currentPos.observe(viewLifecycleOwner) { onPosChange(it) }
                 } else {
-                    SettingsRepository(requireContext()).askedForGps = true
-                    SettingsRepository(requireContext()).gpsToggle = false
+                    SharedPreferences(requireContext()).askedForGps = true
+                    SharedPreferences(requireContext()).gpsToggle = false
                 }
             }
     }
