@@ -9,11 +9,11 @@ import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.tomtom.online.sdk.common.location.LatLng
-import in2000.pedalio.data.SharedPreferences
+import in2000.pedalio.data.SettingsRepository
 
 class LocationRepository(val context: Context, val defaultLocation: LatLng, val shouldGetPermission: MutableLiveData<Boolean>) {
     val currentPosition = MutableLiveData(LatLng())
-    private val settingsRepository = SharedPreferences(context)
+    private val settingsRepository = SettingsRepository(context)
 
     init {
         (context.getSystemService(Context.LOCATION_SERVICE) as LocationManager).let {

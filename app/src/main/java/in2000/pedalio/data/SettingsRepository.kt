@@ -26,7 +26,7 @@ class SettingsRepository(context: Context) {
         get() = sharedPreferences.getBoolean(SettingsKey.GPS_TOGGLE.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.GPS_TOGGLE.name, value).apply()
 
-    override var askedForGps: Boolean
+    var askedForGps: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.ASKED_FOR_GPS.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.ASKED_FOR_GPS.name, value).apply()
 
