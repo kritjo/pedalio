@@ -1,4 +1,4 @@
-package in2000.pedalio.data
+package in2000.pedalio.data.settings.impl
 
 import android.content.Context
 import androidx.preference.PreferenceManager

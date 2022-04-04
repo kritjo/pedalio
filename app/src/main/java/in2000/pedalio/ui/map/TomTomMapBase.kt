@@ -23,7 +23,7 @@ import com.tomtom.online.sdk.common.location.BoundingBox
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.map.*
 import in2000.pedalio.R
-import in2000.pedalio.data.SharedPreferences
+import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.viewmodel.MapViewModel
 
 
