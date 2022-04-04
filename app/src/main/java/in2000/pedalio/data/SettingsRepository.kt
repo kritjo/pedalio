@@ -26,6 +26,10 @@ class SettingsRepository(context: Context) {
         get() = sharedPreferences.getBoolean(SettingsKey.GPS_TOGGLE.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.GPS_TOGGLE.name, value).apply()
 
+    override var askedForGps: Boolean
+        get() = sharedPreferences.getBoolean(SettingsKey.ASKED_FOR_GPS.name, false)
+        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.ASKED_FOR_GPS.name, value).apply()
+
 }
 
 enum class SettingsKey {
@@ -45,4 +49,8 @@ enum class SettingsKey {
      * The key for the setting that stores the GPS toggle.
      */
     GPS_TOGGLE,
+    /**
+     * The key for the setting that stores the asked for GPS.
+     */
+    ASKED_FOR_GPS
 }
