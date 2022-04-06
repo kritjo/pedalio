@@ -105,26 +105,26 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                 LocationforecastRepository(Endpoints.LOCATIONFORECAST_COMPLETE))
         val deviatingWeather = GetDeviatingWeather(weatherUseCase, 0.1, 1.0, 1.0,
             listOf(
-                LatLng(59.961731, 10.750947),  // Korsvoll
-                LatLng(59.962913, 10.783847),  // Kjellsås
-                LatLng(59.941240, 10.81926),   // Bjerke
-                LatLng(59.933194,10.670373),   // Huseby
-                LatLng( 59.922826, 10.679366), // Skøyen
-                LatLng( 59.930228, 10.862871), // Alna
-                LatLng( 59.942360, 10.704445), // Vindern
-                LatLng( 59.940463, 10.723815), // Blindern
-                LatLng( 59.926933, 10.716704), // Majorstuen
-                LatLng( 59.916738, 10.706849), // Frogner
-                LatLng( 59.937963, 10.736285), // Ullevål
-                LatLng( 59.928753, 10.741683), // St. Hanshaugen
-                LatLng( 59.912863, 10.732636), // Sentrum
-                LatLng( 59.945751, 10.780016), // Storo
-                LatLng( 59.934095, 10.784416), // Sinsen
-                LatLng( 59.933764, 10.764026), // Torshov
-                LatLng( 59.926330, 10.777925), // Carl Berners Plass
-                LatLng( 59.921870, 10.758257), // Grunerløkka
-                LatLng( 59.915281, 10.768540), // Tøyen
-                LatLng( 59.915834, 10.804612), // Helsfyr
+                LatLng(59.961731, 10.750947), // Korsvoll
+                LatLng(59.962913, 10.783847), // Kjellsås
+                LatLng(59.941240, 10.81926),  // Bjerke
+                LatLng(59.933194,10.670373),  // Huseby
+                LatLng(59.922826, 10.679366), // Skøyen
+                LatLng(59.930228, 10.862871), // Alna
+                LatLng(59.942360, 10.704445), // Vindern
+                LatLng(59.940463, 10.723815), // Blindern
+                LatLng(59.926933, 10.716704), // Majorstuen
+                LatLng(59.916738, 10.706849), // Frogner
+                LatLng(59.937963, 10.736285), // Ullevål
+                LatLng(59.928753, 10.741683), // St. Hanshaugen
+                LatLng(59.912863, 10.732636), // Sentrum
+                LatLng(59.945751, 10.780016), // Storo
+                LatLng(59.934095, 10.784416), // Sinsen
+                LatLng(59.933764, 10.764026), // Torshov
+                LatLng(59.926330, 10.777925), // Carl Berners Plass
+                LatLng(59.921870, 10.758257), // Grunerløkka
+                LatLng(59.915281, 10.768540), // Tøyen
+                LatLng(59.915834, 10.804612), // Helsfyr
             ))
         while (true) {
             val pos = currentPos.value
