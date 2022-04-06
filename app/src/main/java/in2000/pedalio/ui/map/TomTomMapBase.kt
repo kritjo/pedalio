@@ -1,5 +1,7 @@
 package in2000.pedalio.ui.map
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
@@ -11,6 +13,8 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -19,6 +23,7 @@ import com.tomtom.online.sdk.common.location.BoundingBox
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.map.*
 import in2000.pedalio.R
+import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.viewmodel.MapViewModel
 
 
@@ -38,8 +43,50 @@ class TomTomMapBase : Fragment() {
     var zoomLevel = 0.0
     var zoomChanged = 0
 
+    lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    SharedPreferences(requireContext()).askedForGps = true
+                    SharedPreferences(requireContext()).gpsToggle = true
+                    mapViewModel.permissionCallback()
+                    mapViewModel.currentPos.observe(viewLifecycleOwner) { onPosChange(it) }
+                } else {
+                    SharedPreferences(requireContext()).askedForGps = true
+                    SharedPreferences(requireContext()).gpsToggle = false
+                }
+            }
+    }
+
     fun onMapReady(map: TomtomMap) {
         this.tomtomMap = map
+
+        mapViewModel.shouldGetPermission.observe(viewLifecycleOwner){
+            if (it) {
+                when {
+                    ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) == PackageManager.PERMISSION_GRANTED -> {
+                        // You can use the API that requires the permission.
+                    }
+                    else -> {
+                        // You can directly ask for the permission.
+                        // The registered ActivityResultCallback gets the result of this request.
+                        requestPermissionLauncher.launch(
+                            Manifest.permission.ACCESS_FINE_LOCATION
+
+                        )
+                    }
+                }
+            }
+        }
+
 
         // Draw a line on the map when viewModel says so.
         mapViewModel.polyline.observe(viewLifecycleOwner) {drawPolyline(it.first, it.second)}

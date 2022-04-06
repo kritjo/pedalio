@@ -5,4 +5,5 @@ abstract class SettingsRepository {
     abstract var theme: Boolean
     abstract var colorBlindMode: Boolean
     abstract var gpsToggle: Boolean
+    abstract var askedForGps: Boolean
 }

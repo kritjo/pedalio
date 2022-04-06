@@ -1,28 +1,27 @@
-package in2000.pedalio.data
+package in2000.pedalio.data.settings.impl
 
-import android.app.Application
 import android.content.Context
 import androidx.preference.PreferenceManager
-import java.util.prefs.PreferenceChangeEvent
+import in2000.pedalio.data.settings.SettingsRepository
 
 /**
  * Repository for settings. Uses shared preferences to store settings.
  */
-class SettingsRepository(context: Context) {
+class SharedPreferences(context: Context): SettingsRepository() {
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-    var distanceUnit: String?
+    override var distanceUnit: String?
         get() = sharedPreferences.getString(SettingsKey.DISTANCE_UNIT.name, "")
         set(value) = sharedPreferences.edit().putString(SettingsKey.DISTANCE_UNIT.name, value).apply()
 
-    var theme: Boolean
+    override var theme: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.THEME.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.THEME.name, value).apply()
 
-    var colorBlindMode: Boolean
+    override var colorBlindMode: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.COLOR_BLIND_MODE.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.COLOR_BLIND_MODE.name, value).apply()
 
-    var gpsToggle: Boolean
+    override var gpsToggle: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.GPS_TOGGLE.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.GPS_TOGGLE.name, value).apply()
 

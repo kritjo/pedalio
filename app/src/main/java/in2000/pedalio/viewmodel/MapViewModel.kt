@@ -3,7 +3,6 @@ package in2000.pedalio.viewmodel
 import android.app.Application
 import android.content.Context
 import android.graphics.Color
-import android.location.Location
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -33,9 +32,18 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    val currentPos =
-        LocationRepository(application.applicationContext, LatLng(0.0,0.0))
-            .currentPosition
+    val shouldGetPermission = MutableLiveData(false)
+
+
+    val locationRepository by lazy {
+        LocationRepository(application.applicationContext, LatLng(0.0,0.0), shouldGetPermission)
+    }
+
+    val currentPos = locationRepository.currentPosition
+
+    fun permissionCallback() {
+        locationRepository.locationCallback()
+    }
 
     private var zoomDensityScaler = 3.0f
 
