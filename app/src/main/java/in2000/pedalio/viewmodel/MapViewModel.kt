@@ -3,14 +3,19 @@ package in2000.pedalio.viewmodel
 import android.app.Application
 import android.content.Context
 import android.graphics.Color
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
+import com.tomtom.online.sdk.map.CameraPosition
+import com.tomtom.online.sdk.map.TomtomMapCallback
 import in2000.pedalio.R
 import in2000.pedalio.data.Endpoints
 import in2000.pedalio.data.bikeRoutes.impl.OsloBikeRouteRepostiory
 import in2000.pedalio.data.location.LocationRepository
+import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.data.weather.impl.LocationforecastRepository
 import in2000.pedalio.data.weather.impl.NowcastRepository
 import in2000.pedalio.domain.weather.DeviationTypes
@@ -25,6 +30,8 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class MapViewModel(application: Application) : AndroidViewModel(application) {
+
+
     // Pair of LatLng and Color
     val polyline = MutableLiveData(Pair(listOf(LatLng()), 0))
 
@@ -57,12 +64,12 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     init {
         currentPos.postValue(LatLng(59.91,10.75))
 
-        viewModelScope.launch(Dispatchers.IO) {
-            while(true) {
-                updateWeatherAndDeviations(application.applicationContext, currentPos.value!!)
-                delay(60000)
-            }
-        }
+
+
+        // Update weather every 60 seconds
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({ viewModelScope.launch(Dispatchers.IO) {
+                updateWeatherAndDeviations(application.applicationContext) } }, 60000)
 
 
         polyline.postValue(
@@ -102,7 +109,12 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
-    suspend fun updateWeatherAndDeviations(context: Context, pos: LatLng) {
+    suspend fun updateWeatherAndDeviations(context: Context) {
+        val lat: Double = currentPos.value?.latitude ?: 0.0
+        val lng: Double = currentPos.value?.longitude ?: 0.0
+
+        if (lat == 0.0 || lng == 0.0) { return }
+
         val weatherUseCase =
             GetWeatherUseCase(NowcastRepository(Endpoints.NOWCAST_COMPLETE),
                 LocationforecastRepository(Endpoints.LOCATIONFORECAST_COMPLETE))
@@ -129,7 +141,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                 LatLng(59.915281, 10.768540), // Tøyen
                 LatLng(59.915834, 10.804612), // Helsfyr
             ))
-            val weatherData = weatherUseCase.getWeather(pos)
+            val weatherData = weatherUseCase.getWeather(currentPos.value!!)
             weather.postValue(weatherData)
             val deviatingWeatherPoints = deviatingWeather.deviatingPoints(weatherData)
             val bubbles = mutableListOf<OverlayBubble>()
