@@ -141,12 +141,12 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                         } else {
                             R.color.purple_700
                         }
-                        bubbles.add(OverlayBubble(it.pos, it.weatherDataPoint.temperature.toString() + "°",
+                        bubbles.add(OverlayBubble(it.pos, String.format("%.1f", it.weatherDataPoint.temperature) + "°",
                             context.resources.getColor(color),
                             context.resources.getColor(R.color.off_white)))
                     }
                     DeviationTypes.PERCIPITATION -> {
-                        bubbles.add(OverlayBubble(it.pos, it.weatherDataPoint.percipitation.toString() + "mm/h",
+                        bubbles.add(OverlayBubble(it.pos, String.format("%.1f", it.weatherDataPoint.percipitation) + "mm/h",
                             context.resources.getColor(R.color.black),
                             context.resources.getColor(R.color.off_white)))
                     }
