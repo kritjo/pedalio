@@ -3,6 +3,7 @@ package in2000.pedalio.viewmodel
 import android.app.Application
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Color.blue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -11,8 +12,16 @@ import in2000.pedalio.R
 import in2000.pedalio.data.Endpoints
 import in2000.pedalio.data.bikeRoutes.impl.OsloBikeRouteRepostiory
 import in2000.pedalio.data.location.LocationRepository
+import in2000.pedalio.data.weather.impl.LocationforecastRepository
+import in2000.pedalio.data.weather.impl.NowcastRepository
+import in2000.pedalio.domain.weather.DeviationTypes
+import in2000.pedalio.domain.weather.GetDeviatingWeather
+import in2000.pedalio.domain.weather.GetWeatherUseCase
+import in2000.pedalio.domain.weather.WeatherDataPoint
 import in2000.pedalio.ui.map.IconBubble
 import in2000.pedalio.ui.map.OverlayBubble
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -26,6 +35,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
     var iconBubbles = MutableLiveData(mutableListOf<IconBubble>())
 
+    val weather = MutableLiveData(WeatherDataPoint(LatLng(),0.0,0.0,0.0, 0.0, 0.0))
+
     val bikeRoutes = MutableLiveData(listOf<List<LatLng>>()).also {
         viewModelScope.launch {
             it.postValue(OsloBikeRouteRepostiory(Endpoints.OSLO_BIKE_ROUTES).getRoutes())
@@ -33,14 +44,10 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     val shouldGetPermission = MutableLiveData(false)
-
-
-    val locationRepository by lazy {
+    private val locationRepository by lazy {
         LocationRepository(application.applicationContext, LatLng(0.0,0.0), shouldGetPermission)
     }
-
     val currentPos = locationRepository.currentPosition
-
     fun permissionCallback() {
         locationRepository.locationCallback()
     }
@@ -50,6 +57,66 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     // This is to showcase functionality, should rather use domain layer and repositories
     init {
         currentPos.postValue(LatLng(59.91,10.75))
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val weatherUseCase =
+                GetWeatherUseCase(NowcastRepository(Endpoints.NOWCAST_COMPLETE),
+                    LocationforecastRepository(Endpoints.LOCATIONFORECAST_COMPLETE))
+            val deviatingWeather = GetDeviatingWeather(weatherUseCase, 1.0, 1.0, 1.0,
+            listOf(
+                LatLng(59.961731, 10.750947),  // Korsvoll
+                LatLng(59.962913, 10.783847),  // Kjellsås
+                LatLng(59.941240, 10.81926),   // Bjerke
+                LatLng(59.933194,10.670373),   // Huseby
+                LatLng( 59.922826, 10.679366), // Skøyen
+                LatLng( 59.930228, 10.862871), // Alna
+                LatLng( 59.942360, 10.704445), // Vindern
+                LatLng( 59.940463, 10.723815), // Blindern
+                LatLng( 59.926933, 10.716704), // Majorstuen
+                LatLng( 59.916738, 10.706849), // Frogner
+                LatLng( 59.937963, 10.736285), // Ullevål
+                LatLng( 59.928753, 10.741683), // St. Hanshaugen
+                LatLng( 59.912863, 10.732636), // Sentrum
+                LatLng( 59.945751, 10.780016), // Storo
+                LatLng( 59.934095, 10.784416), // Sinsen
+                LatLng( 59.933764, 10.764026), // Torshov
+                LatLng( 59.926330, 10.777925), // Carl Berners Plass
+                LatLng( 59.921870, 10.758257), // Grunerløkka
+                LatLng( 59.915281, 10.768540), // Tøyen
+                LatLng( 59.915834, 10.804612), // Helsfyr
+            ))
+            while (true) {
+                val pos = currentPos.value
+                if (pos != null) {
+                    val weatherData = weatherUseCase.getWeather(pos)
+                    weather.postValue(weatherData)
+                    val deviatingWeatherPoints = deviatingWeather.deviatingPoints(weatherData)
+                    val bubbles = mutableListOf<OverlayBubble>()
+                    deviatingWeatherPoints.forEach {
+                        when (it.deviation) {
+                            DeviationTypes.TEMPERATURE -> {
+                                var color = R.color.red
+                                if (it.weatherDataPoint.temperature!! < weatherData.temperature!!) {
+                                    color = R.color.purple_700
+                                }
+                                bubbles.add(OverlayBubble(it.pos, it.weatherDataPoint.temperature.toString() + "°",
+                                    application.applicationContext.resources.getColor(color),
+                                    application.applicationContext.resources.getColor(R.color.off_white)))
+                            }
+                            DeviationTypes.PERCIPITATION -> {
+                                bubbles.add(OverlayBubble(it.pos, it.weatherDataPoint.percipitation.toString() + "mm/h",
+                                application.applicationContext.resources.getColor(R.color.black),
+                                application.applicationContext.resources.getColor(R.color.off_white)))
+                            }
+                            DeviationTypes.WIND -> {
+                                // Currently Ignored TODO maybe
+                            }
+                        }
+                    }
+                }
+                delay(60000)
+            }
+        }
 
         polyline.postValue(
             Pair(

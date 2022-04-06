@@ -14,24 +14,33 @@ class GetWeatherUseCase(val nowcastRepository: NowcastRepository, val locationfo
     suspend fun getWeather(latLng: LatLng, timeDelta : Int = 0): WeatherDataPoint {
         assert(timeDelta >= 0)
 
-        return if(timeDelta == 0) {
-            val temp = nowcastRepository.getTemp(latLng.latitude, latLng.longitude, 0)
-            val percipitation = nowcastRepository.getPercipitation(latLng.latitude, latLng.longitude, 0)
-            val humidity = nowcastRepository.getRelativeHumidity(latLng.latitude, latLng.longitude, 0)
-            WeatherDataPoint(temp, percipitation, humidity)
-        } else if(timeDelta <= 60){
-            val temp = locationforecastRepository.getTemp(latLng.latitude, latLng.longitude, 0)
-            val percipitation = nowcastRepository.getPercipitation(latLng.latitude, latLng.longitude, timeDelta) // using nowcast as it is more accurate
-            val humidity = locationforecastRepository.getRelativeHumidity(latLng.latitude, latLng.longitude, 0)
-            WeatherDataPoint(temp, percipitation, humidity)
-        } else {
-            val temp = locationforecastRepository.getTemp(latLng.latitude, latLng.longitude, timeDelta)
-            val percipitation = locationforecastRepository.getPercipitation(latLng.latitude, latLng.longitude, timeDelta)
-            val humidity = locationforecastRepository.getRelativeHumidity(latLng.latitude, latLng.longitude, timeDelta)
-            WeatherDataPoint(temp, percipitation, humidity)
+        return when {
+            timeDelta == 0 -> {
+                val temp = nowcastRepository.getTemp(latLng.latitude, latLng.longitude, 0)
+                val percipitation = nowcastRepository.getPercipitation(latLng.latitude, latLng.longitude, 0)
+                val humidity = nowcastRepository.getRelativeHumidity(latLng.latitude, latLng.longitude, 0)
+                val windSpeed = nowcastRepository.getWindSpeed(latLng.latitude, latLng.longitude, 0)
+                val windDirection = nowcastRepository.getWindDirection(latLng.latitude, latLng.longitude, 0)
+                WeatherDataPoint(latLng, temp, percipitation, humidity, windSpeed, windDirection)
+            }
+            timeDelta <= 60 -> {
+                val temp = locationforecastRepository.getTemp(latLng.latitude, latLng.longitude, 0)
+                val percipitation = nowcastRepository.getPercipitation(latLng.latitude, latLng.longitude, timeDelta) // using nowcast as it is more accurate
+                val humidity = locationforecastRepository.getRelativeHumidity(latLng.latitude, latLng.longitude, 0)
+                val windSpeed = nowcastRepository.getWindSpeed(latLng.latitude, latLng.longitude, 0)
+                val windDirection = nowcastRepository.getWindDirection(latLng.latitude, latLng.longitude, 0)
+                WeatherDataPoint(latLng, temp, percipitation, humidity, windSpeed, windDirection)
+            }
+            else -> {
+                val temp = locationforecastRepository.getTemp(latLng.latitude, latLng.longitude, timeDelta)
+                val percipitation = locationforecastRepository.getPercipitation(latLng.latitude, latLng.longitude, timeDelta)
+                val humidity = locationforecastRepository.getRelativeHumidity(latLng.latitude, latLng.longitude, timeDelta)
+                val windSpeed = locationforecastRepository.getWindSpeed(latLng.latitude, latLng.longitude, timeDelta)
+                val windDirection = locationforecastRepository.getWindDirection(latLng.latitude, latLng.longitude, timeDelta)
+                WeatherDataPoint(latLng, temp, percipitation, humidity, windSpeed, windDirection)
+            }
         }
     }
 }
 
 
-data class WeatherDataPoint(val temperature: Double?, val percipitation: Double?, val humidity: Double?) // consider moving this to a separate file
