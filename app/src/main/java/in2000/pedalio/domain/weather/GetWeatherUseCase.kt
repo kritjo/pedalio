@@ -13,6 +13,8 @@ class GetWeatherUseCase(val nowcastRepository: NowcastRepository, val locationfo
      */
     suspend fun getWeather(latLng: LatLng, timeDelta : Int = 0): WeatherDataPoint {
         assert(timeDelta >= 0)
+        if (latLng.latitude == 0.0 || latLng.longitude == 0.0)
+            return WeatherDataPoint(latLng, 0.0, 0.0, 0.0, 0.0, 0.0)
 
         return when {
             timeDelta == 0 -> {

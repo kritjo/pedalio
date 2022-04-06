@@ -113,6 +113,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                             }
                         }
                     }
+                    overlayBubbles.postValue(bubbles)
                 }
                 delay(60000)
             }
