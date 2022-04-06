@@ -19,12 +19,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.BoundingBox
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.map.*
 import in2000.pedalio.R
 import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.viewmodel.MapViewModel
+import kotlinx.coroutines.launch
 
 
 /**
@@ -163,6 +165,9 @@ class TomTomMapBase : Fragment() {
                 .build()
             tomtomMap.centerOn(cameraPosition)
             tomtomMap.isMyLocationEnabled = true
+        }
+        mapViewModel.viewModelScope.launch {
+            mapViewModel.weatherBubleDeviationUpdate(this@TomTomMapBase.requireContext())
         }
     }
 
