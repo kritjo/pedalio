@@ -23,6 +23,7 @@ import com.tomtom.online.sdk.map.*
 import in2000.pedalio.R
 import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.viewmodel.MapViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -120,11 +121,6 @@ class TomTomMapBase : Fragment() {
                 initializeIconBubble(iconBubble)
         }
             tomtomMap.addOnCameraChangedListener { cameraPosition ->
-                mapViewModel.viewModelScope.launch {
-                    mapViewModel.updateWeatherAndDeviations(this@TomTomMapBase.requireContext(),
-                    mapViewModel.currentPos.value!!)
-                }
-
                 if (mapViewModel.updateBubbleZoomLevel(zoomLevel, cameraPosition.zoom)) zoomChanged = 2
                 if (zoomChanged > 0) {
                     bubbles.forEach { initializeIconBubble(it) }
@@ -198,7 +194,7 @@ class TomTomMapBase : Fragment() {
             tomtomMap.centerOn(cameraPosition)
             tomtomMap.isMyLocationEnabled = true
         }
-        mapViewModel.viewModelScope.launch {
+        mapViewModel.viewModelScope.launch(Dispatchers.IO) {
             mapViewModel.updateWeatherAndDeviations(this@TomTomMapBase.requireContext(), pos)
         }
     }
