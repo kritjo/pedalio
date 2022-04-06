@@ -39,6 +39,7 @@ class TomTomMapBase : Fragment() {
     private lateinit var tomtomMap: TomtomMap
 
     private val mapViewModel: MapViewModel by activityViewModels()
+    val selectorFragment = LayersSelector()
 
     fun bubbleSize() = mapViewModel.getBubbleSquareSize(requireContext())
 
@@ -63,6 +64,7 @@ class TomTomMapBase : Fragment() {
                     SharedPreferences(requireContext()).gpsToggle = false
                 }
             }
+        initLayerSelector()
     }
 
     fun onMapReady(map: TomtomMap) {
@@ -146,7 +148,21 @@ class TomTomMapBase : Fragment() {
         mapView = view.findViewById(R.id.fragment_tomtom)
         mapViewModel.currentPos.observe(viewLifecycleOwner) { onPosChange(it) }
         mapView.addOnMapReadyCallback { onMapReady(it) }
+        view.findViewById<Button>(R.id.layers_button).setOnClickListener{toggleLayerSelector()}
         return view
+    }
+    private fun initLayerSelector() {
+        childFragmentManager.beginTransaction()
+            .add(R.id.popup_overlay, selectorFragment).hide(selectorFragment)
+            .commitAllowingStateLoss()
+    }
+
+    private fun toggleLayerSelector(){
+        if (selectorFragment.isVisible){
+            childFragmentManager.beginTransaction().hide(selectorFragment).commitAllowingStateLoss()
+        } else {
+            childFragmentManager.beginTransaction().show(selectorFragment).commitAllowingStateLoss()
+        }
     }
 
     /**
@@ -243,8 +259,6 @@ class TomTomMapBase : Fragment() {
         val bubbleSize = bubbleSize()
 
         bubbles.forEach {
-            if (boundingBox.contains(it.latLng)) {
-
                 val x = tomtomMap.pixelForLatLng(it.latLng).x
                 val y = tomtomMap.pixelForLatLng(it.latLng).y
                 val params = RelativeLayout.LayoutParams(
@@ -259,7 +273,6 @@ class TomTomMapBase : Fragment() {
                 it.button.tag = tag
 
                 overlay?.addView(it.button, params)
-            }
         }
     }
 

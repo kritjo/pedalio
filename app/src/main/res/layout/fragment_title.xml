@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".search_bar">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_title"
         android:name="in2000.pedalio.ui.map.TomTomMapBase"
         android:layout_width="match_parent"
