@@ -23,6 +23,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/fragment_tomtom" />
 
+    <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/weather"
+            android:name="in2000.pedalio.ui.map.WeatherOverlay"
+            android:layout_width="108dp"
+            android:layout_height="140dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.123"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.947" />
+
     <Button
         android:id="@+id/layers_button"
         android:layout_width="wrap_content"
