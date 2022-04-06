@@ -22,10 +22,5 @@
     <string name="darkmode_title">Dark mode</string>
     <string name="colorblind_title">Color blind mode</string>
 
-    <!-- Weather fragment -->
-    <string name="degrees">%1$s°</string>
-    <string name="m_s">%1$s m/s</string>
-    <string name="mm_h">%1$s mm/h</string>
-
 
 </resources>

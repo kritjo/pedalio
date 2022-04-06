@@ -36,6 +36,7 @@ class SharedPreferences(context: Context): SettingsRepository() {
     override var layerWeather: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.LAYER_WEATHER.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_WEATHER.name, value).apply()
+
 }
 
 enum class SettingsKey {
