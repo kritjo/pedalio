@@ -23,9 +23,9 @@
     <string name="colorblind_title">Color blind mode</string>
 
     <!-- Weather fragment -->
-    <string name="degrees">%1$d.%2$d°</string>
-    <string name="m_s">%1$d.%2$d m/s</string>
-    <string name="mm_h">%1$d.%2$d mm/h</string>
+    <string name="degrees">%1$s°</string>
+    <string name="m_s">%1$s m/s</string>
+    <string name="mm_h">%1$s mm/h</string>
 
 
 </resources>

@@ -3,7 +3,6 @@ package in2000.pedalio.viewmodel
 import android.app.Application
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Color.blue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -59,8 +58,12 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         currentPos.postValue(LatLng(59.91,10.75))
 
         viewModelScope.launch(Dispatchers.IO) {
-            weatherBubleDeviationUpdate(application.applicationContext)
+            while(true) {
+                updateWeatherAndDeviations(application.applicationContext, currentPos.value!!)
+                delay(60000)
+            }
         }
+
 
         polyline.postValue(
             Pair(
@@ -99,7 +102,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
-    suspend fun weatherBubleDeviationUpdate(context: Context) {
+    suspend fun updateWeatherAndDeviations(context: Context, pos: LatLng) {
         val weatherUseCase =
             GetWeatherUseCase(NowcastRepository(Endpoints.NOWCAST_COMPLETE),
                 LocationforecastRepository(Endpoints.LOCATIONFORECAST_COMPLETE))
@@ -126,38 +129,33 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                 LatLng(59.915281, 10.768540), // Tøyen
                 LatLng(59.915834, 10.804612), // Helsfyr
             ))
-        while (true) {
-            val pos = currentPos.value
-            if (pos != null) {
-                val weatherData = weatherUseCase.getWeather(pos)
-                weather.postValue(weatherData)
-                val deviatingWeatherPoints = deviatingWeather.deviatingPoints(weatherData)
-                val bubbles = mutableListOf<OverlayBubble>()
-                deviatingWeatherPoints.forEach {
-                    when (it.deviation) {
-                        DeviationTypes.TEMPERATURE -> {
-                            var color = R.color.red
-                            if (it.weatherDataPoint.temperature!! < weatherData.temperature!!) {
-                                color = R.color.purple_700
-                            }
-                            bubbles.add(OverlayBubble(it.pos, it.weatherDataPoint.temperature.toString() + "°",
-                                context.resources.getColor(color),
-                                context.resources.getColor(R.color.off_white)))
+            val weatherData = weatherUseCase.getWeather(pos)
+            weather.postValue(weatherData)
+            val deviatingWeatherPoints = deviatingWeather.deviatingPoints(weatherData)
+            val bubbles = mutableListOf<OverlayBubble>()
+            deviatingWeatherPoints.forEach {
+                when (it.deviation) {
+                    DeviationTypes.TEMPERATURE -> {
+                        val color = if (it.weatherDataPoint.temperature!! > weatherData.temperature!!) {
+                            R.color.red
+                        } else {
+                            R.color.purple_700
                         }
-                        DeviationTypes.PERCIPITATION -> {
-                            bubbles.add(OverlayBubble(it.pos, it.weatherDataPoint.percipitation.toString() + "mm/h",
-                                context.resources.getColor(R.color.black),
-                                context.resources.getColor(R.color.off_white)))
-                        }
-                        DeviationTypes.WIND -> {
-                            // Currently Ignored TODO maybe
-                        }
+                        bubbles.add(OverlayBubble(it.pos, it.weatherDataPoint.temperature.toString() + "°",
+                            context.resources.getColor(color),
+                            context.resources.getColor(R.color.off_white)))
+                    }
+                    DeviationTypes.PERCIPITATION -> {
+                        bubbles.add(OverlayBubble(it.pos, it.weatherDataPoint.percipitation.toString() + "mm/h",
+                            context.resources.getColor(R.color.black),
+                            context.resources.getColor(R.color.off_white)))
+                    }
+                    DeviationTypes.WIND -> {
+                        // Currently Ignored TODO maybe
                     }
                 }
-                overlayBubbles.postValue(bubbles)
             }
-            delay(60000)
-        }
+            overlayBubbles.postValue(bubbles)
     }
 
     fun getBubbleSquareSize(context: Context): Int {

@@ -28,16 +28,13 @@ class WeatherOverlay : Fragment() {
         mapViewModel.weather.observe(viewLifecycleOwner) {
             // TODO: Choose icons
             view.findViewById<TextView>(R.id.weather_degrees).text = resources.getString(R.string.degrees,
-                it.temperature?.toInt() ?: 0, (it.temperature?.minus(it.temperature.toInt())
-                    ?.times(10))?.toInt() ?: 0
+                String.format("%.1f", it.temperature?: 0.0)
             )
             view.findViewById<TextView>(R.id.weather_wind).text = resources.getString(R.string.m_s,
-                it.windSpeed?.toInt() ?: 0, (it.windSpeed?.minus(it.windSpeed.toInt())
-                ?.times(10))?.toInt() ?: 0
+                String.format("%.1f", it.windSpeed?: 0.0)
             )
             view.findViewById<TextView>(R.id.percipation).text = resources.getString(R.string.mm_h,
-                it.percipitation?.toInt() ?: 0, (it.windSpeed?.minus(it.windSpeed.toInt())
-                ?.times(10))?.toInt() ?: 0
+                String.format("%.1f", it.percipitation?: 0.0)
             )
         }
 

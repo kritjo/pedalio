@@ -120,13 +120,20 @@ class TomTomMapBase : Fragment() {
                 initializeIconBubble(iconBubble)
         }
             tomtomMap.addOnCameraChangedListener { cameraPosition ->
+                mapViewModel.viewModelScope.launch {
+                    mapViewModel.updateWeatherAndDeviations(this@TomTomMapBase.requireContext(),
+                    mapViewModel.currentPos.value!!)
+                }
+
                 if (mapViewModel.updateBubbleZoomLevel(zoomLevel, cameraPosition.zoom)) zoomChanged = 2
                 if (zoomChanged > 0) {
                     bubbles.forEach { initializeIconBubble(it) }
                     zoomChanged--
                 }
 
-                addBubbles(tomtomMap.currentBounds, "icon_bubble", bubbles)
+
+                addBubbles(tomtomMap.currentBounds, "icon_bubble",
+                    mapViewModel.overlayBubbles.value?: emptyList())
             }
         }
 
@@ -191,7 +198,7 @@ class TomTomMapBase : Fragment() {
             tomtomMap.isMyLocationEnabled = true
         }
         mapViewModel.viewModelScope.launch {
-            mapViewModel.weatherBubleDeviationUpdate(this@TomTomMapBase.requireContext())
+            mapViewModel.updateWeatherAndDeviations(this@TomTomMapBase.requireContext(), pos)
         }
     }
 
@@ -258,6 +265,8 @@ class TomTomMapBase : Fragment() {
     private fun addBubbles(boundingBox: BoundingBox, tag: String, bubbles: List<Bubble>) {
         val overlay = view?.findViewById<RelativeLayout>(R.id.overlay)
         val bubbleSize = bubbleSize()
+
+        removeBubbles(tag)
 
         bubbles.forEach {
                 val x = tomtomMap.pixelForLatLng(it.latLng).x
