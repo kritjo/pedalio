@@ -6,4 +6,6 @@ abstract class SettingsRepository {
     abstract var colorBlindMode: Boolean
     abstract var gpsToggle: Boolean
     abstract var askedForGps: Boolean
+    abstract var layerAirQuality : Boolean
+    abstract var layerWeather : Boolean
 }

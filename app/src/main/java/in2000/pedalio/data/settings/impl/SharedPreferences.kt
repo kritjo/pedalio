@@ -29,6 +29,14 @@ class SharedPreferences(context: Context): SettingsRepository() {
         get() = sharedPreferences.getBoolean(SettingsKey.ASKED_FOR_GPS.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.ASKED_FOR_GPS.name, value).apply()
 
+    override var layerAirQuality: Boolean
+        get() = sharedPreferences.getBoolean(SettingsKey.LAYER_AIR_QUALITY.name, false)
+        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_AIR_QUALITY.name, value).apply()
+
+    override var layerWeather: Boolean
+        get() = sharedPreferences.getBoolean(SettingsKey.LAYER_WEATHER.name, false)
+        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_WEATHER.name, value).apply()
+
 }
 
 enum class SettingsKey {
@@ -51,5 +59,10 @@ enum class SettingsKey {
     /**
      * The key for the setting that stores the asked for GPS.
      */
-    ASKED_FOR_GPS
+    ASKED_FOR_GPS,
+    /**
+     * The keys for layer settings
+     */
+    LAYER_AIR_QUALITY,
+    LAYER_WEATHER
 }

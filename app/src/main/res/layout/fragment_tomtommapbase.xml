@@ -37,13 +37,14 @@
 
     <RelativeLayout
         android:id="@+id/popup_overlay"
-        android:layout_width="335dp"
-        android:layout_height="316dp"
+        android:layout_width="336dp"
+        android:layout_height="168dp"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_tomtom"
         app:layout_constraintEnd_toEndOf="@+id/fragment_tomtom"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/fragment_tomtom"
-        app:layout_constraintVertical_bias="0.616" />
+        app:layout_constraintVertical_bias="0.857" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
