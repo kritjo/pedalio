@@ -238,8 +238,6 @@ class TomTomMapBase : Fragment() {
         val bubbleSize = bubbleSize()
 
         bubbles.forEach {
-            if (boundingBox.contains(it.latLng)) {
-
                 val x = tomtomMap.pixelForLatLng(it.latLng).x
                 val y = tomtomMap.pixelForLatLng(it.latLng).y
                 val params = RelativeLayout.LayoutParams(
@@ -254,7 +252,6 @@ class TomTomMapBase : Fragment() {
                 it.button.tag = tag
 
                 overlay?.addView(it.button, params)
-            }
         }
     }
 
