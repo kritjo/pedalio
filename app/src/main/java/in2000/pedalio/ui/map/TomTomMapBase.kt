@@ -145,6 +145,7 @@ class TomTomMapBase : Fragment() {
 
         selectorFragment.requireView().findViewById<Switch>(R.id.switch_weather)
             .setOnCheckedChangeListener { _, checked: Boolean ->
+                SharedPreferences(requireContext()).layerWeather = checked
                 if (checked) addBubbles(tomtomMap.currentBounds, "icon_bubble",
                     mapViewModel.overlayBubbles.value ?: emptyList())
                 else {
