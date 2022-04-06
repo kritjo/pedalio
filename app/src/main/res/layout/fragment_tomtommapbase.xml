@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,7 +17,34 @@
         tools:ignore="FragmentTagUsage" />
 
     <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/overlay"/>
-</FrameLayout>
+        android:id="@+id/overlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fragment_tomtom" />
+
+    <Button
+        android:id="@+id/layers_button"
+        android:layout_width="wrap_content"
+        android:layout_height="59dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/off_white"
+        android:text="Layers"
+        android:textColor="@color/purple_700"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/popup_overlay"
+        android:layout_width="336dp"
+        android:layout_height="168dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_tomtom"
+        app:layout_constraintEnd_toEndOf="@+id/fragment_tomtom"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fragment_tomtom"
+        app:layout_constraintVertical_bias="0.857" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
