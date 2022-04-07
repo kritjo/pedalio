@@ -27,7 +27,7 @@ class FuzzySearchRepository (context : Context) : SearchRepository() {
         val results = searchApi.search(fuzzySearchSpecification).value()
         val searchResults = mutableListOf<SearchResult>()
         for (result in results.fuzzyDetailsList) {
-            val searchResult = SearchResult(result.score, result.address, result.position, result.distance, result.info)
+            val searchResult = SearchResult(result.score, result.address, result.position, result.distance, result.info, result.poi)
             searchResults.add(searchResult)
         }
         return searchResults

@@ -8,8 +8,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import in2000.pedalio.R
+import in2000.pedalio.data.search.SearchResult
 
-class CustomAdapter(private val dataSet: List<String>) :
+class CustomAdapter(val searchList: List<SearchResult>) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     /**
@@ -27,9 +28,9 @@ class CustomAdapter(private val dataSet: List<String>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.textView.text = dataSet[position]
+        viewHolder.textView.text = searchList[position].toString()
     }
 
-    override fun getItemCount() = dataSet.size
+    override fun getItemCount() = searchList.size
 
 }
