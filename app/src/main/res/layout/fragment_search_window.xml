@@ -14,7 +14,7 @@
         android:layout_gravity="top|center"
         android:layout_marginTop="10dp"
         android:background="@drawable/custom_search_button"
-        android:drawableLeft="@drawable/ic_action_back"
+        android:drawableStart="@drawable/ic_action_back"
         android:maxLines="1"
         android:singleLine="true"
         android:drawablePadding="10dp"
@@ -24,16 +24,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <ListView
-        android:layout_width="409dp"
-        android:layout_height="672dp"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/search"
+        app:layout_constraintVertical_bias="0.1"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
