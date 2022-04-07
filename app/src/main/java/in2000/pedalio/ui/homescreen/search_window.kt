@@ -30,6 +30,12 @@ class search_window : Fragment() {
 
     private val mapViewModel: MapViewModel by activityViewModels()
 
+    /**
+     * The search result list.
+     * @see SearchResult
+     * Will be updated when the user types in the search bar.
+     * Threds are used to avoid blocking the UI.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,6 +52,12 @@ class search_window : Fragment() {
         val coroutineDispatcher = newSingleThreadExecutor().asCoroutineDispatcher()
         var timeLastSearch = System.currentTimeMillis()
 
+
+        /**
+         * The search bar listener.
+         * threading is done using coroutines.
+         * @see coroutineDispatcher
+         */
         search.addTextChangedListener {
             lifecycleScope.launch(coroutineDispatcher) {
                  if (System.currentTimeMillis() - timeLastSearch < 250) {

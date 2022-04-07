@@ -5,6 +5,11 @@ import com.tomtom.online.sdk.search.data.common.Poi
 import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
 import com.tomtom.online.sdk.search.location.Address
 
+/**
+ * Search repository.
+ * get all the search results from the tomtom api
+ */
+
 abstract class SearchRepository {
     abstract fun doSearch(fuzzySearchSpecification : FuzzySearchSpecification) : List<SearchResult>
 }
