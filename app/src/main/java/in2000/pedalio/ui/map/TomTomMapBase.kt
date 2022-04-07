@@ -13,7 +13,6 @@ import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
@@ -45,6 +44,8 @@ class TomTomMapBase : Fragment() {
     var zoomChanged = 0
 
     lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+
+    private val overlayBubbleViews = mutableListOf<View>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,9 +104,10 @@ class TomTomMapBase : Fragment() {
                 initializeOverlayBubble(overlayBubble) }
 
             if (SharedPreferences(requireContext()).layerWeather) {
-                addBubbles(tomtomMap.currentBounds, "overlay_bubble", bubbles) }
+                addBubbles(tomtomMap.currentBounds, "overlay_bubble", bubbles)
+            }
 
-            tomtomMap.addOnCameraChangedListener { cameraPosition ->
+            val cameraChangeListener = TomtomMapCallback.OnCameraChangedListener { cameraPosition ->
                 if (mapViewModel.updateBubbleZoomLevel(zoomLevel, cameraPosition.zoom)) zoomChanged = 2
                 if (zoomChanged > 0) {
                     bubbles.forEach { initializeOverlayBubble(it) }
@@ -115,6 +117,10 @@ class TomTomMapBase : Fragment() {
                     addBubbles(tomtomMap.currentBounds, "overlay_bubble", bubbles)
                 }
             }
+
+            tomtomMap.removeOnCameraChangedListener(cameraChangeListener)
+            tomtomMap.addOnCameraChangedListener(cameraChangeListener)
+
         }
         mapViewModel.iconBubbles.observe(viewLifecycleOwner) { bubbles ->
             bubbles.forEach { iconBubble ->
@@ -126,10 +132,7 @@ class TomTomMapBase : Fragment() {
                     bubbles.forEach { initializeIconBubble(it) }
                     zoomChanged--
                 }
-
-
-                addBubbles(tomtomMap.currentBounds, "icon_bubble",
-                    mapViewModel.overlayBubbles.value?: emptyList())
+                addBubbles(tomtomMap.currentBounds, "icon_bubble", bubbles)
             }
         }
 
@@ -145,10 +148,10 @@ class TomTomMapBase : Fragment() {
                 if (checked) addBubbles(tomtomMap.currentBounds, "icon_bubble",
                     mapViewModel.overlayBubbles.value ?: emptyList())
                 else {
-                    removeBubbles("icon_bubble")
+                    SharedPreferences(requireContext()).layerWeather = false
+                    removeBubbles()
                 }
         }
-
     }
 
     override fun onCreateView(
@@ -195,7 +198,7 @@ class TomTomMapBase : Fragment() {
             tomtomMap.isMyLocationEnabled = true
         }
         mapViewModel.viewModelScope.launch(Dispatchers.IO) {
-            mapViewModel.updateWeatherAndDeviations(this@TomTomMapBase.requireContext(), pos)
+            mapViewModel.updateWeatherAndDeviations(this@TomTomMapBase.requireContext())
         }
     }
 
@@ -263,7 +266,7 @@ class TomTomMapBase : Fragment() {
         val overlay = view?.findViewById<RelativeLayout>(R.id.overlay)
         val bubbleSize = bubbleSize()
 
-        removeBubbles(tag)
+        removeBubbles()
 
         bubbles.forEach {
                 val x = tomtomMap.pixelForLatLng(it.latLng).x
@@ -275,23 +278,15 @@ class TomTomMapBase : Fragment() {
                 // Anchor the button to x,y on screen and center it.
                 params.leftMargin = x.toInt() - bubbleSize / 2
                 params.topMargin = y.toInt() - bubbleSize / 2
-
-
                 it.button.tag = tag
-
+                overlayBubbleViews.add(it.button)
                 overlay?.addView(it.button, params)
         }
     }
 
-    private fun removeBubbles(tag: String) {
+    private fun removeBubbles() {
         val overlay = view?.findViewById<RelativeLayout>(R.id.overlay)
-
-        // Reverse indexed for loop over children to avoid ConcurrentModificationException
-        for (i in overlay?.children.orEmpty().count().downTo(0)) {
-            if (overlay?.getChildAt(i)?.tag == tag) {
-                overlay.removeViewAt(i)
-            }
-        }
+        overlayBubbleViews.forEach { overlay?.removeView(it) }
     }
 
     /**
