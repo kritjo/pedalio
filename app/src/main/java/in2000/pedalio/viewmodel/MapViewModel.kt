@@ -33,7 +33,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
 
     // Pair of LatLng and Color
-    val polyline = MutableLiveData(Pair(listOf(LatLng()), 0))
+    val polyline = MutableLiveData(listOf(Pair(listOf(LatLng()), 0)))
 
     // List of Triple of LatLng, Color, and Opacity
     val polygons = MutableLiveData(listOf<Triple<List<LatLng>, Int, Float>>())
@@ -72,7 +72,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                 updateWeatherAndDeviations(application.applicationContext) } }, 60000)
 
 
-        polyline.postValue(
+        polyline.postValue(listOf(
             Pair(
                 listOf(
                     LatLng(59.9475319,10.709509),
@@ -80,7 +80,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                     LatLng(59.9022338,10.763559),
                     LatLng(59.9092753,10.6883493),
                     LatLng(59.9475319,10.709509),
-                ), Color.RED)
+                ), Color.RED))
         )
 
         polygons.postValue(

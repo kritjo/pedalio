@@ -28,6 +28,9 @@ class LayersSelector : Fragment() {
         view.findViewById<Switch>(R.id.switch_weather)
             ?.apply { isChecked = sharedPref.layerWeather }
             ?.setOnCheckedChangeListener { _, isChecked -> sharedPref.layerWeather = isChecked }
+        view.findViewById<Switch>(R.id.switch_bikeRoutes)
+            ?.apply { isChecked = sharedPref.layerBikeRoutes }
+            ?.setOnCheckedChangeListener { _, isChecked -> sharedPref.layerBikeRoutes = isChecked }
 
         // Inflate the layout for this fragment
         return view
