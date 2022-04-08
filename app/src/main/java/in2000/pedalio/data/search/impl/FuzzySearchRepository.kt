@@ -24,6 +24,9 @@ class FuzzySearchRepository (context : Context) : SearchRepository() {
      * @param fuzzySearchSpecification
      */
     override fun doSearch(fuzzySearchSpecification : FuzzySearchSpecification) : List<SearchResult> {
+        if (fuzzySearchSpecification.term.isEmpty()) {
+            return emptyList()
+        }
         val results = searchApi.search(fuzzySearchSpecification).value()
         val searchResults = mutableListOf<SearchResult>()
         for (result in results.fuzzyDetailsList) {

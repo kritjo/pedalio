@@ -176,6 +176,11 @@ class TomTomMapBase : Fragment() {
                     removeMapOverlay("bike_route")
                 }
             }
+
+        mapViewModel.chosenSearchResult.observe(viewLifecycleOwner) {
+            // TODO: Routing to the chosen search result.
+            Toast.makeText(requireContext(), it.address?.freeFormAddress, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateView(
