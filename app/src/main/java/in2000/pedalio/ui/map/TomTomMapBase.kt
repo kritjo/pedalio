@@ -20,10 +20,14 @@ import com.tomtom.online.sdk.common.location.BoundingBox
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.map.*
 import in2000.pedalio.R
+import in2000.pedalio.data.Endpoints
+import in2000.pedalio.data.airquality.source.NILU.NILUSource
 import in2000.pedalio.data.settings.impl.SharedPreferences
+import in2000.pedalio.ui.render.AQRenderer
 import in2000.pedalio.viewmodel.MapViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 /**
@@ -115,6 +119,16 @@ class TomTomMapBase : Fragment() {
                 }
                 if (SharedPreferences(requireContext()).layerWeather) {
                     addBubbles(tomtomMap.currentBounds, "overlay_bubble", bubbles)
+                }
+                runBlocking {
+                    val imgViewCanvas = mapView.findViewById<ImageView>(R.id.draw_canvas)
+                    val here = mapViewModel.currentPos.value
+                    if(here != null) {
+                        val res = NILUSource.getNow(Endpoints.NILU_FORECAST, here.latitude, here.longitude, 10, NILUSource.COMPONENTS.NO2)
+                        val stations = res.map { Pair(LatLng(it.latitude ?: 0.0, it.longitude ?: 0.0), it.value ?: 0.0) }
+                        val bitmap : Bitmap = AQRenderer.render(tomtomMap, requireView().width, requireView().height, stations, 5.0, 120)
+                        imgViewCanvas.setImageBitmap(bitmap)
+                    }
                 }
             }
 

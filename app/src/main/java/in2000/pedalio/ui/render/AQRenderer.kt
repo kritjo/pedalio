@@ -7,7 +7,7 @@ import in2000.pedalio.utils.MathUtil
 
 class AQRenderer {
     companion object {
-        fun render(tomtomMap : TomtomMap, width : Int, height : Int, stations : List<Pair<LatLng, Double>>, maxValue : Double, alpha : Int) : Canvas {
+        fun render(tomtomMap : TomtomMap, width : Int, height : Int, stations : List<Pair<LatLng, Double>>, maxValue : Double, alpha : Int) : Bitmap {
             val AQPaint = Paint()
             val blankBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(blankBitmap)
@@ -22,7 +22,7 @@ class AQRenderer {
                     canvas.drawPoint(j.toFloat(), i.toFloat(), AQPaint)
                 }
             }
-            return canvas
+            return blankBitmap
         }
     }
 }
