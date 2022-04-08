@@ -44,8 +44,9 @@ class search_window : Fragment() {
         val search = v.findViewById<com.mindorks.editdrawabletext.EditDrawableText>(R.id.search)
         val recyclerView = v.findViewById<RecyclerView>(R.id.recycler1)
         val liveData = MutableLiveData(emptyList<SearchResult>())
+        val chosenResult = MutableLiveData<SearchResult>()
         liveData.observe(viewLifecycleOwner) {
-            recyclerView.adapter = CustomAdapter(it)
+            recyclerView.adapter = CustomAdapter(it, chosenResult)
         }
         liveData.postValue(emptyList())
 
@@ -86,9 +87,18 @@ class search_window : Fragment() {
 
         search.setDrawableClickListener(object : onDrawableClickListener {
             override fun onClick(target: DrawablePosition) {
-                Navigation.findNavController(v).navigate(R.id.action_search_window_to_titleScreen)
+                if (target == DrawablePosition.LEFT)
+                    Navigation.findNavController(v).navigate(R.id.action_search_window_to_titleScreen)
             }
         })
+
+        chosenResult.observe(viewLifecycleOwner) {
+            if (it != null) {
+                mapViewModel.chosenSearchResult.postValue(it)
+                Navigation.findNavController(v).navigate(R.id.action_search_window_to_titleScreen)
+            }
+        }
+
         return v
     }
 

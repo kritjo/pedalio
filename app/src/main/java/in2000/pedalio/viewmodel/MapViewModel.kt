@@ -9,13 +9,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
-import com.tomtom.online.sdk.map.CameraPosition
-import com.tomtom.online.sdk.map.TomtomMapCallback
 import in2000.pedalio.R
 import in2000.pedalio.data.Endpoints
 import in2000.pedalio.data.bikeRoutes.impl.OsloBikeRouteRepostiory
 import in2000.pedalio.data.location.LocationRepository
-import in2000.pedalio.data.settings.impl.SharedPreferences
+import in2000.pedalio.data.search.SearchResult
 import in2000.pedalio.data.weather.impl.LocationforecastRepository
 import in2000.pedalio.data.weather.impl.NowcastRepository
 import in2000.pedalio.domain.weather.DeviationTypes
@@ -25,7 +23,6 @@ import in2000.pedalio.domain.weather.WeatherDataPoint
 import in2000.pedalio.ui.map.IconBubble
 import in2000.pedalio.ui.map.OverlayBubble
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -58,12 +55,13 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         locationRepository.locationCallback()
     }
 
+    val chosenSearchResult = MutableLiveData<SearchResult>()
+
     private var zoomDensityScaler = 3.0f
 
     // This is to showcase functionality, should rather use domain layer and repositories
     init {
         currentPos.postValue(LatLng(59.91,10.75))
-
 
 
         // Update weather every 60 seconds
