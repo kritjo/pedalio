@@ -14,7 +14,7 @@ class GetWeatherUseCase(val nowcastRepository: NowcastRepository, val locationfo
     suspend fun getWeather(latLng: LatLng, timeDelta : Int = 0): WeatherDataPoint {
         assert(timeDelta >= 0)
         if (latLng.latitude == 0.0 || latLng.longitude == 0.0)
-            return WeatherDataPoint(latLng, 0.0, 0.0, 0.0, 0.0, 0.0)
+            return WeatherDataPoint(latLng, 0.0, 0.0, 0.0, 0.0, 0.0, null)
 
         return when {
             timeDelta == 0 -> {
@@ -23,7 +23,8 @@ class GetWeatherUseCase(val nowcastRepository: NowcastRepository, val locationfo
                 val humidity = nowcastRepository.getRelativeHumidity(latLng.latitude, latLng.longitude, 0)
                 val windSpeed = nowcastRepository.getWindSpeed(latLng.latitude, latLng.longitude, 0)
                 val windDirection = nowcastRepository.getWindDirection(latLng.latitude, latLng.longitude, 0)
-                WeatherDataPoint(latLng, temp, percipitation, humidity, windSpeed, windDirection)
+                val symbolCode = nowcastRepository.getWeatherIcon(latLng.latitude, latLng.longitude, 0)
+                WeatherDataPoint(latLng, temp, percipitation, humidity, windSpeed, windDirection, symbolCode)
             }
             timeDelta <= 60 -> {
                 val temp = locationforecastRepository.getTemp(latLng.latitude, latLng.longitude, 0)
@@ -31,7 +32,8 @@ class GetWeatherUseCase(val nowcastRepository: NowcastRepository, val locationfo
                 val humidity = locationforecastRepository.getRelativeHumidity(latLng.latitude, latLng.longitude, 0)
                 val windSpeed = nowcastRepository.getWindSpeed(latLng.latitude, latLng.longitude, 0)
                 val windDirection = nowcastRepository.getWindDirection(latLng.latitude, latLng.longitude, 0)
-                WeatherDataPoint(latLng, temp, percipitation, humidity, windSpeed, windDirection)
+                val symbolCode = nowcastRepository.getWeatherIcon(latLng.latitude, latLng.longitude, 0)
+                WeatherDataPoint(latLng, temp, percipitation, humidity, windSpeed, windDirection, symbolCode)
             }
             else -> {
                 val temp = locationforecastRepository.getTemp(latLng.latitude, latLng.longitude, timeDelta)
@@ -39,7 +41,8 @@ class GetWeatherUseCase(val nowcastRepository: NowcastRepository, val locationfo
                 val humidity = locationforecastRepository.getRelativeHumidity(latLng.latitude, latLng.longitude, timeDelta)
                 val windSpeed = locationforecastRepository.getWindSpeed(latLng.latitude, latLng.longitude, timeDelta)
                 val windDirection = locationforecastRepository.getWindDirection(latLng.latitude, latLng.longitude, timeDelta)
-                WeatherDataPoint(latLng, temp, percipitation, humidity, windSpeed, windDirection)
+                val symbolCode = nowcastRepository.getWeatherIcon(latLng.latitude, latLng.longitude, timeDelta)
+                WeatherDataPoint(latLng, temp, percipitation, humidity, windSpeed, windDirection, symbolCode)
             }
         }
     }

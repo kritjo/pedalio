@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import in2000.pedalio.R
@@ -36,6 +37,18 @@ class WeatherOverlay : Fragment() {
             view.findViewById<TextView>(R.id.percipation).text = resources.getString(R.string.mm_h,
                 String.format("%.1f", it.percipitation?: 0.0)
             )
+            view.findViewById<ImageView>(R.id.weather_icon).setImageDrawable(resources.getDrawableForDensity(
+                if (it.symbolCode == null) {
+                    R.drawable.partlycloudy_day
+                } else {
+                resources.getIdentifier(
+                    it.symbolCode,
+                    "drawable",
+                    activity?.packageName
+                )},
+                resources.displayMetrics.densityDpi
+            ))
+
         }
 
         return view

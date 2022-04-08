@@ -38,7 +38,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
     var iconBubbles = MutableLiveData(mutableListOf<IconBubble>())
 
-    val weather = MutableLiveData(WeatherDataPoint(LatLng(),0.0,0.0,0.0, 0.0, 0.0))
+    val weather = MutableLiveData(WeatherDataPoint(LatLng(),0.0,0.0,0.0, 0.0, 0.0, null))
 
     val bikeRoutes = MutableLiveData(listOf<List<LatLng>>()).also {
         viewModelScope.launch {
