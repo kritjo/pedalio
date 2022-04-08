@@ -116,7 +116,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         val weatherUseCase =
             GetWeatherUseCase(NowcastRepository(Endpoints.NOWCAST_COMPLETE),
                 LocationforecastRepository(Endpoints.LOCATIONFORECAST_COMPLETE))
-        val deviatingWeather = GetDeviatingWeather(weatherUseCase, 0.1, 1.0, 1.0,
+        val deviatingWeather = GetDeviatingWeather(weatherUseCase, 1.0, 1.0, 0.5,
             listOf(
                 LatLng(59.961731, 10.750947), // Korsvoll
                 LatLng(59.962913, 10.783847), // Kjellsås
@@ -156,7 +156,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                             context.resources.getColor(R.color.off_white)))
                     }
                     DeviationTypes.PERCIPITATION -> {
-                        bubbles.add(OverlayBubble(it.pos, String.format("%.1f", it.weatherDataPoint.percipitation) + "mm/h",
+                        bubbles.add(OverlayBubble(it.pos, String.format("%.1f", it.weatherDataPoint.percipitation) +
+                                "\uD83D\uDCA7", // Water drop
                             context.resources.getColor(R.color.black),
                             context.resources.getColor(R.color.off_white)))
                     }
