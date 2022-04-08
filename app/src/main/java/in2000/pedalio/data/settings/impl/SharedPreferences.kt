@@ -36,6 +36,10 @@ class SharedPreferences(context: Context): SettingsRepository() {
     override var layerWeather: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.LAYER_WEATHER.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_WEATHER.name, value).apply()
+
+    override var layerBikeRoutes: Boolean
+        get() = sharedPreferences.getBoolean(SettingsKey.LAYER_BIKE_ROUTES.name, false)
+        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_BIKE_ROUTES.name, value).apply()
 }
 
 enum class SettingsKey {
@@ -63,5 +67,10 @@ enum class SettingsKey {
      * The keys for layer settings
      */
     LAYER_AIR_QUALITY,
-    LAYER_WEATHER
+    LAYER_WEATHER,
+
+    /**
+     * The key for the setting that stores the bike routes toggle.
+     */
+    LAYER_BIKE_ROUTES
 }
