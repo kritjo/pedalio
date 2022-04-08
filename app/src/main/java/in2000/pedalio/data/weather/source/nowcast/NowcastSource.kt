@@ -29,8 +29,6 @@ class NowcastSource {
             val (req: Request, _: Response, res: String) =
                 Fuel.get(endpoint, listOf(Pair("lat", lat), Pair("lon", lon)))
                     .awaitStringResponse()
-            Log.i("Request", req.toString())
-            Log.i("Response", res)
             return Json.decodeFromString(res)
         } 
     }
