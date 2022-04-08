@@ -117,4 +117,15 @@ class NowcastRepository(
         if (cov == "ok") return true
         return false
     }
+
+    override suspend fun getWeatherIcon(lat: Double, lon: Double, timeDelta: Int): String? {
+        return NowcastSource
+            .getNowcast(endpoint, lat, lon)
+            .properties
+            ?.timeseries?.get(floor((timeDelta / 5).toDouble()).toInt())
+            ?.data
+            ?.next_1_hours
+            ?.summary
+            ?.symbol_code
+    }
 }

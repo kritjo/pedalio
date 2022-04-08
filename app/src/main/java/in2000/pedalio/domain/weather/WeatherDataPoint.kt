@@ -9,4 +9,5 @@ data class WeatherDataPoint(
     val humidity: Double?,
     val windSpeed: Double?,
     val windDirection: Double?,
+    val symbolCode: String?
 )
