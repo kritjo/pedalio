@@ -14,7 +14,7 @@
         android:layout_gravity="top|center"
         android:layout_marginTop="10dp"
         android:background="@drawable/custom_search_button"
-        android:drawableStart="@drawable/ic_action_back"
+        android:drawableLeft="@drawable/ic_action_back"
         android:maxLines="1"
         android:singleLine="true"
         android:drawablePadding="10dp"
@@ -24,7 +24,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlHardcoded" />
 
 
     <androidx.recyclerview.widget.RecyclerView
