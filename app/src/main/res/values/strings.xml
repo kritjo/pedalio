@@ -21,6 +21,7 @@
     <string name="location_title">Use GPS location</string>
     <string name="darkmode_title">Dark mode</string>
     <string name="colorblind_title">Color blind mode</string>
+    <string name="favoritter">Favoritter</string>
 
 
 </resources>

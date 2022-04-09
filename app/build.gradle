@@ -81,5 +81,6 @@ dependencies {
     }
     implementation 'mil.nga:proj:1.1.1'
 
-
+    //Support for app:stroke
+    implementation 'com.google.android.material:material:1.0.0'
 }
