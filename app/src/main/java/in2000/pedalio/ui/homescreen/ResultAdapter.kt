@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Group
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -44,7 +45,7 @@ class ResultAdapter(private val searchWindow: SearchWindow, private val searchLi
     //TODO: replace toString() with the correct structure
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.itemView.findViewById<Group>(R.id.searchResultClickGroup).setOnClickListener {
+        viewHolder.itemView.findViewById<ConstraintLayout>(R.id.searchResultClickGroup).setOnClickListener {
             chosenResult.postValue(searchList[position])
         }
 
