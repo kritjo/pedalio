@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,18 +18,20 @@ import in2000.pedalio.R
 import in2000.pedalio.data.search.SearchResult
 import in2000.pedalio.data.search.impl.FuzzySearchRepository
 import in2000.pedalio.data.search.source.FuzzySearchSource
+import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.viewmodel.MapViewModel
 import kotlinx.coroutines.*
 import java.util.concurrent.Executors.newSingleThreadExecutor
 
 /**
  * A simple [Fragment] subclass.
- * Use the [search_window.newInstance] factory method to
+ * Use the [SearchWindow.newInstance] factory method to
  * create an instance of this fragment.
  */
-class search_window : Fragment() {
+class SearchWindow : Fragment() {
 
     private val mapViewModel: MapViewModel by activityViewModels()
+    private val chosenResult = MutableLiveData<SearchResult>()
 
     /**
      * The search result list.
@@ -41,14 +44,37 @@ class search_window : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fragment_search_window, container, false)
+
+        val stateRecently = MutableLiveData(true)
+        val lowerRecyclerHint = v.findViewById<TextView>(R.id.lowerRecyclerHint)
         val search = v.findViewById<com.mindorks.editdrawabletext.EditDrawableText>(R.id.search)
-        val recyclerView = v.findViewById<RecyclerView>(R.id.recycler1)
-        val liveData = MutableLiveData(emptyList<SearchResult>())
-        val chosenResult = MutableLiveData<SearchResult>()
-        liveData.observe(viewLifecycleOwner) {
-            recyclerView.adapter = CustomAdapter(it, chosenResult)
+        val favoriteRecycler = v.findViewById<RecyclerView>(R.id.search_favorites)
+        val sharedPreferences = SharedPreferences(requireContext())
+        favoriteRecycler.adapter =
+            FavoriteRecyclerAdapter(this, sharedPreferences.favoriteSearches, chosenResult)
+
+        val recyclerView = v.findViewById<RecyclerView>(R.id.lowerRecycler)
+
+        val results = MutableLiveData(emptyList<SearchResult>())
+        val recents = sharedPreferences.recentSearches
+
+        stateRecently.observe(viewLifecycleOwner) {
+            if (it) {
+                lowerRecyclerHint.text = getString(R.string.recently_searched_hint)
+                val adapter = ResultAdapter(this, recents, chosenResult)
+                recyclerView.adapter = adapter
+            } else {
+                lowerRecyclerHint.text = getString(R.string.search_result_hint)
+            }
         }
-        liveData.postValue(emptyList())
+        results.observe(viewLifecycleOwner) {
+            if (stateRecently.value == false) {
+                val adapter = ResultAdapter(this, it, chosenResult)
+                recyclerView.adapter = adapter
+            }
+
+        }
+        results.postValue(emptyList())
 
         val coroutineDispatcher = newSingleThreadExecutor().asCoroutineDispatcher()
         var timeLastSearch = System.currentTimeMillis()
@@ -61,16 +87,18 @@ class search_window : Fragment() {
          */
         search.addTextChangedListener {
             lifecycleScope.launch(coroutineDispatcher) {
-                 if (System.currentTimeMillis() - timeLastSearch < 250) {
-                     delay(250 - (System.currentTimeMillis() - timeLastSearch))
+                 if (System.currentTimeMillis() - timeLastSearch < 500) {
+                     delay(500 - (System.currentTimeMillis() - timeLastSearch))
                  }
                  timeLastSearch = System.currentTimeMillis()
                 if (it == null) {
-                    liveData.postValue(emptyList())
+                    results.postValue(emptyList())
+                    stateRecently.postValue(true)
                     return@launch
                 }
                 if (it.isBlank() || it.isEmpty()) {
-                    liveData.postValue(emptyList())
+                    results.postValue(emptyList())
+                    stateRecently.postValue(true)
                     return@launch
                 }
                  val result = FuzzySearchRepository(requireContext())
@@ -81,7 +109,8 @@ class search_window : Fragment() {
                                 mapViewModel.currentPos.value!!
                             )
                     )
-                liveData.postValue(result)
+                stateRecently.postValue(false)
+                results.postValue(result)
             }
         }
 
@@ -94,6 +123,7 @@ class search_window : Fragment() {
 
         chosenResult.observe(viewLifecycleOwner) {
             if (it != null) {
+                sharedPreferences.appendRecentSearch(it)
                 mapViewModel.chosenSearchResult.postValue(it)
                 Navigation.findNavController(v).navigate(R.id.action_search_window_to_titleScreen)
             }
@@ -112,8 +142,22 @@ class search_window : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
-            search_window().apply {
+            SearchWindow().apply {
                 arguments = Bundle()
             }
+    }
+
+    fun favoriteCallback(current: FavoriteResult) {
+        val sharedPreferences = SharedPreferences(requireContext())
+        sharedPreferences.appendFavoriteSearch(current)
+        requireView().findViewById<RecyclerView>(R.id.search_favorites).adapter =
+            FavoriteRecyclerAdapter(this, sharedPreferences.favoriteSearches, chosenResult)
+    }
+
+    fun favoriteRemoveCallback(current: FavoriteResult) {
+        val sharedPreferences = SharedPreferences(requireContext())
+        sharedPreferences.removeFavorite(current)
+        requireView().findViewById<RecyclerView>(R.id.search_favorites).adapter =
+            FavoriteRecyclerAdapter(this, sharedPreferences.favoriteSearches, chosenResult)
     }
 }

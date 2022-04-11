@@ -11,5 +11,5 @@
         android:id="@+id/settingsBase"
         android:name="in2000.pedalio.ui.settings.SettingsFragment"
         android:label="@string/settings_title"
-        tools:layout="@layout/fragment_settings"/>
+        tools:layout="@xml/fragment_settings"/>
 </navigation>
