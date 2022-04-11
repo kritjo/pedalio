@@ -54,11 +54,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     private var zoomDensityScaler = 3.0f
 
-    // This is to showcase functionality, should rather use domain layer and repositories
     init {
-        currentPos.postValue(LatLng(59.91,10.75))
-
-
         // Update weather every 60 seconds
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({ viewModelScope.launch(Dispatchers.IO) {
