@@ -26,7 +26,8 @@
         app:layout_constraintEnd_toEndOf="@id/marginRight"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@id/marginLeft"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlHardcoded" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_favorites"
@@ -97,7 +98,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lowerRecycler"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/white"
         android:elevation="10dp"
@@ -105,13 +106,14 @@
         app:layout_constraintEnd_toEndOf="@id/parentGuideRight"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@id/parentGuideLeft"
-        app:layout_constraintTop_toTopOf="@+id/recGuide" />
+        app:layout_constraintTop_toTopOf="@+id/recGuide"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     <TextView
         android:id="@+id/lowerRecyclerHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nylig søkt"
+        android:text="@string/recently_searched_hint"
         android:textColor="@color/primaryOrange"
         app:layout_constraintBottom_toTopOf="@+id/recGuide"
         app:layout_constraintStart_toStartOf="@+id/marginLeft"
