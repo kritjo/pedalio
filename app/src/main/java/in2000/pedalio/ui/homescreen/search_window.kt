@@ -84,8 +84,8 @@ class search_window : Fragment() {
          */
         search.addTextChangedListener {
             lifecycleScope.launch(coroutineDispatcher) {
-                 if (System.currentTimeMillis() - timeLastSearch < 250) {
-                     delay(250 - (System.currentTimeMillis() - timeLastSearch))
+                 if (System.currentTimeMillis() - timeLastSearch < 500) {
+                     delay(500 - (System.currentTimeMillis() - timeLastSearch))
                  }
                  timeLastSearch = System.currentTimeMillis()
                 if (it == null) {
