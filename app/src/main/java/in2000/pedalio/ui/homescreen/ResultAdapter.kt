@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
+import androidx.constraintlayout.widget.Group
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import in2000.pedalio.R
@@ -13,7 +15,7 @@ import in2000.pedalio.data.search.SearchResult
 /**
  * Custom adapter for the recycler view in the home screen.
  */
-class ResultAdapter(private val searchList: List<SearchResult>, private val chosenResult: MutableLiveData<SearchResult>) :
+class ResultAdapter(private val searchWindow: SearchWindow, private val searchList: List<SearchResult>, private val chosenResult: MutableLiveData<SearchResult>) :
     RecyclerView.Adapter<ResultAdapter.ViewHolder>() {
 
     /**
@@ -42,10 +44,14 @@ class ResultAdapter(private val searchList: List<SearchResult>, private val chos
     //TODO: replace toString() with the correct structure
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.itemView.setOnClickListener {
+        viewHolder.itemView.findViewById<Group>(R.id.searchResultClickGroup).setOnClickListener {
             chosenResult.postValue(searchList[position])
         }
+
         val current = searchList[position]
+        viewHolder.itemView.findViewById<Button>(R.id.favButton).setOnClickListener {
+            searchWindow.favoriteCallback(current.toFavorite())
+        }
         val adr: String = when {
             current.address?.streetName == "" -> {
                 current.address.municipality
@@ -79,3 +85,12 @@ class ResultAdapter(private val searchList: List<SearchResult>, private val chos
     override fun getItemCount() = searchList.size
 
 }
+
+private fun SearchResult.toFavorite() = FavoriteResult(
+    score = score,
+    address = address,
+    position = position,
+    distance = distance,
+    info = info,
+    poi = poi,
+)

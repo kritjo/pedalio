@@ -25,12 +25,13 @@ import java.util.concurrent.Executors.newSingleThreadExecutor
 
 /**
  * A simple [Fragment] subclass.
- * Use the [search_window.newInstance] factory method to
+ * Use the [SearchWindow.newInstance] factory method to
  * create an instance of this fragment.
  */
-class search_window : Fragment() {
+class SearchWindow : Fragment() {
 
     private val mapViewModel: MapViewModel by activityViewModels()
+    private val chosenResult = MutableLiveData<SearchResult>()
 
     /**
      * The search result list.
@@ -47,18 +48,20 @@ class search_window : Fragment() {
         val stateRecently = MutableLiveData(true)
         val lowerRecyclerHint = v.findViewById<TextView>(R.id.lowerRecyclerHint)
         val search = v.findViewById<com.mindorks.editdrawabletext.EditDrawableText>(R.id.search)
+        val favoriteRecycler = v.findViewById<RecyclerView>(R.id.search_favorites)
+        val sharedPreferences = SharedPreferences(requireContext())
+        favoriteRecycler.adapter =
+            FavoriteRecyclerAdapter(this, sharedPreferences.favoriteSearches, chosenResult)
+
         val recyclerView = v.findViewById<RecyclerView>(R.id.lowerRecycler)
 
-
         val results = MutableLiveData(emptyList<SearchResult>())
-        val chosenResult = MutableLiveData<SearchResult>()
-        val sharedPreferences = SharedPreferences(requireContext())
         val recents = sharedPreferences.recentSearches
 
         stateRecently.observe(viewLifecycleOwner) {
             if (it) {
                 lowerRecyclerHint.text = getString(R.string.recently_searched_hint)
-                val adapter = ResultAdapter(recents, chosenResult)
+                val adapter = ResultAdapter(this, recents, chosenResult)
                 recyclerView.adapter = adapter
             } else {
                 lowerRecyclerHint.text = getString(R.string.search_result_hint)
@@ -66,7 +69,7 @@ class search_window : Fragment() {
         }
         results.observe(viewLifecycleOwner) {
             if (stateRecently.value == false) {
-                val adapter = ResultAdapter(it, chosenResult)
+                val adapter = ResultAdapter(this, it, chosenResult)
                 recyclerView.adapter = adapter
             }
 
@@ -139,8 +142,22 @@ class search_window : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
-            search_window().apply {
+            SearchWindow().apply {
                 arguments = Bundle()
             }
+    }
+
+    fun favoriteCallback(current: FavoriteResult) {
+        val sharedPreferences = SharedPreferences(requireContext())
+        sharedPreferences.appendFavoriteSearch(current)
+        requireView().findViewById<RecyclerView>(R.id.search_favorites).adapter =
+            FavoriteRecyclerAdapter(this, sharedPreferences.favoriteSearches, chosenResult)
+    }
+
+    fun favoriteRemoveCallback(current: FavoriteResult) {
+        val sharedPreferences = SharedPreferences(requireContext())
+        sharedPreferences.removeFavorite(current)
+        requireView().findViewById<RecyclerView>(R.id.search_favorites).adapter =
+            FavoriteRecyclerAdapter(this, sharedPreferences.favoriteSearches, chosenResult)
     }
 }

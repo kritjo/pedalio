@@ -1,63 +1,67 @@
 package in2000.pedalio.ui.homescreen
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import in2000.pedalio.R
 import in2000.pedalio.data.search.SearchResult
 
-/*
-class FavoriteRecyclerAdapter(val context: search_window, private val addresses: MutableList<SearchResult>, private val mOnNoteListener: OnNoteListener): RecyclerView.Adapter<FavoriteRecyclerAdapter.Favorite>(){
 
+class FavoriteRecyclerAdapter(val searchWindow: SearchWindow,
+                              private val favorites: List<FavoriteResult>,
+                              private val chosenResult: MutableLiveData<SearchResult>
+): RecyclerView.Adapter<FavoriteRecyclerAdapter.Favorite>(){
     lateinit var item: View
 
-    class Favorite(private val itemView: View, private val onNoteListener: OnNoteListener) : RecyclerView.ViewHolder(itemView.rootView), View.OnClickListener{ // Undersook om jeg trenger aa bruke root her
-        val address : TextView = itemView.findViewById(R.id.adressen)
-        val addrImg : ImageView = itemView.findViewById(R.id.adreseImg)
+    class Favorite(view: View) : RecyclerView.ViewHolder(view){
+        val address : TextView = itemView.findViewById(R.id.favText)
+        val addrImg : ImageView = itemView.findViewById(R.id.favIco)
         val favoriteBtn : CardView = itemView.findViewById(R.id.favorite_button)
-
-
-
-        /*val listener = itemView.setOnClickListener(this)*/
-
-        override fun onClick(p0: View?) {
-            onNoteListener.onNoteClick(adapterPosition);
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Favorite {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_favorititem, parent, false);
-        return Favorite(view, mOnNoteListener)
+        return Favorite(view)
     }
 
     override fun onBindViewHolder(holder: Favorite, position: Int) {
-        val drawRec = mutableListOf(R.drawable.ic_home, R.drawable.ic_action_work, R.drawable.ic_action_add)
-        val text = addresses[position].address
-        holder.address.text = text
-        val src = addresses[position].imgSrc
-        holder.addrImg.setImageResource(drawRec[src])
-        holder.favoriteBtn.setOnClickListener{
-            Log.d("Cliked", position.toString())
-            if (text == "Legg til"){
-                Log.d("Legg Til", position.toString())
+        val current = favorites[position]
+        holder.itemView.findViewById<MaterialCardView>(R.id.favorite_button).setOnClickListener {
+            chosenResult.postValue(current.toSearchResult())
+        }
+        holder.itemView.findViewById<MaterialCardView>(R.id.favorite_button).setOnLongClickListener {
+            searchWindow.favoriteRemoveCallback(current)
+            true
+        }
+        val adr: String = when {
+            current.address?.streetName == "" -> {
+                current.address.municipality
+            }
+            current.address?.streetNumber ?: "" == "" -> {
+                (current.address?.streetName ?: "") + ", " +
+                        current.address?.municipality
+            }
+            else -> {
+                (current.address?.streetName ?: "") + " " + (current.address?.streetNumber ?: "") + ", " +
+                        current.address?.municipality
             }
         }
-
+        if (current.poi != null && current.poi.name != "") {
+            holder.address.text = current.poi.name
+        } else {
+            holder.address.text = adr
+        }
+        holder.addrImg.setImageResource(current.iconSrc)
     }
 
     override fun getItemCount(): Int {
-        return addresses.size
-    }
-
-    interface OnNoteListener{
-        fun onNoteClick(position: Int)
+        return favorites.size
     }
 
 }
-
-*/
