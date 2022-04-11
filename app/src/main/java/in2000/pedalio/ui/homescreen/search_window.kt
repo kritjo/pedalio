@@ -18,6 +18,7 @@ import in2000.pedalio.R
 import in2000.pedalio.data.search.SearchResult
 import in2000.pedalio.data.search.impl.FuzzySearchRepository
 import in2000.pedalio.data.search.source.FuzzySearchSource
+import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.viewmodel.MapViewModel
 import kotlinx.coroutines.*
 import java.util.concurrent.Executors.newSingleThreadExecutor
@@ -43,15 +44,34 @@ class search_window : Fragment() {
     ): View? {
         val v = inflater.inflate(R.layout.fragment_search_window, container, false)
 
+        val stateRecently = MutableLiveData(true)
         val lowerRecyclerHint = v.findViewById<TextView>(R.id.lowerRecyclerHint)
         val search = v.findViewById<com.mindorks.editdrawabletext.EditDrawableText>(R.id.search)
         val recyclerView = v.findViewById<RecyclerView>(R.id.lowerRecycler)
-        val liveData = MutableLiveData(emptyList<SearchResult>())
+
+
+        val results = MutableLiveData(emptyList<SearchResult>())
         val chosenResult = MutableLiveData<SearchResult>()
-        liveData.observe(viewLifecycleOwner) {
-            recyclerView.adapter = ResultAdapter(it, chosenResult)
+        val sharedPreferences = SharedPreferences(requireContext())
+        val recents = sharedPreferences.recentSearches
+
+        stateRecently.observe(viewLifecycleOwner) {
+            if (it) {
+                lowerRecyclerHint.text = getString(R.string.recently_searched_hint)
+                val adapter = ResultAdapter(recents, chosenResult)
+                recyclerView.adapter = adapter
+            } else {
+                lowerRecyclerHint.text = getString(R.string.search_result_hint)
+            }
         }
-        liveData.postValue(emptyList())
+        results.observe(viewLifecycleOwner) {
+            if (stateRecently.value == false) {
+                val adapter = ResultAdapter(it, chosenResult)
+                recyclerView.adapter = adapter
+            }
+
+        }
+        results.postValue(emptyList())
 
         val coroutineDispatcher = newSingleThreadExecutor().asCoroutineDispatcher()
         var timeLastSearch = System.currentTimeMillis()
@@ -69,11 +89,13 @@ class search_window : Fragment() {
                  }
                  timeLastSearch = System.currentTimeMillis()
                 if (it == null) {
-                    liveData.postValue(emptyList())
+                    results.postValue(emptyList())
+                    stateRecently.postValue(true)
                     return@launch
                 }
                 if (it.isBlank() || it.isEmpty()) {
-                    liveData.postValue(emptyList())
+                    results.postValue(emptyList())
+                    stateRecently.postValue(true)
                     return@launch
                 }
                  val result = FuzzySearchRepository(requireContext())
@@ -84,7 +106,8 @@ class search_window : Fragment() {
                                 mapViewModel.currentPos.value!!
                             )
                     )
-                liveData.postValue(result)
+                stateRecently.postValue(false)
+                results.postValue(result)
             }
         }
 
@@ -97,6 +120,7 @@ class search_window : Fragment() {
 
         chosenResult.observe(viewLifecycleOwner) {
             if (it != null) {
+                sharedPreferences.appendRecentSearch(it)
                 mapViewModel.chosenSearchResult.postValue(it)
                 Navigation.findNavController(v).navigate(R.id.action_search_window_to_titleScreen)
             }

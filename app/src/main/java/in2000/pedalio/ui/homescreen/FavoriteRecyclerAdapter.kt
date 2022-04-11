@@ -9,8 +9,10 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import in2000.pedalio.R
+import in2000.pedalio.data.search.SearchResult
 
-class FavoriteRecyclerAdapter(val context: search_window, private val addresses: MutableList<Address>, private val mOnNoteListener: OnNoteListener): RecyclerView.Adapter<FavoriteRecyclerAdapter.Favorite>(){
+/*
+class FavoriteRecyclerAdapter(val context: search_window, private val addresses: MutableList<SearchResult>, private val mOnNoteListener: OnNoteListener): RecyclerView.Adapter<FavoriteRecyclerAdapter.Favorite>(){
 
     lateinit var item: View
 
@@ -56,7 +58,6 @@ class FavoriteRecyclerAdapter(val context: search_window, private val addresses:
         fun onNoteClick(position: Int)
     }
 
-
-
 }
 
+*/
