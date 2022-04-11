@@ -28,15 +28,10 @@ import kotlin.math.roundToInt
 
 class MapViewModel(application: Application) : AndroidViewModel(application) {
 
-
     // Pair of LatLng and Color
     val polyline = MutableLiveData(listOf(Pair(listOf(LatLng()), 0)))
 
-    // List of Triple of LatLng, Color, and Opacity
-    val polygons = MutableLiveData(listOf<Triple<List<LatLng>, Int, Float>>())
-
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
-    var iconBubbles = MutableLiveData(mutableListOf<IconBubble>())
 
     val weather = MutableLiveData(WeatherDataPoint(LatLng(),0.0,0.0,0.0, 0.0, 0.0, null))
 
@@ -68,43 +63,6 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({ viewModelScope.launch(Dispatchers.IO) {
                 updateWeatherAndDeviations(application.applicationContext) } }, 60000)
-
-
-        polyline.postValue(listOf(
-            Pair(
-                listOf(
-                    LatLng(59.9475319,10.709509),
-                    LatLng(59.9274541,10.8009713),
-                    LatLng(59.9022338,10.763559),
-                    LatLng(59.9092753,10.6883493),
-                    LatLng(59.9475319,10.709509),
-                ), Color.RED))
-        )
-
-        polygons.postValue(
-            listOf(
-                Triple(
-                    listOf(
-                        LatLng(59.9475319,10.709509),
-                        LatLng(59.9274541,10.8009713),
-                        LatLng(59.9022338,10.763559),
-                    ),
-                    Color.BLUE,
-                    0.3f
-                ),
-                Triple(
-                    listOf(
-                        LatLng(59.9022338,10.763559),
-                        LatLng(59.9092753,10.6883493),
-                        LatLng(59.9475319,10.709509),
-                    ),
-                    Color.GREEN,
-                    0.3f
-                )
-            )
-        )
-
-
     }
 
     suspend fun updateWeatherAndDeviations(context: Context) {
