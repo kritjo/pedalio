@@ -16,11 +16,7 @@ class GetWeatherOnRouteUseCase(private val getWeatherUseCase : GetWeatherUseCase
         val weatherDataPoints = mutableListOf<WeatherDataPoint>()
         for (location in locations) {
             val weatherDataPoint = getWeatherUseCase.getWeather(location)
-            if (weatherDataPoint != null) {
-                weatherDataPoints.add(weatherDataPoint)
-            } else {
-                return null // this should never happen
-            }
+            weatherDataPoints.add(weatherDataPoint)
         }
         return weatherDataPoints
     }

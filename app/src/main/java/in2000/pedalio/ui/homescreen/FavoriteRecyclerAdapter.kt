@@ -1,6 +1,5 @@
 package in2000.pedalio.ui.homescreen
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +10,13 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import in2000.pedalio.R
 
-class FavoriteRecyclerAdapter(val context: search_window, private val adresser: MutableList<Adresse>, private val mOnNoteListener: OnNoteListener): RecyclerView.Adapter<FavoriteRecyclerAdapter.Favorite>(){
+class FavoriteRecyclerAdapter(val context: search_window, private val addresses: MutableList<Address>, private val mOnNoteListener: OnNoteListener): RecyclerView.Adapter<FavoriteRecyclerAdapter.Favorite>(){
 
     lateinit var item: View
 
     class Favorite(private val itemView: View, private val onNoteListener: OnNoteListener) : RecyclerView.ViewHolder(itemView.rootView), View.OnClickListener{ // Undersook om jeg trenger aa bruke root her
-        val adresse : TextView = itemView.findViewById(R.id.adressen)
-        val adresImg : ImageView = itemView.findViewById(R.id.adreseImg)
+        val address : TextView = itemView.findViewById(R.id.adressen)
+        val addrImg : ImageView = itemView.findViewById(R.id.adreseImg)
         val favoriteBtn : CardView = itemView.findViewById(R.id.favorite_button)
 
 
@@ -36,10 +35,10 @@ class FavoriteRecyclerAdapter(val context: search_window, private val adresser: 
 
     override fun onBindViewHolder(holder: Favorite, position: Int) {
         val drawRec = mutableListOf(R.drawable.ic_home, R.drawable.ic_action_work, R.drawable.ic_action_add)
-        val text = adresser[position].adresse
-        holder.adresse.text = text
-        val src = adresser[position].imgSrc
-        holder.adresImg.setImageResource(drawRec[src])
+        val text = addresses[position].address
+        holder.address.text = text
+        val src = addresses[position].imgSrc
+        holder.addrImg.setImageResource(drawRec[src])
         holder.favoriteBtn.setOnClickListener{
             Log.d("Cliked", position.toString())
             if (text == "Legg til"){
@@ -50,7 +49,7 @@ class FavoriteRecyclerAdapter(val context: search_window, private val adresser: 
     }
 
     override fun getItemCount(): Int {
-        return adresser.size
+        return addresses.size
     }
 
     interface OnNoteListener{

@@ -11,7 +11,6 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import in2000.pedalio.ui.homescreen.FavoriteRecyclerAdapter
 import in2000.pedalio.ui.homescreen.search_window
 
 class MainActivity : AppCompatActivity() {
@@ -41,9 +40,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-
-
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration)

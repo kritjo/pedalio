@@ -27,7 +27,9 @@
     <string name="degrees">%1$s°</string>
     <string name="m_s">%1$s m/s</string>
     <string name="mm_h">%1$s mm/h</string>
-    <string name="favoritter">Favoritter</string>
+    <string name="favorites">Favoritter</string>
+    <string name="recently_searched_hint">Recently searched</string>
+    <string name="search_result_hint">Search results</string>
 
 
 </resources>

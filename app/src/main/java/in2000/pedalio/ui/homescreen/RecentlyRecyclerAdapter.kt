@@ -11,7 +11,7 @@ class RecentlyRecyclerAdapter(val context: search_window, private val nylige: Mu
     RecyclerView.Adapter<RecentlyRecyclerAdapter.Recently>() {
 
         class Recently(private val itemView: View) : RecyclerView.ViewHolder(itemView.rootView){
-            val nylig : TextView = itemView.findViewById(R.id.recentlySearch)
+            val recent : TextView = itemView.findViewById(R.id.recentlySearch)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Recently {
@@ -21,7 +21,7 @@ class RecentlyRecyclerAdapter(val context: search_window, private val nylige: Mu
 
     override fun onBindViewHolder(holder: Recently, position: Int) {
         val text = nylige[position]
-        holder.nylig.text = text
+        holder.recent.text = text
     }
 
     override fun getItemCount(): Int {

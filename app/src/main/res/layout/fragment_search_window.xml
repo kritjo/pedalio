@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/favorit_recyclerView"
+        android:id="@+id/search_favorites"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
@@ -42,7 +42,7 @@
         android:id="@+id/textFavorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/favoritter"
+        android:text="@string/favorites"
         android:textColor="@color/primaryOrange"
         app:layout_constraintBottom_toTopOf="@id/lowerFavorite"
         app:layout_constraintStart_toStartOf="@+id/marginLeft"
@@ -96,7 +96,7 @@
         app:layout_constraintGuide_percent="0.30" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recently_recyclerView"
+        android:id="@+id/lowerRecycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/white"
@@ -108,14 +108,14 @@
         app:layout_constraintTop_toTopOf="@+id/recGuide" />
 
     <TextView
-        android:id="@+id/recently"
+        android:id="@+id/lowerRecyclerHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nylig søkt"
         android:textColor="@color/primaryOrange"
         app:layout_constraintBottom_toTopOf="@+id/recGuide"
         app:layout_constraintStart_toStartOf="@+id/marginLeft"
-        app:layout_constraintTop_toBottomOf="@+id/favorit_recyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/search_favorites" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/recGuide"

@@ -13,8 +13,8 @@ import in2000.pedalio.data.search.SearchResult
 /**
  * Custom adapter for the recycler view in the home screen.
  */
-class CustomAdapter(val searchList: List<SearchResult>, val chosenResult: MutableLiveData<SearchResult>) :
-    RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class ResultAdapter(private val searchList: List<SearchResult>, private val chosenResult: MutableLiveData<SearchResult>) :
+    RecyclerView.Adapter<ResultAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
@@ -46,8 +46,7 @@ class CustomAdapter(val searchList: List<SearchResult>, val chosenResult: Mutabl
             chosenResult.postValue(searchList[position])
         }
         val current = searchList[position]
-        var adr = ""
-        adr = when {
+        val adr: String = when {
             current.address?.streetName == "" -> {
                 current.address.municipality
             }

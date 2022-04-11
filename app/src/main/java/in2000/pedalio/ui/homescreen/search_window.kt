@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -41,12 +42,14 @@ class search_window : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fragment_search_window, container, false)
+
+        val lowerRecyclerHint = v.findViewById<TextView>(R.id.lowerRecyclerHint)
         val search = v.findViewById<com.mindorks.editdrawabletext.EditDrawableText>(R.id.search)
-        val recyclerView = v.findViewById<RecyclerView>(R.id.recycler1)
+        val recyclerView = v.findViewById<RecyclerView>(R.id.lowerRecycler)
         val liveData = MutableLiveData(emptyList<SearchResult>())
         val chosenResult = MutableLiveData<SearchResult>()
         liveData.observe(viewLifecycleOwner) {
-            recyclerView.adapter = CustomAdapter(it, chosenResult)
+            recyclerView.adapter = ResultAdapter(it, chosenResult)
         }
         liveData.postValue(emptyList())
 

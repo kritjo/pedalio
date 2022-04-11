@@ -2,6 +2,9 @@ package in2000.pedalio.data.settings.impl
 
 import android.content.Context
 import androidx.preference.PreferenceManager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import in2000.pedalio.data.search.SearchResult
 import in2000.pedalio.data.settings.SettingsRepository
 
 /**
@@ -40,6 +43,38 @@ class SharedPreferences(context: Context): SettingsRepository() {
     override var layerBikeRoutes: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.LAYER_BIKE_ROUTES.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_BIKE_ROUTES.name, value).apply()
+
+    override var recentSearches: List<SearchResult>
+        get(): List<SearchResult> {
+            val saved = sharedPreferences.getString(SettingsKey.RECENT_SEARCHES.name, "") ?: ""
+            if (saved == "") {
+                return emptyList()
+            }
+            val lClass = TypeToken.getParameterized(List::class.java, SearchResult::class.java).type
+            return Gson().fromJson(saved,lClass) ?: emptyList()
+        }
+        set(value) = sharedPreferences.edit().putString(
+            SettingsKey.RECENT_SEARCHES.name, Gson().toJson(value)).apply()
+
+    fun appendRecentSearch(searchResult: SearchResult) {
+        recentSearches = recentSearches.toMutableList().apply {
+            if (size > 9) removeAt(9)
+            add(0, searchResult)
+        }
+    }
+
+    override var favoriteSearches: List<SearchResult>
+        get(): List<SearchResult> {
+            val saved = sharedPreferences.getString(SettingsKey.FAVORITE_SEARCHES.name, "") ?: ""
+            if (saved == "") {
+                return emptyList()
+            }
+            val lClass = TypeToken.getParameterized(List::class.java, SearchResult::class.java).type
+            return Gson().fromJson(
+                saved, lClass) ?: emptyList()
+        }
+        set(value) = sharedPreferences.edit().putString(
+            SettingsKey.FAVORITE_SEARCHES.name, Gson().toJson(value)).apply()
 }
 
 enum class SettingsKey {
@@ -72,5 +107,8 @@ enum class SettingsKey {
     /**
      * The key for the setting that stores the bike routes toggle.
      */
-    LAYER_BIKE_ROUTES
+    LAYER_BIKE_ROUTES,
+
+    RECENT_SEARCHES,
+    FAVORITE_SEARCHES
 }
