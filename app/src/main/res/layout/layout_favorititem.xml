@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/favorite_button"
@@ -29,14 +29,13 @@
             android:padding="2dp">
 
             <TextView
-                android:id="@+id/adressen"
+                android:id="@+id/favText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
+                android:layout_marginEnd="3dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:padding="3dp"
-                android:text="hei"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="12sp"
@@ -44,10 +43,10 @@
                 android:typeface="monospace"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <ImageView
-                android:id="@+id/adreseImg"
+                android:id="@+id/favIco"
                 android:layout_width="34dp"
                 android:layout_height="34dp"
                 android:background="@color/primaryOrange"
