@@ -1,15 +1,13 @@
 package in2000.pedalio.data.location
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
-import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.tomtom.online.sdk.common.location.LatLng
-import in2000.pedalio.data.SharedPreferences
+import in2000.pedalio.data.settings.impl.SharedPreferences
 
 class LocationRepository(val context: Context, val defaultLocation: LatLng, val shouldGetPermission: MutableLiveData<Boolean>) {
     val currentPosition = MutableLiveData(LatLng())

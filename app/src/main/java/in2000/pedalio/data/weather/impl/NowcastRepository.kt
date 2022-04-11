@@ -43,14 +43,21 @@ class NowcastRepository(
     override suspend fun getPercipitation(lat: Double,
                                           lon: Double,
                                           timeDelta: Int): Double? {
-        return NowcastSource
+        val cast = NowcastSource
             .getNowcast(endpoint, lat, lon)
-            .properties
+        return cast.properties
             ?.timeseries?.get(floor((timeDelta / 5).toDouble()).toInt())
             ?.data
             ?.instant
             ?.details
             ?.precipitation_amount
+            // If there is no precipitation data at good resolution, use the hourly data
+            ?: cast.properties
+                ?.timeseries?.get(floor((timeDelta / 5).toDouble()).toInt())
+                ?.data
+                ?.next_1_hours
+                ?.details
+                ?.precipitation_amount
     }
 
     override suspend fun getRelativeHumidity(lat: Double,
@@ -116,5 +123,16 @@ class NowcastRepository(
 
         if (cov == "ok") return true
         return false
+    }
+
+    override suspend fun getWeatherIcon(lat: Double, lon: Double, timeDelta: Int): String? {
+        return NowcastSource
+            .getNowcast(endpoint, lat, lon)
+            .properties
+            ?.timeseries?.get(floor((timeDelta / 5).toDouble()).toInt())
+            ?.data
+            ?.next_1_hours
+            ?.summary
+            ?.symbol_code
     }
 }

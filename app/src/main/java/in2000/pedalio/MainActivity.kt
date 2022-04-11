@@ -15,7 +15,7 @@ import in2000.pedalio.ui.homescreen.FavoriteRecyclerAdapter
 import in2000.pedalio.ui.homescreen.search_window
 
 class MainActivity : AppCompatActivity() {
-
+    
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 

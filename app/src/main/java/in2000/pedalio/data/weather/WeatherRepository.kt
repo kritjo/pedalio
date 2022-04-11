@@ -61,8 +61,8 @@ abstract class WeatherRepository() {
      * @param timeDelta in minutes
      */
    abstract suspend fun getWindSpeed(lat: Double,
-                             lon: Double,
-                             timeDelta: Int = 0): Double?
+                                     lon: Double,
+                                     timeDelta: Int = 0): Double?
 
     /**
      * @return Wind speed of gusts in m/s after timeDelta minutes
@@ -71,12 +71,16 @@ abstract class WeatherRepository() {
      * @param timeDelta in minutes
      */
    abstract suspend fun getGustSpeed(lat: Double,
-                             lon: Double,
-                             timeDelta: Int = 0): Double?
+                                     lon: Double,
+                                     timeDelta: Int = 0): Double?
 
     /**
      * @return Whether we have radar coverage of the specified location
      */
    abstract suspend fun radarCoverage(lat: Double,
-                              lon: Double): Boolean
+                                      lon: Double): Boolean
+
+   abstract suspend fun getWeatherIcon(lat: Double,
+                                       lon: Double,
+                                       timeDelta: Int): String?
 }
