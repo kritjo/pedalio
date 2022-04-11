@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/search_window"
-        android:name="in2000.pedalio.ui.homescreen.search_window"
+        android:name="in2000.pedalio.ui.homescreen.SearchWindow"
         android:label="fragment_search_window"
         tools:layout="@layout/fragment_search_window" >
         <action
