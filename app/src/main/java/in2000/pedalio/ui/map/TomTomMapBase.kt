@@ -36,11 +36,10 @@ class TomTomMapBase : Fragment() {
     private lateinit var tomtomMap: TomtomMap
     private lateinit var mapFragment: MapFragment
 
-    // On first pos change, zoom and center map
-    private var firstPosChange = true
-
     private val mapViewModel: MapViewModel by activityViewModels()
     private val selectorFragment = LayersSelector()
+
+    private var lastPos = LatLng(0.0, 0.0)
 
     private fun bubbleSize() = mapViewModel.getBubbleSquareSize(requireContext())
 
@@ -123,7 +122,6 @@ class TomTomMapBase : Fragment() {
 
             tomtomMap.removeOnCameraChangedListener(cameraChangeListener)
             tomtomMap.addOnCameraChangedListener(cameraChangeListener)
-
         }
 
         mapViewModel.bikeRoutes.observe(viewLifecycleOwner) {
@@ -175,7 +173,9 @@ class TomTomMapBase : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_tomtommapbase, container, false)
         mapFragment = childFragmentManager.findFragmentById(R.id.fragment_tomtom) as MapFragment
-        mapViewModel.currentPos.observe(viewLifecycleOwner) { onPosChange(it) }
+        mapViewModel.currentPos.observe(viewLifecycleOwner) {
+            onPosChange(it)
+        }
         mapFragment.getAsyncMap {
            onMapReady(it)
         }
@@ -203,7 +203,21 @@ class TomTomMapBase : Fragment() {
      * @param pos the new position
      */
     private fun onPosChange(pos: LatLng) {
-        if (firstPosChange) {
+        if (::tomtomMap.isInitialized) {
+            // If there is a large change we should recenter the map as it is likely that the user
+            // position was not correct previously.
+            if (lastPos.latitude - pos.latitude > 1 || lastPos.longitude - pos.longitude > 1
+                || lastPos.latitude - pos.latitude < -1 || lastPos.longitude - pos.longitude < -1) {
+                val cameraPosition: CameraPosition = CameraPosition.builder()
+                    .pitch(5.0)
+                    .bearing(MapConstants.ORIENTATION_NORTH.toDouble())
+                    .zoom(13.0)
+                    .focusPosition(pos)
+                    .build()
+                tomtomMap.centerOn(cameraPosition)
+            }
+        } else {
+            // If the map is not initialized yet, we should not recenter the map when it is ready.
             mapFragment.getAsyncMap { tomtomMap ->
                 val cameraPosition: CameraPosition = CameraPosition.builder()
                     .pitch(5.0)
@@ -214,8 +228,8 @@ class TomTomMapBase : Fragment() {
                 tomtomMap.centerOn(cameraPosition)
                 tomtomMap.isMyLocationEnabled = true
             }
-            firstPosChange = false
         }
+        lastPos = pos
         mapViewModel.viewModelScope.launch(Dispatchers.IO) {
             mapViewModel.updateWeatherAndDeviations(this@TomTomMapBase.requireContext())
         }
