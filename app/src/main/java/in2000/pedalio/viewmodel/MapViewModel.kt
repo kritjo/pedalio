@@ -43,7 +43,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     val shouldGetPermission = MutableLiveData(false)
     private val locationRepository by lazy {
-        LocationRepository(application.applicationContext, LatLng(0.0,0.0), shouldGetPermission)
+        LocationRepository(application.applicationContext, LatLng(59.92, 10.78), shouldGetPermission)
     }
     val currentPos = locationRepository.currentPosition
     fun permissionCallback() {
@@ -54,6 +54,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     private var zoomDensityScaler = 3.0f
 
+    // This is to showcase functionality, should rather use domain layer and repositories
     init {
         // Update weather every 60 seconds
         val handler = Handler(Looper.getMainLooper())
@@ -92,8 +93,9 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                 LatLng(59.921870, 10.758257), // Grunerløkka
                 LatLng(59.915281, 10.768540), // Tøyen
                 LatLng(59.915834, 10.804612), // Helsfyr
-            ))
-            val weatherData = weatherUseCase.getWeather(currentPos.value!!)
+            ),
+            context)
+            val weatherData = weatherUseCase.getWeather(currentPos.value!!, context = context)
             weather.postValue(weatherData)
             val deviatingWeatherPoints = deviatingWeather.deviatingPoints(weatherData)
             val bubbles = mutableListOf<OverlayBubble>()

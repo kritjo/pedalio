@@ -1,6 +1,8 @@
 package in2000.pedalio.domain.weather
 
+import android.content.Context
 import com.tomtom.online.sdk.common.location.LatLng
+import in2000.pedalio.data.search.impl.ReverseGeocodingRepository
 import in2000.pedalio.data.weather.impl.LocationforecastRepository
 import in2000.pedalio.data.weather.impl.NowcastRepository
 
@@ -11,10 +13,12 @@ class GetWeatherUseCase(val nowcastRepository: NowcastRepository, val locationfo
      * @param latLng the current location
      * @param timeDelta the time delta in minutes
      */
-    suspend fun getWeather(latLng: LatLng, timeDelta : Int = 0): WeatherDataPoint {
+    suspend fun getWeather(latLng: LatLng, timeDelta : Int = 0, context: Context): WeatherDataPoint {
         assert(timeDelta >= 0)
-        if (latLng.latitude == 0.0 || latLng.longitude == 0.0)
+        if (ReverseGeocodingRepository(context).getCountry(latLng) != "NOR") {
             return WeatherDataPoint(latLng, 0.0, 0.0, 0.0, 0.0, 0.0, null)
+
+        }
 
         return when {
             timeDelta == 0 -> {
