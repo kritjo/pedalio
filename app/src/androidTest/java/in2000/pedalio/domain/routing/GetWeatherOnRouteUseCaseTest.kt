@@ -29,7 +29,7 @@ class GetWeatherOnRouteUseCaseTest {
         val nowcast = NowcastRepository(Endpoints.NOWCAST_COMPLETE)
         val locationforecast = LocationforecastRepository(Endpoints.LOCATIONFORECAST_COMPLETE)
         val weatherUseCase = GetWeatherUseCase(nowcast, locationforecast)
-        val weatherOnRouteUseCase = GetWeatherOnRouteUseCase(weatherUseCase)
+        val weatherOnRouteUseCase = GetWeatherOnRouteUseCase(weatherUseCase, context = appContext)
         runBlocking {
             val weatherOnRoute = weatherOnRouteUseCase.getBatchWeather(routePoints)
             if (weatherOnRoute != null) {

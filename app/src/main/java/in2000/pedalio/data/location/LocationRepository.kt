@@ -3,18 +3,23 @@ package in2000.pedalio.data.location
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
 import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.tomtom.online.sdk.common.location.LatLng
+import com.tomtom.online.sdk.location.LocationUpdateListener
 import in2000.pedalio.data.settings.impl.SharedPreferences
 
-class LocationRepository(val context: Context, val defaultLocation: LatLng, val shouldGetPermission: MutableLiveData<Boolean>) {
-    val currentPosition = MutableLiveData(LatLng())
+class LocationRepository(val context: Context,
+                         private val defaultLocation: LatLng,
+                         private val shouldGetPermission: MutableLiveData<Boolean>,
+                         private val registerListener: (input: LocationUpdateListener) -> Unit) {
+    val currentPosition = MutableLiveData(defaultLocation)
     private val settingsRepository = SharedPreferences(context)
 
     init {
-        (context.getSystemService(Context.LOCATION_SERVICE) as LocationManager).let {
+        (context.getSystemService(Context.LOCATION_SERVICE) as LocationManager).let { locationManager ->
             // Check for location permissions
             if (ContextCompat.checkSelfPermission(
                     context,
@@ -36,45 +41,18 @@ class LocationRepository(val context: Context, val defaultLocation: LatLng, val 
                     return@let null
                 }
                 // Register location listener
-                it.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    10,
-                    1f,
-                    SimpleLocationListener()
-                )
+                registerListener {
+                    currentPosition.postValue(LatLng(it.latitude, it.longitude))
+                }
             }
-            return@let it
+            return@let locationManager
         }
     }
 
     @SuppressLint("MissingPermission") // should only be called when we have permissions
-    fun locationCallback() {
-        (context.getSystemService(Context.LOCATION_SERVICE) as LocationManager).requestLocationUpdates(
-            LocationManager.GPS_PROVIDER,
-            10,
-            1f,
-            SimpleLocationListener()
-        )
-    }
-
-    inner class SimpleLocationListener: android.location.LocationListener {
-        override fun onLocationChanged(location: android.location.Location) {
-            location.let {
-                currentPosition.postValue(LatLng(it.latitude, it.longitude))
-            }
-        }
-
-        // These three methods has to be overridden, see https://stackoverflow.com/a/64643361
-        override fun onStatusChanged(provider: String?, status: Int, extras: android.os.Bundle?) {
-            // DO NOT REMOVE
-        }
-
-        override fun onProviderEnabled(provider: String) {
-            // DO NOT REMOVE
-        }
-
-        override fun onProviderDisabled(provider: String) {
-            // DO NOT REMOVE
+    fun locationCallback(registerListener: (input: LocationUpdateListener) -> Unit) {
+        registerListener {
+            currentPosition.postValue(LatLng(it.latitude, it.longitude))
         }
     }
 }

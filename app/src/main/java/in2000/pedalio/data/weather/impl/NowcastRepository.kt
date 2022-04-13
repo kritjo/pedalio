@@ -1,6 +1,8 @@
 package in2000.pedalio.data.weather.impl
 
+import com.tomtom.online.sdk.common.location.LatLng
 import in2000.pedalio.data.weather.WeatherRepository
+import in2000.pedalio.data.weather.source.nowcast.NowcastCompleteDataClass
 import in2000.pedalio.data.weather.source.nowcast.NowcastSource
 import kotlinx.coroutines.runBlocking
 import kotlin.math.floor
@@ -12,25 +14,30 @@ import kotlin.math.floor
 class NowcastRepository(
     private val endpoint: String
 ) : WeatherRepository() {
+    var source: Pair<NowcastCompleteDataClass, LatLng>? = null
+
     override suspend fun getTemp(lat: Double,
                                  lon: Double,
                                  timeDelta: Int): Double? {
-        return NowcastSource
-            .getNowcast(endpoint, lat, lon)
+        if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+        }
+        return source!!.first
             .properties
             ?.timeseries?.get(floor((timeDelta / 5).toDouble()).toInt())
             ?.data
             ?.instant
             ?.details
             ?.air_temperature
-
     }
 
     override suspend fun getPercipitationRate(lat: Double,
                                               lon: Double,
                                               timeDelta: Int): Double? {
-        return NowcastSource
-            .getNowcast(endpoint, lat, lon)
+        if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+        }
+        return source!!.first
             .properties
             ?.timeseries?.get(floor((timeDelta / 5).toDouble()).toInt())
             ?.data
@@ -43,8 +50,10 @@ class NowcastRepository(
     override suspend fun getPercipitation(lat: Double,
                                           lon: Double,
                                           timeDelta: Int): Double? {
-        val cast = NowcastSource
-            .getNowcast(endpoint, lat, lon)
+        if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+        }
+        val cast = source!!.first
         return cast.properties
             ?.timeseries?.get(floor((timeDelta / 5).toDouble()).toInt())
             ?.data
@@ -63,8 +72,10 @@ class NowcastRepository(
     override suspend fun getRelativeHumidity(lat: Double,
                                              lon: Double,
                                              timeDelta: Int): Double? {
-        return NowcastSource
-            .getNowcast(endpoint, lat, lon)
+        if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+        }
+        return source!!.first
             .properties
             ?.timeseries?.get(floor((timeDelta / 5).toDouble()).toInt())
             ?.data
@@ -76,8 +87,10 @@ class NowcastRepository(
     override suspend fun getWindDirection(lat: Double,
                                           lon: Double,
                                           timeDelta: Int): Double? {
-        return NowcastSource
-            .getNowcast(endpoint, lat, lon)
+        if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+        }
+        return source!!.first
             .properties
             ?.timeseries?.get(floor((timeDelta / 5).toDouble()).toInt())
             ?.data
@@ -89,8 +102,10 @@ class NowcastRepository(
     override suspend fun getWindSpeed(lat: Double,
                                       lon: Double,
                                       timeDelta: Int): Double? {
-        return NowcastSource
-            .getNowcast(endpoint, lat, lon)
+        if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+        }
+        return source!!.first
             .properties
             ?.timeseries?.get(floor((timeDelta / 5).toDouble()).toInt())
             ?.data
@@ -103,8 +118,10 @@ class NowcastRepository(
     override suspend fun getGustSpeed(lat: Double,
                                       lon: Double,
                                       timeDelta: Int): Double? {
-        return NowcastSource
-            .getNowcast(endpoint, lat, lon)
+        if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+        }
+        return source!!.first
             .properties
             ?.timeseries?.get(floor((timeDelta / 5).toDouble()).toInt())
             ?.data
@@ -126,8 +143,10 @@ class NowcastRepository(
     }
 
     override suspend fun getWeatherIcon(lat: Double, lon: Double, timeDelta: Int): String? {
-        return NowcastSource
-            .getNowcast(endpoint, lat, lon)
+        if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+        }
+        return source!!.first
             .properties
             ?.timeseries?.get(floor((timeDelta / 5).toDouble()).toInt())
             ?.data

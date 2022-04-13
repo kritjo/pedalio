@@ -1,16 +1,18 @@
 package in2000.pedalio.domain.weather
 
+import android.content.Context
 import com.tomtom.online.sdk.common.location.LatLng
 
 class GetDeviatingWeather(val getWeatherUseCase: GetWeatherUseCase,
                           val deviationLimitTemp: Double,
                           val deviationLimitWind: Double,
                           val deviationLimitPercipation: Double,
-                          val possibleDeviationPoints: List<LatLng>) {
+                          val possibleDeviationPoints: List<LatLng>,
+                          val context: Context) {
     suspend fun deviatingPoints(weatherDataPoint: WeatherDataPoint): MutableList<DeviatingPoint> {
         val localDeviatingPoints = possibleDeviationPoints
             .toMutableList()
-            .map { getWeatherUseCase.getWeather(it) }
+            .map { getWeatherUseCase.getWeather(it, context = context) }
             .toMutableList()
 
         val deviationPoints = mutableListOf<DeviatingPoint>()

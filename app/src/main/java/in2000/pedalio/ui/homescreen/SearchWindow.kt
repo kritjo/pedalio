@@ -106,7 +106,7 @@ class SearchWindow : Fragment() {
                         FuzzySearchSource()
                             .createSpecification(
                                 it.toString(),
-                                mapViewModel.currentPos.value!!
+                                mapViewModel.currentPos().value!!
                             )
                     )
                 stateRecently.postValue(false)

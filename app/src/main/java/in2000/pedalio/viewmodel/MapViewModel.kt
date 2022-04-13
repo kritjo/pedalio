@@ -2,13 +2,15 @@ package in2000.pedalio.viewmodel
 
 import android.app.Application
 import android.content.Context
-import android.graphics.Color
+import android.icu.util.Calendar
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
+import com.tomtom.online.sdk.location.LocationUpdateListener
 import in2000.pedalio.R
 import in2000.pedalio.data.Endpoints
 import in2000.pedalio.data.bikeRoutes.impl.OsloBikeRouteRepostiory
@@ -20,23 +22,22 @@ import in2000.pedalio.domain.weather.DeviationTypes
 import in2000.pedalio.domain.weather.GetDeviatingWeather
 import in2000.pedalio.domain.weather.GetWeatherUseCase
 import in2000.pedalio.domain.weather.WeatherDataPoint
-import in2000.pedalio.ui.map.IconBubble
 import in2000.pedalio.ui.map.OverlayBubble
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class MapViewModel(application: Application) : AndroidViewModel(application) {
+    private val applicationLocal = application
 
+    companion object {
+        var currentLocation: MutableLiveData<LatLng>? = null
+    }
 
     // Pair of LatLng and Color
     val polyline = MutableLiveData(listOf(Pair(listOf(LatLng()), 0)))
 
-    // List of Triple of LatLng, Color, and Opacity
-    val polygons = MutableLiveData(listOf<Triple<List<LatLng>, Int, Float>>())
-
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
-    var iconBubbles = MutableLiveData(mutableListOf<IconBubble>())
 
     val weather = MutableLiveData(WeatherDataPoint(LatLng(),0.0,0.0,0.0, 0.0, 0.0, null))
 
@@ -47,12 +48,22 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     val shouldGetPermission = MutableLiveData(false)
-    private val locationRepository by lazy {
-        LocationRepository(application.applicationContext, LatLng(0.0,0.0), shouldGetPermission)
+
+    var registerListener: (input: LocationUpdateListener) -> Unit = fun(_: LocationUpdateListener) { }
+
+    private fun locationRepository(): LocationRepository {
+        return LocationRepository(applicationLocal.applicationContext, LatLng(59.92, 10.75), shouldGetPermission, registerListener)
     }
-    val currentPos = locationRepository.currentPosition
+
+    fun currentPos(): MutableLiveData<LatLng> {
+        if (currentLocation == null) {
+            currentLocation = locationRepository().currentPosition
+        }
+        return currentLocation as MutableLiveData<LatLng>
+    }
+
     fun permissionCallback() {
-        locationRepository.locationCallback()
+        locationRepository().locationCallback(registerListener)
     }
 
     val chosenSearchResult = MutableLiveData<SearchResult>()
@@ -61,57 +72,22 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     // This is to showcase functionality, should rather use domain layer and repositories
     init {
-        currentPos.postValue(LatLng(59.91,10.75))
-
-
         // Update weather every 60 seconds
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({ viewModelScope.launch(Dispatchers.IO) {
                 updateWeatherAndDeviations(application.applicationContext) } }, 60000)
-
-
-        polyline.postValue(listOf(
-            Pair(
-                listOf(
-                    LatLng(59.9475319,10.709509),
-                    LatLng(59.9274541,10.8009713),
-                    LatLng(59.9022338,10.763559),
-                    LatLng(59.9092753,10.6883493),
-                    LatLng(59.9475319,10.709509),
-                ), Color.RED))
-        )
-
-        polygons.postValue(
-            listOf(
-                Triple(
-                    listOf(
-                        LatLng(59.9475319,10.709509),
-                        LatLng(59.9274541,10.8009713),
-                        LatLng(59.9022338,10.763559),
-                    ),
-                    Color.BLUE,
-                    0.3f
-                ),
-                Triple(
-                    listOf(
-                        LatLng(59.9022338,10.763559),
-                        LatLng(59.9092753,10.6883493),
-                        LatLng(59.9475319,10.709509),
-                    ),
-                    Color.GREEN,
-                    0.3f
-                )
-            )
-        )
-
-
     }
 
+    private var lastUpdated = 0L
     suspend fun updateWeatherAndDeviations(context: Context) {
-        val lat: Double = currentPos.value?.latitude ?: 0.0
-        val lng: Double = currentPos.value?.longitude ?: 0.0
+        val lat: Double = currentPos().value?.latitude ?: 0.0
+        val lng: Double = currentPos().value?.longitude ?: 0.0
 
         if (lat == 0.0 || lng == 0.0) { return }
+
+        val currMill = System.currentTimeMillis()
+        if (currMill - lastUpdated < 10000 && lastUpdated != 0L) { return }
+        lastUpdated = currMill
 
         val weatherUseCase =
             GetWeatherUseCase(NowcastRepository(Endpoints.NOWCAST_COMPLETE),
@@ -138,8 +114,9 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                 LatLng(59.921870, 10.758257), // Grunerløkka
                 LatLng(59.915281, 10.768540), // Tøyen
                 LatLng(59.915834, 10.804612), // Helsfyr
-            ))
-            val weatherData = weatherUseCase.getWeather(currentPos.value!!)
+            ),
+            context)
+            val weatherData = weatherUseCase.getWeather(currentPos().value!!, context = context)
             weather.postValue(weatherData)
             val deviatingWeatherPoints = deviatingWeather.deviatingPoints(weatherData)
             val bubbles = mutableListOf<OverlayBubble>()
