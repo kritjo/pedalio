@@ -20,8 +20,8 @@ import in2000.pedalio.domain.weather.DeviationTypes
 import in2000.pedalio.domain.weather.GetDeviatingWeather
 import in2000.pedalio.domain.weather.GetWeatherUseCase
 import in2000.pedalio.domain.weather.WeatherDataPoint
-import in2000.pedalio.ui.map.IconBubble
 import in2000.pedalio.ui.map.OverlayBubble
+import in2000.pedalio.ui.settings.SettingsFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -43,7 +43,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     val shouldGetPermission = MutableLiveData(false)
     private val locationRepository by lazy {
-        LocationRepository(application.applicationContext, LatLng(59.92, 10.78), shouldGetPermission)
+        LocationRepository(application.applicationContext, LatLng(0.0, 0.0), shouldGetPermission)
     }
     val currentPos = locationRepository.currentPosition
     fun permissionCallback() {

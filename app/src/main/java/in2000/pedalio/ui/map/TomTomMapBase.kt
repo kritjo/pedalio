@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,9 +17,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
+import com.tomtom.online.sdk.location.BasicLocationSource
+import com.tomtom.online.sdk.location.LocationSource
+import com.tomtom.online.sdk.location.LocationUpdateListener
 import com.tomtom.online.sdk.map.*
 import in2000.pedalio.R
 import in2000.pedalio.data.settings.impl.SharedPreferences
@@ -85,10 +88,10 @@ class TomTomMapBase : Fragment() {
                         // The registered ActivityResultCallback gets the result of this request.
                         requestPermissionLauncher.launch(
                             Manifest.permission.ACCESS_FINE_LOCATION
-
                         )
                     }
                 }
+                mapViewModel.shouldGetPermission.postValue(false)
             }
         }
 
@@ -211,7 +214,7 @@ class TomTomMapBase : Fragment() {
                 val cameraPosition: CameraPosition = CameraPosition.builder()
                     .pitch(5.0)
                     .bearing(MapConstants.ORIENTATION_NORTH.toDouble())
-                    .zoom(13.0)
+                    .zoom(10.0)
                     .focusPosition(pos)
                     .build()
                 tomtomMap.centerOn(cameraPosition)
@@ -222,7 +225,7 @@ class TomTomMapBase : Fragment() {
                 val cameraPosition: CameraPosition = CameraPosition.builder()
                     .pitch(5.0)
                     .bearing(MapConstants.ORIENTATION_NORTH.toDouble())
-                    .zoom(13.0)
+                    .zoom(11.0)
                     .focusPosition(pos)
                     .build()
                 tomtomMap.centerOn(cameraPosition)
