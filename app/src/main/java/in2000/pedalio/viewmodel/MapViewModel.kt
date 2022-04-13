@@ -2,8 +2,10 @@ package in2000.pedalio.viewmodel
 
 import android.app.Application
 import android.content.Context
+import android.icu.util.Calendar
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -76,11 +78,16 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                 updateWeatherAndDeviations(application.applicationContext) } }, 60000)
     }
 
+    private var lastUpdated = 0L
     suspend fun updateWeatherAndDeviations(context: Context) {
         val lat: Double = currentPos().value?.latitude ?: 0.0
         val lng: Double = currentPos().value?.longitude ?: 0.0
 
         if (lat == 0.0 || lng == 0.0) { return }
+
+        val currMill = System.currentTimeMillis()
+        if (currMill - lastUpdated < 10000 && lastUpdated != 0L) { return }
+        lastUpdated = currMill
 
         val weatherUseCase =
             GetWeatherUseCase(NowcastRepository(Endpoints.NOWCAST_COMPLETE),

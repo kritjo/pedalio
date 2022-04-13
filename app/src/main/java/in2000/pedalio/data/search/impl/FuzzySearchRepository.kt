@@ -13,10 +13,7 @@ import in2000.pedalio.data.search.SearchResult
  * @param maxFuzzyLevel The maximum fuzzy level. See https://developer.tomtom.com/maps-android-sdk/documentation/search/search-examples/fuzziness-parameter
  */
 class FuzzySearchRepository (context : Context) : SearchRepository() {
-    private var searchApi : SearchApi
-    init {
-        searchApi = OnlineSearchApi.create(context, "beN1MD9T81Hr774H5o2lQGGDywkiqcJ8")
-    }
+    private var searchApi : SearchApi = OnlineSearchApi.create(context, "beN1MD9T81Hr774H5o2lQGGDywkiqcJ8")
 
     /**
      * Perform fuzzy search based on the search specification.
