@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.location.BasicLocationSource
@@ -63,7 +64,6 @@ class TomTomMapBase : Fragment() {
                     SharedPreferences(requireContext()).askedForGps = true
                     SharedPreferences(requireContext()).gpsToggle = true
                     mapViewModel.permissionCallback()
-                    mapViewModel.currentPos.observe(viewLifecycleOwner) { onPosChange(it) }
                 } else {
                     SharedPreferences(requireContext()).askedForGps = true
                     SharedPreferences(requireContext()).gpsToggle = false
@@ -73,7 +73,15 @@ class TomTomMapBase : Fragment() {
     }
 
     private fun onMapReady(map: TomtomMap) {
-        this.tomtomMap = map
+        tomtomMap = map
+        // This callback should be first thing after this.tomtomMap assign
+        mapViewModel.registerListener = tomtomMap::addLocationUpdateListener
+        mapViewModel.currentPos().observe(viewLifecycleOwner) {
+            onPosChange(it)
+        }
+
+        tomtomMap.isMyLocationEnabled = true
+
         mapViewModel.shouldGetPermission.observe(viewLifecycleOwner){
             if (it) {
                 when (PackageManager.PERMISSION_GRANTED) {
@@ -176,9 +184,6 @@ class TomTomMapBase : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_tomtommapbase, container, false)
         mapFragment = childFragmentManager.findFragmentById(R.id.fragment_tomtom) as MapFragment
-        mapViewModel.currentPos.observe(viewLifecycleOwner) {
-            onPosChange(it)
-        }
         mapFragment.getAsyncMap {
            onMapReady(it)
         }

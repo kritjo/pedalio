@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
+import com.tomtom.online.sdk.location.LocationUpdateListener
 import in2000.pedalio.R
 import in2000.pedalio.data.Endpoints
 import in2000.pedalio.data.bikeRoutes.impl.OsloBikeRouteRepostiory
@@ -27,6 +28,12 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class MapViewModel(application: Application) : AndroidViewModel(application) {
+    val application_local = application
+
+    companion object {
+        var locationRepository: LocationRepository? = null
+        var currentLocation: MutableLiveData<LatLng>? = null
+    }
 
     // Pair of LatLng and Color
     val polyline = MutableLiveData(listOf(Pair(listOf(LatLng()), 0)))
@@ -42,12 +49,25 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     val shouldGetPermission = MutableLiveData(false)
-    private val locationRepository by lazy {
-        LocationRepository(application.applicationContext, LatLng(0.0, 0.0), shouldGetPermission)
+
+    var registerListener: (input: LocationUpdateListener) -> Unit = fun(_: LocationUpdateListener) { }
+
+    private fun locationRepository(): LocationRepository {
+        if (locationRepository == null) {
+            locationRepository = LocationRepository(application_local.applicationContext, LatLng(0.0, 0.0), shouldGetPermission, registerListener)
+        }
+        return locationRepository as LocationRepository
     }
-    val currentPos = locationRepository.currentPosition
+
+    fun currentPos(): MutableLiveData<LatLng> {
+        if (currentLocation == null) {
+            currentLocation = locationRepository().currentPosition
+        }
+        return currentLocation as MutableLiveData<LatLng>
+    }
+
     fun permissionCallback() {
-        locationRepository.locationCallback()
+        locationRepository().locationCallback(registerListener)
     }
 
     val chosenSearchResult = MutableLiveData<SearchResult>()
@@ -63,8 +83,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     suspend fun updateWeatherAndDeviations(context: Context) {
-        val lat: Double = currentPos.value?.latitude ?: 0.0
-        val lng: Double = currentPos.value?.longitude ?: 0.0
+        val lat: Double = currentPos().value?.latitude ?: 0.0
+        val lng: Double = currentPos().value?.longitude ?: 0.0
 
         if (lat == 0.0 || lng == 0.0) { return }
 
@@ -95,7 +115,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                 LatLng(59.915834, 10.804612), // Helsfyr
             ),
             context)
-            val weatherData = weatherUseCase.getWeather(currentPos.value!!, context = context)
+            val weatherData = weatherUseCase.getWeather(currentPos().value!!, context = context)
             weather.postValue(weatherData)
             val deviatingWeatherPoints = deviatingWeather.deviatingPoints(weatherData)
             val bubbles = mutableListOf<OverlayBubble>()
