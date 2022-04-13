@@ -2,7 +2,6 @@ package in2000.pedalio.viewmodel
 
 import android.app.Application
 import android.content.Context
-import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.AndroidViewModel
@@ -22,16 +21,14 @@ import in2000.pedalio.domain.weather.GetDeviatingWeather
 import in2000.pedalio.domain.weather.GetWeatherUseCase
 import in2000.pedalio.domain.weather.WeatherDataPoint
 import in2000.pedalio.ui.map.OverlayBubble
-import in2000.pedalio.ui.settings.SettingsFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class MapViewModel(application: Application) : AndroidViewModel(application) {
-    val application_local = application
+    private val applicationLocal = application
 
     companion object {
-        var locationRepository: LocationRepository? = null
         var currentLocation: MutableLiveData<LatLng>? = null
     }
 
@@ -53,10 +50,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     var registerListener: (input: LocationUpdateListener) -> Unit = fun(_: LocationUpdateListener) { }
 
     private fun locationRepository(): LocationRepository {
-        if (locationRepository == null) {
-            locationRepository = LocationRepository(application_local.applicationContext, LatLng(0.0, 0.0), shouldGetPermission, registerListener)
-        }
-        return locationRepository as LocationRepository
+        return LocationRepository(applicationLocal.applicationContext, LatLng(0.0, 0.0), shouldGetPermission, registerListener)
     }
 
     fun currentPos(): MutableLiveData<LatLng> {
