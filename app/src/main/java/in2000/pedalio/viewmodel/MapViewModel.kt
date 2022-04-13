@@ -52,7 +52,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     var registerListener: (input: LocationUpdateListener) -> Unit = fun(_: LocationUpdateListener) { }
 
     private fun locationRepository(): LocationRepository {
-        return LocationRepository(applicationLocal.applicationContext, LatLng(0.0, 0.0), shouldGetPermission, registerListener)
+        return LocationRepository(applicationLocal.applicationContext, LatLng(59.92, 10.75), shouldGetPermission, registerListener)
     }
 
     fun currentPos(): MutableLiveData<LatLng> {

@@ -218,7 +218,7 @@ class TomTomMapBase : Fragment() {
                 val cameraPosition: CameraPosition = CameraPosition.builder()
                     .pitch(5.0)
                     .bearing(MapConstants.ORIENTATION_NORTH.toDouble())
-                    .zoom(10.0)
+                    .zoom(11.0)
                     .focusPosition(pos)
                     .build()
                 tomtomMap.centerOn(cameraPosition)
