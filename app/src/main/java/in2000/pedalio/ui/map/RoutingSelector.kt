@@ -44,7 +44,7 @@ class RoutingSelector : Fragment() {
             // CLICKED TOAST
             Toast.makeText(context, "FASTEST", Toast.LENGTH_SHORT).show()
         }
-        view.findViewById<Button>(R.id.safest_button).setBackgroundColor(SHORTEST_COLOR)
+        view.findViewById<Button>(R.id.fastest_button).setBackgroundColor(SHORTEST_COLOR)
         view.findViewById<CardView>(R.id.fastest_view).setOnClickListener {
             chosenRoute.postValue(shortest.getCoordinates())
         }
