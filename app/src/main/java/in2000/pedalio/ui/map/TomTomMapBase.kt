@@ -175,6 +175,7 @@ class TomTomMapBase : Fragment() {
 
         mapViewModel.chosenSearchResult.observe(viewLifecycleOwner) { searchResult ->
             if (searchResult == null) return@observe
+            if (::routingSelectorFragment.isInitialized)
             childFragmentManager.beginTransaction()
                 .remove(routingSelectorFragment)
                 .commitAllowingStateLoss()

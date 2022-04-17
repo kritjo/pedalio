@@ -37,26 +37,30 @@ class RoutingSelector : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_routing_selector, container, false)
-        view.findViewById<TextView>(R.id.fastest_route).text = "Fastest route"
+        view.findViewById<TextView>(R.id.fastest_route).text = "Korteste rute"
         view.findViewById<TextView>(R.id.fastest_km).text = "${shortest.summary.lengthInMeters/1000} km"
         view.findViewById<TextView>(R.id.fastest_min).text = "${(shortest.summary.travelTimeInSeconds/60)} min"
         view.findViewById<Button>(R.id.fastest_button).setOnClickListener {
             // CLICKED TOAST
-            Toast.makeText(context, "FASTEST", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Ruten med færrest meter i lengde.",
+                Toast.LENGTH_LONG).show()
         }
         view.findViewById<Button>(R.id.fastest_button).setBackgroundColor(SHORTEST_COLOR)
+        view.findViewById<Button>(R.id.fastest_button).setTextColor(SHORTEST_CONTRAST_COLOR)
         view.findViewById<CardView>(R.id.fastest_view).setOnClickListener {
             chosenRoute.postValue(shortest.getCoordinates())
         }
 
-        view.findViewById<TextView>(R.id.safest_route).text = "Safest route"
+        view.findViewById<TextView>(R.id.safest_route).text = "Tryggeste rute"
         view.findViewById<TextView>(R.id.safest_km).text = "${safest.summary.lengthInMeters/1000} km"
         view.findViewById<TextView>(R.id.safest_min).text = "${safest.summary.travelTimeInSeconds/60} min"
         view.findViewById<Button>(R.id.safest_button).setOnClickListener {
             // CLICKED TOAST
-            Toast.makeText(context, "SAFEST", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Ruten for deg som prioriterer sykkelfelt over distanse.",
+                Toast.LENGTH_LONG).show()
         }
         view.findViewById<Button>(R.id.safest_button).setBackgroundColor(SAFEST_COLOR)
+        view.findViewById<Button>(R.id.safest_button).setTextColor(SAFEST_CONTRAST_COLOR)
         view.findViewById<CardView>(R.id.safest_view).setOnClickListener {
             chosenRoute.postValue(safest.getCoordinates())
         }
@@ -66,7 +70,9 @@ class RoutingSelector : Fragment() {
 
     companion object {
         const val SAFEST_COLOR = Color.GREEN
+        const val SAFEST_CONTRAST_COLOR = Color.BLACK
         const val SHORTEST_COLOR = Color.YELLOW
+        const val SHORTEST_CONTRAST_COLOR = Color.BLACK
 
         private lateinit var chosenRoute: MutableLiveData<List<LatLng>>
 
