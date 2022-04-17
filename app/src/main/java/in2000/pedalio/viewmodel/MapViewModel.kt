@@ -66,7 +66,9 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         locationRepository().locationCallback(registerListener)
     }
 
-    val chosenSearchResult = MutableLiveData<SearchResult>()
+    val chosenSearchResult = MutableLiveData<SearchResult?>()
+    val routesOnDisplay = mutableListOf<Long>()
+    val chosenRoute = MutableLiveData<List<LatLng>>()
 
     private var zoomDensityScaler = 3.0f
 

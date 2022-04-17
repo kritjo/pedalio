@@ -19,8 +19,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.map.*
+import com.tomtom.online.sdk.map.route.RouteLayerStyle
 import in2000.pedalio.R
 import in2000.pedalio.data.settings.impl.SharedPreferences
+import in2000.pedalio.domain.routing.GetRouteAlternativesUseCase
 import in2000.pedalio.viewmodel.MapViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,6 +39,7 @@ class TomTomMapBase : Fragment() {
 
     private val mapViewModel: MapViewModel by activityViewModels()
     private val selectorFragment = LayersSelector()
+    private lateinit var routingSelectorFragment: RoutingSelector
 
     private var lastPos = LatLng(0.0, 0.0)
 
@@ -170,9 +173,70 @@ class TomTomMapBase : Fragment() {
                 }
             }
 
-        mapViewModel.chosenSearchResult.observe(viewLifecycleOwner) {
-            // TODO: Routing to the chosen search result.
-            Toast.makeText(requireContext(), it.address?.freeFormAddress, Toast.LENGTH_SHORT).show()
+        mapViewModel.chosenSearchResult.observe(viewLifecycleOwner) { searchResult ->
+            if (searchResult == null) return@observe
+            if (::routingSelectorFragment.isInitialized)
+            childFragmentManager.beginTransaction()
+                .remove(routingSelectorFragment)
+                .commitAllowingStateLoss()
+
+            val from = mapViewModel.currentPos().value!!
+            val to = searchResult.position
+            mapViewModel.viewModelScope.launch(Dispatchers.IO) {
+                val routes = GetRouteAlternativesUseCase.getRouteAlternatives(from, to, requireContext())
+                routes.forEach { route ->
+                    when (route.key) {
+                        GetRouteAlternativesUseCase.RouteType.BIKE -> {
+                            val rb = RouteBuilder(route.value.getCoordinates())
+                            val rsb = RouteStyleBuilder.create()
+                            rsb.withFillColor(RoutingSelector.SAFEST_COLOR)
+                            rb.style(rsb.build())
+                            tomtomMap.addRoute(rb)
+                            mapViewModel.routesOnDisplay.add(rb.id)
+                        }
+                        GetRouteAlternativesUseCase.RouteType.SHORTEST -> {
+                            val rb = RouteBuilder(route.value.getCoordinates())
+                            val rsb = RouteStyleBuilder.create()
+                            rsb.withFillColor(RoutingSelector.SHORTEST_COLOR)
+                            rb.style(rsb.build())
+                            tomtomMap.addRoute(rb)
+                            mapViewModel.routesOnDisplay.add(rb.id)
+                        }
+                    }
+                }
+                routingSelectorFragment = RoutingSelector.newInstance(routes, mapViewModel.chosenRoute)
+                mapViewModel.chosenSearchResult.postValue(null)
+                childFragmentManager.beginTransaction()
+                    .add(R.id.routing_overlay, routingSelectorFragment)
+                    .commitAllowingStateLoss()
+            }
+        }
+
+        mapViewModel.chosenRoute.observe(viewLifecycleOwner) { list ->
+            mapViewModel.routesOnDisplay.forEach {
+                tomtomMap.removeRoute(it)
+            }
+            childFragmentManager.beginTransaction()
+                .hide(routingSelectorFragment)
+                .commitAllowingStateLoss()
+            val rb = RouteBuilder(list)
+            tomtomMap.addRoute(rb)
+            tomtomMap.centerOn(CameraPosition.builder()
+                .pitch(20.0)
+                .zoom(20.0)
+                .focusPosition(mapViewModel.currentPos().value!!)
+                .build()
+            )
+            tomtomMap.activateProgressAlongRoute(rb.id, RouteLayerStyle.Builder().build())
+            mapViewModel.currentPos().observe(viewLifecycleOwner) {
+                tomtomMap.updateProgressAlongRoute(rb.id, it.toLocation())
+                tomtomMap.centerOn(CameraPosition.builder()
+                    .pitch(20.0)
+                    .zoom(20.0)
+                    .focusPosition(it)
+                    .build()
+                )
+            }
         }
     }
 
