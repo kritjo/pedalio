@@ -174,6 +174,11 @@ class TomTomMapBase : Fragment() {
             }
 
         mapViewModel.chosenSearchResult.observe(viewLifecycleOwner) { searchResult ->
+            if (searchResult == null) return@observe
+            childFragmentManager.beginTransaction()
+                .remove(routingSelectorFragment)
+                .commitAllowingStateLoss()
+
             val from = mapViewModel.currentPos().value!!
             val to = searchResult.position
             mapViewModel.viewModelScope.launch(Dispatchers.IO) {
@@ -198,8 +203,8 @@ class TomTomMapBase : Fragment() {
                         }
                     }
                 }
-                if (!::routingSelectorFragment.isInitialized)
-                    routingSelectorFragment = RoutingSelector.newInstance(routes, mapViewModel.chosenRoute)
+                routingSelectorFragment = RoutingSelector.newInstance(routes, mapViewModel.chosenRoute)
+                mapViewModel.chosenSearchResult.postValue(null)
                 childFragmentManager.beginTransaction()
                     .add(R.id.routing_overlay, routingSelectorFragment)
                     .commitAllowingStateLoss()
