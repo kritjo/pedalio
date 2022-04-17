@@ -2,9 +2,11 @@ package in2000.pedalio.domain.routing
 
 import android.content.Context
 import com.tomtom.online.sdk.common.location.LatLng
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import in2000.pedalio.data.Endpoints
 import in2000.pedalio.data.bikeRoutes.impl.OsloBikeRouteRepostiory
 import in2000.pedalio.data.routing.impl.TomtomRoutingRepository
+import in2000.pedalio.utils.CoordinateUtil
 import java.util.*
 import kotlin.math.*
 
@@ -19,7 +21,7 @@ class GetRouteAlternativesUseCase {
             f: LatLng,
             t: LatLng,
             context: Context
-        ): Map<RouteType, List<LatLng>> {
+        ): Map<RouteType, FullRoute> {
             val from = LatLng(f.latitude.reduce(4), f.longitude.reduce(4))
             val to = LatLng(t.latitude.reduce(4), t.longitude.reduce(4))
 
@@ -31,10 +33,15 @@ class GetRouteAlternativesUseCase {
 
             val routes = TomtomRoutingRepository(context).calculateRoute(from, to)
             val shortest = routes.routes.minByOrNull { it.summary.lengthInMeters }!!
-            val leastTimeInBikeRoute = findBikeAlternative(bikeRoutes, context, from, to)
 
-            return mapOf(Pair(RouteType.BIKE, leastTimeInBikeRoute),
-                Pair(RouteType.SHORTEST, shortest.getCoordinates()))
+
+            val leastTimeInBikeRoute = findBikeAlternative(bikeRoutes, context, from, to)
+            val leastTimeInBikeRoutePlan = TomtomRoutingRepository(context).calculateRouteFromWaypoints(
+                CoordinateUtil.limitPointsOnRouteSimple(leastTimeInBikeRoute, 100)
+            ).routes.first()
+
+            return mapOf(Pair(RouteType.BIKE, leastTimeInBikeRoutePlan),
+                Pair(RouteType.SHORTEST, shortest))
         }
 
         private fun findBikeAlternative(
