@@ -19,8 +19,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.map.*
+import com.tomtom.online.sdk.map.route.RouteLayerStyle
 import in2000.pedalio.R
+import in2000.pedalio.data.routing.impl.TomtomRoutingRepository
 import in2000.pedalio.data.settings.impl.SharedPreferences
+import in2000.pedalio.domain.routing.GetRouteAlternativesUseCase
 import in2000.pedalio.viewmodel.MapViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -170,9 +173,16 @@ class TomTomMapBase : Fragment() {
                 }
             }
 
-        mapViewModel.chosenSearchResult.observe(viewLifecycleOwner) {
-            // TODO: Routing to the chosen search result.
-            Toast.makeText(requireContext(), it.address?.freeFormAddress, Toast.LENGTH_SHORT).show()
+        mapViewModel.chosenSearchResult.observe(viewLifecycleOwner) { searchResult ->
+            val from = mapViewModel.currentPos().value!!
+            val to = searchResult.position
+            mapViewModel.viewModelScope.launch(Dispatchers.IO) {
+                val routes = GetRouteAlternativesUseCase.getRouteAlternatives(from, to, requireContext())
+                routes.forEach { fullRoute ->
+                    val route = RouteBuilder(fullRoute.value)
+                    tomtomMap.addRoute(route)
+                }
+            }
         }
     }
 
