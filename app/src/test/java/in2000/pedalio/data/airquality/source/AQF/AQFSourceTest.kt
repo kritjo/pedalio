@@ -19,7 +19,7 @@ class AQFSourceTest {
         val data = runBlocking {
             AQFSource.getForecast(ENDPOINT, 59.92, 10.75)
         }
-        assertEquals("59.92000", data.meta.location.latitude)
-        assertEquals("10.75000", data.meta.location.longitude)
+        assertEquals("59.92000", data?.meta?.location?.latitude)
+        assertEquals("10.75000", data?.meta?.location?.longitude)
     }
 }
