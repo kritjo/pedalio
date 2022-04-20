@@ -11,8 +11,6 @@ import kotlinx.coroutines.runBlocking
 
 /**
  * Fuzzy search repository.
- * @param context Context
- * @param maxFuzzyLevel The maximum fuzzy level. See https://developer.tomtom.com/maps-android-sdk/documentation/search/search-examples/fuzziness-parameter
  */
 class FuzzySearchRepository (context : Context) : SearchRepository() {
     private var searchApi : SearchApi = OnlineSearchApi.create(context, "beN1MD9T81Hr774H5o2lQGGDywkiqcJ8")
@@ -24,18 +22,20 @@ class FuzzySearchRepository (context : Context) : SearchRepository() {
      */
     override fun doSearch(fuzzySearchSpecification : FuzzySearchSpecification) : List<SearchResult>? {
         val networkAvailable = runBlocking { return@runBlocking NetworkUtils.isNetworkAvailable() }
-        if (!networkAvailable) {
-            return null
-        }
+        if (!networkAvailable) return null
 
-        if (fuzzySearchSpecification.term.isEmpty()) {
-            return emptyList()
-        }
+        if (fuzzySearchSpecification.term.isEmpty()) return emptyList()
         val results = searchApi.search(fuzzySearchSpecification).value()
         val searchResults = mutableListOf<SearchResult>()
         for (result in results.fuzzyDetailsList) {
-            val searchResult = SearchResult(result.score, result.address, result.position, result.distance, result.info, result.poi)
-            searchResults.add(searchResult)
+            searchResults.add(
+                SearchResult(
+                    result.score,
+                    result.address,
+                    result.position,
+                    result.distance,
+                    result.info,
+                    result.poi))
         }
         return searchResults
     }
