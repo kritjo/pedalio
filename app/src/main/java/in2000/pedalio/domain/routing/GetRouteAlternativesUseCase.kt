@@ -151,7 +151,12 @@ private fun dijkstra(
     return path.reversed()
 }
 
-//removing decimal places
+/**
+ * This function reduces the number of decimal places in a double
+ *
+ * @param decp the number of decimal places to reduce to
+ * @return the reduced double
+ */
 private fun Double.reduce(decp: Int): Double {
     var value = this
     value *= 10.0.pow(decp)
