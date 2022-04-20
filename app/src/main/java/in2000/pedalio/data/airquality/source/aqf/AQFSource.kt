@@ -1,5 +1,6 @@
 package in2000.pedalio.data.airquality.source.aqf
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelError
@@ -15,6 +16,7 @@ import kotlinx.serialization.json.Json
  */
 class AQFSource {
     companion object {
+        @SuppressLint("LogNotTimber")
         @JvmStatic
         suspend fun getForecast(endpoint : String, lat : Double, lon : Double) : AQFDataClass? {
             val parameters = listOf(

@@ -1,6 +1,5 @@
 package in2000.pedalio.data.settings
 
-import com.tomtom.online.sdk.search.data.common.Address
 import in2000.pedalio.data.search.SearchResult
 import in2000.pedalio.ui.homescreen.FavoriteResult
 

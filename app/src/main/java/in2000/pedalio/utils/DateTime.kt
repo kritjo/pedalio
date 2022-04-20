@@ -4,7 +4,6 @@ import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import java.time.Instant
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 /**
  * Utility Functions for date and time

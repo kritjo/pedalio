@@ -12,7 +12,7 @@ import org.junit.Before
 
 class GetWeatherUseCaseTest {
 
-    lateinit var instrumentationContext: Context
+    private lateinit var instrumentationContext: Context
 
     @Before
     fun setup() {

@@ -1,4 +1,4 @@
-package in2000.pedalio.data.weather.source
+package in2000.pedalio.data.weather.source.locationforecast
 
 import kotlinx.serialization.Serializable
 

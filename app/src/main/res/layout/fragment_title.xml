@@ -36,7 +36,9 @@
         app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/fragment_title"
-        android:autofillHints="" />
+        android:autofillHints=""
+            tools:ignore="RtlHardcoded"
+            android:inputType="text" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

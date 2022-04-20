@@ -1,5 +1,6 @@
 package in2000.pedalio.data.weather.source.nowcast
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelError
@@ -21,6 +22,7 @@ class NowcastSource {
          * @param lon Longitude
          * @return A nowcast data class
          */
+        @SuppressLint("LogNotTimber")
         @JvmStatic
         suspend fun getNowcast(
             endpoint: String,
@@ -28,7 +30,7 @@ class NowcastSource {
             lon: Double
         ): NowcastCompleteDataClass? {
             return try {
-                val (req: Request, _: Response, res: String) =
+                val (_: Request, _: Response, res: String) =
                     Fuel.get(endpoint, listOf(Pair("lat", lat), Pair("lon", lon)))
                         .awaitStringResponse()
                 Json.decodeFromString(res)

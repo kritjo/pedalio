@@ -11,7 +11,7 @@ import java.lang.UnsupportedOperationException
  * @property endpoint NILU API endpoint for aq api mode
  * @property radius Radius of stations to weight
  */
-class NILURepository(val endpoint: String, val radius: Int): AirQualityRepository() {
+class NILURepository(val endpoint: String, private val radius: Int): AirQualityRepository() {
     /**
      * @see [AirQualityRepository.getNO2]
      */

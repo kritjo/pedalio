@@ -1,6 +1,5 @@
 package in2000.pedalio.data.routing.impl
 
-import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.routing.route.RoutePlan

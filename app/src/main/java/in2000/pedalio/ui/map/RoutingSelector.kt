@@ -23,8 +23,8 @@ import in2000.pedalio.domain.routing.GetRouteAlternativesUseCase
  * Use [RoutingSelector.newInstance] to get an instance of this overlay.
  */
 class RoutingSelector private constructor(): Fragment() {
-    lateinit var shortest: FullRoute
-    lateinit var safest: FullRoute
+    private lateinit var shortest: FullRoute
+    private lateinit var safest: FullRoute
 
     // OK to suppress because we have complete control over the potential values (private constructor).
     @Suppress("UNCHECKED_CAST")

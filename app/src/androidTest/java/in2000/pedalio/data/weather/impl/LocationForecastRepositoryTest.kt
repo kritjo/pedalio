@@ -7,12 +7,12 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class LocationForecastRepositoryTest {
-    val ENDPOINT = Endpoints.LOCATIONFORECAST_COMPLETE
+    private val endpoint = Endpoints.LOCATIONFORECAST_COMPLETE
 
     @Test
     fun getTemp() {
         val temp = runBlocking {
-            LocationForecastRepository(ENDPOINT).getTemp(59.92, 10.75, 0)
+            LocationForecastRepository(endpoint).getTemp(59.92, 10.75, 0)
         }
         assertTrue(temp!! in -50.0..50.0)
     }

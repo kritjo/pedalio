@@ -1,5 +1,6 @@
 package in2000.pedalio.data.airquality.source.nilu
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelError
@@ -11,6 +12,7 @@ import kotlinx.serialization.json.Json
 
 class NILUSource {
     companion object {
+        @SuppressLint("LogNotTimber")
         @JvmStatic
         suspend fun getNow(endpoint : String, lat : Double, lon : Double, radius: Int, component : COMPONENTS) : List<NILUDataItem>? {
             // build string

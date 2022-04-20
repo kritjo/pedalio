@@ -29,7 +29,7 @@
                     android:layout_height="match_parent">
 
                 <TextView
-                        android:text="Raskeste rute"
+                        android:text="@string/fastest_route"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/fastest_route"
@@ -42,7 +42,7 @@
                         android:textSize="20sp" />
 
                 <TextView
-                        android:text="km"
+                        android:text="@string/km"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/fastest_km"
@@ -54,7 +54,7 @@
                         app:layout_constraintVertical_bias="0.85" />
 
                 <TextView
-                        android:text="min"
+                        android:text="@string/min"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/fastest_min"
@@ -66,7 +66,7 @@
                         app:layout_constraintVertical_bias="0.85" />
 
                 <Button
-                        android:text="\?"
+                        android:text="@string/question_mark"
                         android:layout_width="61dp"
                         android:layout_height="55dp"
                         android:id="@+id/fastest_button"
@@ -94,7 +94,7 @@
                     android:layout_height="match_parent">
 
                 <TextView
-                        android:text="Tryggeste rute"
+                        android:text="@string/safest_route"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/safest_route"
@@ -107,7 +107,7 @@
                         android:textSize="20sp" />
 
                 <TextView
-                        android:text="km"
+                        android:text="@string/km"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/safest_km"
@@ -119,7 +119,7 @@
                         app:layout_constraintVertical_bias="0.85" />
 
                 <TextView
-                        android:text="min"
+                        android:text="@string/min"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/safest_min"
@@ -131,7 +131,7 @@
                         app:layout_constraintVertical_bias="0.85" />
 
                 <Button
-                        android:text="\?"
+                        android:text="@string/question_mark"
                         android:layout_width="61dp"
                         android:layout_height="55dp"
                         android:id="@+id/safest_button"

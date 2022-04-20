@@ -7,7 +7,6 @@ import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.coroutines.awaitStringResponse
-import in2000.pedalio.data.weather.source.LocationForecastCompleteDataClass
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 

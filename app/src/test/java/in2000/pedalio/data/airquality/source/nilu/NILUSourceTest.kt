@@ -7,17 +7,17 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class NILUSourceTest {
-    val ENDPOINT = Endpoints.NILU_FORECAST
+    private val endpoint = Endpoints.NILU_FORECAST
 
     @Test
     fun endpointTest() {
-        assertEquals(ENDPOINT, Endpoints.NILU_FORECAST)
+        assertEquals(endpoint, Endpoints.NILU_FORECAST)
     }
 
     @Test
     fun getNow() {
         val data = runBlocking {
-            NILUSource.getNow(ENDPOINT, 59.92, 10.75, 3, NILUSource.COMPONENTS.ALL)
+            NILUSource.getNow(endpoint, 59.92, 10.75, 3, NILUSource.COMPONENTS.ALL)
         }
         if (data == null) {
             fail("Data is null")

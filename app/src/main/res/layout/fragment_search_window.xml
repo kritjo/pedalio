@@ -5,7 +5,7 @@
     android:id="@+id/soket"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/secondarySuperLightBlue"
+    android:background="@color/secondaryLightBlue"
     tools:context=".MainActivity">
 
 

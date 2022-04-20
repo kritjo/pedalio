@@ -3,7 +3,6 @@ package in2000.pedalio.data.location
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Location
 import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData

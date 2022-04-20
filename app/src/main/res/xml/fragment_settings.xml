@@ -2,21 +2,11 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory app:title="@string/basic_header">
-
-        <ListPreference
-            app:entries="@array/units_entries"
-            app:entryValues="@array/units_entry_values"
-            app:key="DISTANCE_UNITS"
-            app:title="Distance units"
-            app:useSimpleSummaryProvider="true"
-            app:defaultValue="metric"
-            app:persistent="true"/>
         <SwitchPreferenceCompat
             app:key="THEME"
             app:defaultValue="false"
             app:persistent="true"
             app:title="@string/darkmode_title" />
-
     </PreferenceCategory>
 
 
@@ -32,8 +22,6 @@
             app:persistent="true"
             android:id="@+id/settings_gps_toggle"
             app:title="@string/location_title" />
-
-
     </PreferenceCategory>
 
 </PreferenceScreen>
