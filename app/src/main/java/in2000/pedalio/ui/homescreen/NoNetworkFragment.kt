@@ -12,10 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import in2000.pedalio.MainActivity
 import in2000.pedalio.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,7 +44,11 @@ class NoNetworkFragment : Fragment() {
             object: ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
                     super.onAvailable(network)
-                    findNavController().navigate(R.id.action_no_network_to_titleScreen)
+                    // Must be launched on main thread
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        findNavController().navigate(R.id.action_no_network_to_titleScreen)
+
+                    }
                 }
             }
         )
