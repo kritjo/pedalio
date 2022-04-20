@@ -29,17 +29,17 @@ class GetWeatherUseCaseTest {
             var dp = getWeatherUseCase.getWeather(latLng, context = instrumentationContext)
             Assert.assertTrue(dp.temperature ?: 0.0 in -20.0..40.0)
             Assert.assertTrue(dp.humidity ?: 0.0 in 0.0..100.0)
-            Assert.assertTrue(dp.percipitation ?: 0.0 in 0.0..1000.0)
+            Assert.assertTrue(dp.precipitation ?: 0.0 in 0.0..1000.0)
 
             dp = getWeatherUseCase.getWeather(latLng, timeDelta = 30, context = instrumentationContext)
             Assert.assertTrue(dp.temperature?: 0.0 in -20.0..40.0)
             Assert.assertTrue(dp.humidity?: 0.0 in 0.0..100.0)
-            Assert.assertTrue(dp.percipitation?: 0.0 in 0.0..100.0)
+            Assert.assertTrue(dp.precipitation?: 0.0 in 0.0..100.0)
 
             dp = getWeatherUseCase.getWeather(latLng, timeDelta = 120, context = instrumentationContext)
             Assert.assertTrue(dp.temperature?: 0.0 in -20.0..40.0)
             Assert.assertTrue(dp.humidity?: 0.0 in 0.0..100.0)
-            Assert.assertTrue(dp.percipitation?: 0.0 in 0.0..100.0)
+            Assert.assertTrue(dp.precipitation?: 0.0 in 0.0..100.0)
         }
     }
 }

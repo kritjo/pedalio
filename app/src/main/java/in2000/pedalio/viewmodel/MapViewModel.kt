@@ -133,8 +133,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                             context.resources.getColor(color, applicationLocal.theme),
                             context.resources.getColor(R.color.off_white, applicationLocal.theme)))
                     }
-                    DeviationTypes.PERCIPITATION -> {
-                        bubbles.add(OverlayBubble(it.pos, String.format("%.1f", it.weatherDataPoint.percipitation) +
+                    DeviationTypes.PRECIPITATION -> {
+                        bubbles.add(OverlayBubble(it.pos, String.format("%.1f", it.weatherDataPoint.precipitation) +
                                 "\uD83D\uDCA7", // Water drop
                             context.resources.getColor(R.color.black, applicationLocal.theme),
                             context.resources.getColor(R.color.off_white, applicationLocal.theme)))

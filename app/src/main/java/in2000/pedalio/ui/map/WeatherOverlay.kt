@@ -35,7 +35,7 @@ class WeatherOverlay : Fragment() {
                 String.format("%.1f", it.windSpeed?: 0.0)
             )
             view.findViewById<TextView>(R.id.percipation).text = resources.getString(R.string.mm_h,
-                String.format("%.1f", it.percipitation?: 0.0)
+                String.format("%.1f", it.precipitation?: 0.0)
             )
             view.findViewById<ImageView>(R.id.weather_icon).setImageDrawable(resources.getDrawableForDensity(
                 if (it.symbolCode == null) {
@@ -46,7 +46,8 @@ class WeatherOverlay : Fragment() {
                     "drawable",
                     activity?.packageName
                 )},
-                resources.displayMetrics.densityDpi
+                resources.displayMetrics.densityDpi,
+                requireContext().theme
             ))
 
         }
@@ -59,13 +60,10 @@ class WeatherOverlay : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
          * @return A new instance of fragment WeatherOverlay.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             WeatherOverlay().apply {
                 arguments = Bundle()
             }
