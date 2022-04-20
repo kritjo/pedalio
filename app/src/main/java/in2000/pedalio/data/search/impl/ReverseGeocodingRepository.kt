@@ -7,11 +7,18 @@ import com.tomtom.online.sdk.search.OnlineSearchApi
 import com.tomtom.online.sdk.search.data.reversegeocoder.ReverseGeocoderSearchQueryBuilder
 import com.tomtom.online.sdk.search.data.reversegeocoder.ReverseGeocoderSearchResponse
 import in2000.pedalio.data.search.ReverseSearchRepository
+import in2000.pedalio.utils.NetworkUtils
 import io.reactivex.Single
+import kotlinx.coroutines.runBlocking
 
 class ReverseGeocodingRepository(context: Context) : ReverseSearchRepository(){
     private val api = OnlineSearchApi.create(context, "beN1MD9T81Hr774H5o2lQGGDywkiqcJ8")
-    override suspend fun getCountry(latLng: LatLng): String {
+    override suspend fun getCountry(latLng: LatLng): String? {
+        val networkAvailable = NetworkUtils.isNetworkAvailable()
+        if (!networkAvailable) {
+            return null
+        }
+
         if (cache.containsKey(latLng)) {
             return cache[latLng]!!
         } else if (latLng.latitude - lastPos.latitude < 1 || latLng.longitude - lastPos.longitude < 1

@@ -11,7 +11,7 @@ import com.tomtom.online.sdk.search.information.*
  */
 
 abstract class SearchRepository {
-    abstract fun doSearch(fuzzySearchSpecification : FuzzySearchSpecification) : List<SearchResult>
+    abstract fun doSearch(fuzzySearchSpecification : FuzzySearchSpecification) : List<SearchResult>?
 }
 
 data class SearchResult(

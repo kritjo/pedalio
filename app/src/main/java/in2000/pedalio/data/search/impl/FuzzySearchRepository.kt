@@ -6,6 +6,8 @@ import com.tomtom.online.sdk.search.SearchApi
 import com.tomtom.online.sdk.search.fuzzy.*
 import in2000.pedalio.data.search.SearchRepository
 import in2000.pedalio.data.search.SearchResult
+import in2000.pedalio.utils.NetworkUtils
+import kotlinx.coroutines.runBlocking
 
 /**
  * Fuzzy search repository.
@@ -20,7 +22,12 @@ class FuzzySearchRepository (context : Context) : SearchRepository() {
      *
      * @param fuzzySearchSpecification
      */
-    override fun doSearch(fuzzySearchSpecification : FuzzySearchSpecification) : List<SearchResult> {
+    override fun doSearch(fuzzySearchSpecification : FuzzySearchSpecification) : List<SearchResult>? {
+        val networkAvailable = runBlocking { return@runBlocking NetworkUtils.isNetworkAvailable() }
+        if (!networkAvailable) {
+            return null
+        }
+
         if (fuzzySearchSpecification.term.isEmpty()) {
             return emptyList()
         }

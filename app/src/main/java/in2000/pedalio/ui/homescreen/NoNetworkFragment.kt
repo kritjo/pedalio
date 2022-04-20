@@ -19,6 +19,7 @@ import in2000.pedalio.MainActivity
 import in2000.pedalio.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,21 +38,29 @@ class NoNetworkFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_no_network, container, false)
-        requireContext().getSystemService(ConnectivityManager::class.java).registerNetworkCallback(
-            NetworkRequest.Builder()
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                .build(),
-            object: ConnectivityManager.NetworkCallback() {
+        try {
+            val connectivityManager = requireContext().getSystemService(ConnectivityManager::class.java)
+            val callback = object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
                     super.onAvailable(network)
                     // Must be launched on main thread
                     lifecycleScope.launch(Dispatchers.Main) {
-                        findNavController().navigate(R.id.action_no_network_to_titleScreen)
-
+                        Navigation.findNavController(v)
+                            .navigate(R.id.action_no_network_to_titleScreen)
                     }
+                    connectivityManager.unregisterNetworkCallback(this)
                 }
             }
-        )
+
+            connectivityManager.registerNetworkCallback(
+                    NetworkRequest.Builder()
+                        .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                        .build(),
+                    callback
+                )
+        } catch (e: Exception) {
+
+        }
         return v
     }
 }
