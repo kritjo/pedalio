@@ -9,6 +9,10 @@ import com.github.kittinunf.fuel.coroutines.awaitStringResponse
 class NetworkUtils {
     companion object {
         @JvmStatic
+        /**
+         * @param url send request to ("http://www.google.com")
+         * @return The response from the server
+         */
         suspend fun isNetworkAvailable(): Boolean {
             return try {
                 val (_: Request, res: Response, _: String) = Fuel.get("https://google.com").awaitStringResponse()
