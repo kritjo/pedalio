@@ -18,8 +18,8 @@ class AQFRepository(val endpoint: String) : AirQualityRepository() {
         val timeslots: List<Time> = AQFSource.getForecast(endpoint, lat, lon)
             ?.data
             ?.time ?: return Double.NaN
-        val closestHour = DateTime.closest_hour(
-            DateTime.timedelta_milli(
+        val closestHour = DateTime.closestHour(
+            DateTime.timeDeltaMilli(
                 timeDelta))
         var selectedSlot: Time? = null
         timeslots.forEach { if (it.from == closestHour) selectedSlot = it }
@@ -35,8 +35,8 @@ class AQFRepository(val endpoint: String) : AirQualityRepository() {
         val timeslots: List<Time> = AQFSource.getForecast(endpoint, lat, lon)
             ?.data
             ?.time ?: return Double.NaN
-        val closestHour = DateTime.closest_hour(
-            DateTime.timedelta_milli(
+        val closestHour = DateTime.closestHour(
+            DateTime.timeDeltaMilli(
                 timeDelta))
         var selectedSlot: Time? = null
         timeslots.forEach { if (it.from == closestHour) selectedSlot = it }
@@ -52,8 +52,8 @@ class AQFRepository(val endpoint: String) : AirQualityRepository() {
         val timeslots: List<Time> = AQFSource.getForecast(endpoint, lat, lon)
             ?.data
             ?.time ?: return Double.NaN
-        val closestHour = DateTime.closest_hour(
-            DateTime.timedelta_milli(
+        val closestHour = DateTime.closestHour(
+            DateTime.timeDeltaMilli(
                 timeDelta))
         var selectedSlot: Time? = null
         timeslots.forEach { if (it.from == closestHour) selectedSlot = it }
@@ -69,8 +69,8 @@ class AQFRepository(val endpoint: String) : AirQualityRepository() {
         val timeslots: List<Time> = AQFSource.getForecast(endpoint, lat, lon)
             ?.data
             ?.time ?: return Double.NaN
-        val closestHour = DateTime.closest_hour(
-                DateTime.timedelta_milli(
+        val closestHour = DateTime.closestHour(
+                DateTime.timeDeltaMilli(
                     timeDelta))
         var selectedSlot: Time? = null
         timeslots.forEach { if (it.from == closestHour) selectedSlot = it }

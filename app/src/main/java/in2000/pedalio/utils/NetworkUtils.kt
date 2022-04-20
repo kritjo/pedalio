@@ -8,6 +8,10 @@ import com.github.kittinunf.fuel.coroutines.awaitStringResponse
 
 class NetworkUtils {
     companion object {
+        /**
+         * @return True if https://google.com is reachable with status code in range 200-399.
+         * False otherwise.
+         */
         @JvmStatic
         suspend fun isNetworkAvailable(): Boolean {
             return try {
