@@ -12,9 +12,7 @@ import in2000.pedalio.R
 import in2000.pedalio.viewmodel.MapViewModel
 
 /**
- * A simple [Fragment] subclass.
- * Use the [WeatherOverlay.newInstance] factory method to
- * create an instance of this fragment.
+ * Overlay for weather information.
  */
 class WeatherOverlay : Fragment() {
     private val mapViewModel: MapViewModel by activityViewModels()
@@ -27,7 +25,6 @@ class WeatherOverlay : Fragment() {
         val view = inflater.inflate(R.layout.fragment_weather_overlay, container, false)
 
         mapViewModel.weather.observe(viewLifecycleOwner) {
-            // TODO: Choose icons
             view.findViewById<TextView>(R.id.weather_degrees).text = resources.getString(R.string.degrees,
                 String.format("%.1f", it.temperature?: 0.0)
             )
@@ -53,19 +50,5 @@ class WeatherOverlay : Fragment() {
         }
 
         return view
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @return A new instance of fragment WeatherOverlay.
-         */
-        @JvmStatic
-        fun newInstance() =
-            WeatherOverlay().apply {
-                arguments = Bundle()
-            }
     }
 }
