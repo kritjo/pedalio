@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_titleScreen_to_search_window"
             app:destination="@id/search_window" />
+        <action
+            android:id="@+id/action_titleScreen_to_no_network_window"
+            app:destination="@id/no_network" />
     </fragment>
     <fragment
         android:id="@+id/search_window"
@@ -39,5 +42,14 @@
         <action
             android:id="@+id/action_search_window_to_titleScreen"
             app:destination="@id/titleScreen" />
+    </fragment>
+    <fragment
+            android:id="@+id/no_network"
+            android:name="in2000.pedalio.ui.homescreen.NoNetworkFragment"
+            android:label="fragment_no_network"
+            tools:layout="@layout/fragment_no_network" >
+        <action
+                android:id="@+id/action_no_network_to_titleScreen"
+                app:destination="@id/titleScreen" />
     </fragment>
 </navigation>

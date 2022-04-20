@@ -7,7 +7,7 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class NILUSourceTest {
-    val ENDPOINT = "https://api.nilu.no/aq/utd"
+    val ENDPOINT = Endpoints.NILU_FORECAST
 
     @Test
     fun endpointTest() {
@@ -19,6 +19,10 @@ class NILUSourceTest {
         val data = runBlocking {
             NILUSource.getNow(ENDPOINT, 59.92, 10.75, 3, NILUSource.COMPONENTS.ALL)
         }
-        assertEquals("Oslo", data[0].municipality)
+        if (data == null) {
+            fail("Data is null")
+        } else {
+            assertEquals("Oslo", data[0].municipality)
+        }
     }
 }

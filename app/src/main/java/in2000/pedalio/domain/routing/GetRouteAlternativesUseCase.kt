@@ -28,20 +28,24 @@ class GetRouteAlternativesUseCase {
             val bikeRoutesA = OsloBikeRouteRepostiory(Endpoints.OSLO_BIKE_ROUTES).getRoutes()
             val bikeRoutes = mutableListOf<List<LatLng>>()
             bikeRoutesA.forEach { list ->
-                bikeRoutes.add(list.map { LatLng(it.latitude.reduce(4), it.longitude.reduce(4)) })
-            }
+                bikeRoutes.add(
+                    list.map { LatLng(it.latitude.reduce(4), it.longitude.reduce(4)) }
+                ) }
+
+            val map = mutableMapOf<RouteType, FullRoute>()
 
             val routes = TomtomRoutingRepository(context).calculateRoute(from, to)
-            val shortest = routes.routes.minByOrNull { it.summary.lengthInMeters }!!
+            routes?.routes?.minByOrNull { it.summary.lengthInMeters }
+                .also { if (it != null) map[RouteType.SHORTEST] = it }
 
+           findBikeAlternative(bikeRoutes, context, from, to).also {
+                list -> if (list == null) return@also
+                TomtomRoutingRepository(context).calculateRouteFromWaypoints(
+                    CoordinateUtil.limitPointsOnRouteSimple(list, 100)
+                )?.routes?.first().also { if (it != null) map[RouteType.BIKE] = it }
+            }
 
-            val leastTimeInBikeRoute = findBikeAlternative(bikeRoutes, context, from, to)
-            val leastTimeInBikeRoutePlan = TomtomRoutingRepository(context).calculateRouteFromWaypoints(
-                CoordinateUtil.limitPointsOnRouteSimple(leastTimeInBikeRoute, 100)
-            ).routes.first()
-
-            return mapOf(Pair(RouteType.BIKE, leastTimeInBikeRoutePlan),
-                Pair(RouteType.SHORTEST, shortest))
+            return map
         }
 
         private fun findBikeAlternative(
@@ -49,7 +53,7 @@ class GetRouteAlternativesUseCase {
             context: Context,
             start: LatLng,
             end: LatLng
-        ): MutableList<LatLng> {
+        ): MutableList<LatLng>? {
             val alternativeRoute = mutableListOf<LatLng>()
             val flatMap = bikeRoutes.flatten()
 
@@ -59,7 +63,7 @@ class GetRouteAlternativesUseCase {
             val closestEnd = flatMap.minByOrNull { end.distanceTo(it) }!!
 
             // Find a route from start to closestStart
-            val startToClosestStart = TomtomRoutingRepository(context).calculateRoute(start, closestStart).routes.first().getCoordinates()
+            val startToClosestStart = TomtomRoutingRepository(context).calculateRoute(start, closestStart)?.routes?.first()?.getCoordinates() ?: return null
             // Find a route from closestStart to closestEnd
             val closestStartToClosestEnd = dijkstra(
                 bikeRoutes,
@@ -67,7 +71,7 @@ class GetRouteAlternativesUseCase {
                 LatLng(closestEnd.latitude.reduce(4), closestEnd.longitude.reduce(4))
             )
             // Find a route from closestEnd to end
-            val closestEndToEnd = TomtomRoutingRepository(context).calculateRoute(closestEnd, end).routes.first().getCoordinates()
+            val closestEndToEnd = TomtomRoutingRepository(context).calculateRoute(closestEnd, end)?.routes?.first()?.getCoordinates() ?: return null
 
             alternativeRoute.addAll(startToClosestStart)
             alternativeRoute.addAll(closestStartToClosestEnd)

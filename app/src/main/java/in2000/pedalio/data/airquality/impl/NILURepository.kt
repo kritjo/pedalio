@@ -15,7 +15,7 @@ class NILURepository(val endpoint: String, val radius: Int): AirQualityRepositor
     override suspend fun getNO2(lat: Double, lon: Double, timeDelta: Int): Double {
         if (timeDelta != 0) throw UnsupportedOperationException("NILU only provides now")
         val res = NILUSource.getNow(endpoint, lat, lon, radius, NILUSource.COMPONENTS.NO2)
-        val resPair = res.map { Pair(LatLng(it.latitude ?: 0.0, it.longitude ?: 0.0), it.value ?: 0.0) }
+        val resPair = res?.map { Pair(LatLng(it.latitude ?: 0.0, it.longitude ?: 0.0), it.value ?: 0.0) } ?: return Double.NaN
         val interpolated = MathUtil.inverseDistanceWeighting(LatLng(lat, lon), resPair)
         return interpolated;
     }
@@ -23,7 +23,7 @@ class NILURepository(val endpoint: String, val radius: Int): AirQualityRepositor
     override suspend fun getPM10(lat: Double, lon: Double, timeDelta: Int): Double {
         if (timeDelta != 0) throw UnsupportedOperationException("NILU only provides now")
         val res = NILUSource.getNow(endpoint, lat, lon, radius, NILUSource.COMPONENTS.PM10)
-        val resPair = res.map { Pair(LatLng(it.latitude ?: 0.0, it.longitude ?: 0.0), it.value ?: 0.0) }
+        val resPair = res?.map { Pair(LatLng(it.latitude ?: 0.0, it.longitude ?: 0.0), it.value ?: 0.0) } ?: return Double.NaN
         val interpolated = MathUtil.inverseDistanceWeighting(LatLng(lat, lon), resPair)
         return interpolated;
     }
@@ -31,7 +31,7 @@ class NILURepository(val endpoint: String, val radius: Int): AirQualityRepositor
     override suspend fun getPM25(lat: Double, lon: Double, timeDelta: Int): Double {
         if (timeDelta != 0) throw UnsupportedOperationException("NILU only provides now")
         val res = NILUSource.getNow(endpoint, lat, lon, radius, NILUSource.COMPONENTS.PM2_5)
-        val resPair = res.map { Pair(LatLng(it.latitude ?: 0.0, it.longitude ?: 0.0), it.value ?: 0.0) }
+        val resPair = res?.map { Pair(LatLng(it.latitude ?: 0.0, it.longitude ?: 0.0), it.value ?: 0.0) } ?: return Double.NaN
         val interpolated = MathUtil.inverseDistanceWeighting(LatLng(lat, lon), resPair)
         return interpolated;
     }
@@ -39,7 +39,7 @@ class NILURepository(val endpoint: String, val radius: Int): AirQualityRepositor
     override suspend fun getAQI(lat: Double, lon: Double, timeDelta: Int): Double {
         if (timeDelta != 0) throw UnsupportedOperationException("NILU only provides now")
         val res = NILUSource.getNow(endpoint, lat, lon, radius, NILUSource.COMPONENTS.ALL)
-        val resPair : List<Pair<LatLng, Double>> = res.map { Pair(LatLng(it.latitude ?: 0.0, it.longitude ?: 0.0), (it.index ?: 0.0).toDouble()) }
+        val resPair : List<Pair<LatLng, Double>> = res?.map { Pair(LatLng(it.latitude ?: 0.0, it.longitude ?: 0.0), (it.index ?: 0.0).toDouble()) } ?: return Double.NaN
         val interpolated = MathUtil.inverseDistanceWeighting(LatLng(lat, lon), resPair)
         return interpolated;
     }

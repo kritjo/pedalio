@@ -20,7 +20,10 @@ class NowcastRepository(
                                  lon: Double,
                                  timeDelta: Int): Double? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+        }
+        if (source == null) {
+            return null
         }
         return source!!.first
             .properties
@@ -35,7 +38,10 @@ class NowcastRepository(
                                               lon: Double,
                                               timeDelta: Int): Double? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+        }
+        if (source == null) {
+            return null
         }
         return source!!.first
             .properties
@@ -51,7 +57,10 @@ class NowcastRepository(
                                           lon: Double,
                                           timeDelta: Int): Double? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+        }
+        if (source == null) {
+            return null
         }
         val cast = source!!.first
         return cast.properties
@@ -73,7 +82,10 @@ class NowcastRepository(
                                              lon: Double,
                                              timeDelta: Int): Double? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+        }
+        if (source == null) {
+            return null
         }
         return source!!.first
             .properties
@@ -88,7 +100,10 @@ class NowcastRepository(
                                           lon: Double,
                                           timeDelta: Int): Double? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+        }
+        if (source == null) {
+            return null
         }
         return source!!.first
             .properties
@@ -103,7 +118,10 @@ class NowcastRepository(
                                       lon: Double,
                                       timeDelta: Int): Double? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+        }
+        if (source == null) {
+            return null
         }
         return source!!.first
             .properties
@@ -119,7 +137,10 @@ class NowcastRepository(
                                       lon: Double,
                                       timeDelta: Int): Double? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+        }
+        if (source == null) {
+            return null
         }
         return source!!.first
             .properties
@@ -132,8 +153,10 @@ class NowcastRepository(
 
     override suspend fun radarCoverage(lat: Double,
                                        lon: Double): Boolean {
-        val cov = NowcastSource
-            .getNowcast(endpoint, lat, lon)
+        val nc = NowcastSource
+            .getNowcast(endpoint, lat, lon) ?: return false
+
+        val cov = nc
             .properties
             ?.meta
             ?.radar_coverage
@@ -144,7 +167,10 @@ class NowcastRepository(
 
     override suspend fun getWeatherIcon(lat: Double, lon: Double, timeDelta: Int): String? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon), LatLng(lat, lon))
+            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+        }
+        if (source == null) {
+            return null
         }
         return source!!.first
             .properties
