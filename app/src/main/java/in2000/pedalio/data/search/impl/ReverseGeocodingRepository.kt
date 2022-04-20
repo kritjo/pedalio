@@ -9,7 +9,7 @@ import in2000.pedalio.data.search.ReverseSearchRepository
 import in2000.pedalio.utils.NetworkUtils
 import io.reactivex.Single
 
-class ReverseGeocodingRepository(context: Context) : ReverseSearchRepository(){
+class ReverseGeocodingRepository(context: Context) : ReverseSearchRepository() {
     private val api = OnlineSearchApi.create(context, "beN1MD9T81Hr774H5o2lQGGDywkiqcJ8")
 
     /**
@@ -27,7 +27,8 @@ class ReverseGeocodingRepository(context: Context) : ReverseSearchRepository(){
         if (latLng.latitude - lastPos.latitude < 0.1 ||
             latLng.longitude - lastPos.longitude < 0.1 ||
             latLng.latitude - lastPos.latitude > -0.1 ||
-            latLng.longitude - lastPos.longitude > -0.1) {
+            latLng.longitude - lastPos.longitude > -0.1
+        ) {
 
             if (cache.containsKey(lastPos)) return cache[lastPos]!!
         }
@@ -37,7 +38,7 @@ class ReverseGeocodingRepository(context: Context) : ReverseSearchRepository(){
             .create(latLng.latitude, latLng.longitude)
             .build()
         val res: Single<ReverseGeocoderSearchResponse> = api.reverseGeocoding(query)
-        val country =  res.blockingGet().addresses.first().address.countryCodeISO3
+        val country = res.blockingGet().addresses.first().address.countryCodeISO3
         cache[latLng] = country
         lastPos = latLng
         return country

@@ -38,6 +38,6 @@ class NowcastSource {
                 Log.e("NowcastSource", "Error: ${e.message}")
                 null
             }
-        } 
+        }
     }
 }

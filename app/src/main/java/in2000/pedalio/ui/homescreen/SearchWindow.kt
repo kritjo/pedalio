@@ -21,7 +21,9 @@ import in2000.pedalio.data.search.impl.FuzzySearchRepository
 import in2000.pedalio.data.search.source.FuzzySearchSource
 import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.viewmodel.MapViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.concurrent.Executors.newSingleThreadExecutor
 
 /**
@@ -72,7 +74,11 @@ class SearchWindow : Fragment() {
         results.observe(viewLifecycleOwner) {
             // Only null if there is an error
             if (it == null) {
-                Toast.makeText(requireContext(), "Ingen resultater. Sjekk nettverksforbinnelsen.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Ingen resultater. Sjekk nettverksforbinnelsen.",
+                    Toast.LENGTH_SHORT
+                ).show()
 
             } else {
                 if (stateRecently.value == false) {
@@ -89,10 +95,10 @@ class SearchWindow : Fragment() {
         var timeLastSearch = System.currentTimeMillis()
         search.addTextChangedListener {
             lifecycleScope.launch(coroutineDispatcher) {
-                 if (System.currentTimeMillis() - timeLastSearch < 500) {
-                     delay(500 - (System.currentTimeMillis() - timeLastSearch))
-                 }
-                 timeLastSearch = System.currentTimeMillis()
+                if (System.currentTimeMillis() - timeLastSearch < 500) {
+                    delay(500 - (System.currentTimeMillis() - timeLastSearch))
+                }
+                timeLastSearch = System.currentTimeMillis()
                 if (it == null) {
                     results.postValue(emptyList())
                     stateRecently.postValue(true)
@@ -103,7 +109,7 @@ class SearchWindow : Fragment() {
                     stateRecently.postValue(true)
                     return@launch
                 }
-                 val result = FuzzySearchRepository(requireContext())
+                val result = FuzzySearchRepository(requireContext())
                     .doSearch(
                         FuzzySearchSource()
                             .createSpecification(
@@ -120,7 +126,8 @@ class SearchWindow : Fragment() {
         search.setDrawableClickListener(object : onDrawableClickListener {
             override fun onClick(target: DrawablePosition) {
                 if (target == DrawablePosition.LEFT)
-                    Navigation.findNavController(v).navigate(R.id.action_search_window_to_titleScreen)
+                    Navigation.findNavController(v)
+                        .navigate(R.id.action_search_window_to_titleScreen)
             }
         })
 

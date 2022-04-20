@@ -35,8 +35,9 @@ class Title : Fragment() {
             val searchButton = v.findViewById<EditText>(R.id.search_button)
 
             // Set up the search button.
-            searchButton.setOnClickListener{
-                Navigation.findNavController(v).navigate(R.id.action_titleScreen_to_search_window)}
+            searchButton.setOnClickListener {
+                Navigation.findNavController(v).navigate(R.id.action_titleScreen_to_search_window)
+            }
             v
         }
 

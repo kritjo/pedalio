@@ -1,9 +1,9 @@
 package in2000.pedalio.utils
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class DateTimeTest{
+class DateTimeTest {
     @Test
     fun iso_to_milli() {
         assertEquals(970106400000, DateTime.isoToMilli("2000-09-28T04:00:00.000+02:00"))

@@ -2,8 +2,8 @@ package in2000.pedalio.data.search
 
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
+import com.tomtom.online.sdk.search.information.Poi
 import com.tomtom.online.sdk.search.location.Address
-import com.tomtom.online.sdk.search.information.*
 
 /**
  * Search repository.
@@ -11,7 +11,7 @@ import com.tomtom.online.sdk.search.information.*
  */
 
 abstract class SearchRepository {
-    abstract fun doSearch(fuzzySearchSpecification : FuzzySearchSpecification) : List<SearchResult>?
+    abstract fun doSearch(fuzzySearchSpecification: FuzzySearchSpecification): List<SearchResult>?
 }
 
 data class SearchResult(

@@ -14,7 +14,13 @@ class NILUSource {
     companion object {
         @SuppressLint("LogNotTimber")
         @JvmStatic
-        suspend fun getNow(endpoint : String, lat : Double, lon : Double, radius: Int, component : COMPONENTS) : List<NILUDataItem>? {
+        suspend fun getNow(
+            endpoint: String,
+            lat: Double,
+            lon: Double,
+            radius: Int,
+            component: COMPONENTS
+        ): List<NILUDataItem>? {
             // build string
             val url = "$endpoint/$lat/$lon/$radius"
             val parameters = listOf(

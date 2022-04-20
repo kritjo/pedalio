@@ -22,7 +22,8 @@ class GetDeviatingWeather(
     private val deviationLimitWind: Double,
     private val deviationLimitPrecipitation: Double,
     private val possibleDeviationPoints: List<LatLng>,
-    val context: Context) {
+    val context: Context
+) {
 
     /**
      * Get the weather difference between the master location and the list of locations.
@@ -41,10 +42,18 @@ class GetDeviatingWeather(
         val deviationPoints = mutableListOf<DeviatingPoint>()
         localDeviatingPoints.forEach {
             when {
-                notNullDeviation(weatherDataPoint.precipitation, it.precipitation, deviationLimitPrecipitation) -> {
+                notNullDeviation(
+                    weatherDataPoint.precipitation,
+                    it.precipitation,
+                    deviationLimitPrecipitation
+                ) -> {
                     deviationPoints.add(DeviatingPoint(it.pos!!, it, DeviationTypes.PRECIPITATION))
                 }
-                notNullDeviation(weatherDataPoint.temperature, it.temperature, deviationLimitTemp) -> {
+                notNullDeviation(
+                    weatherDataPoint.temperature,
+                    it.temperature,
+                    deviationLimitTemp
+                ) -> {
                     deviationPoints.add(DeviatingPoint(it.pos!!, it, DeviationTypes.TEMPERATURE))
                 }
                 notNullDeviation(weatherDataPoint.windSpeed, it.windSpeed, deviationLimitWind) -> {

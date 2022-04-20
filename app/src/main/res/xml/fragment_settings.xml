@@ -3,25 +3,25 @@
 
     <PreferenceCategory app:title="@string/basic_header">
         <SwitchPreferenceCompat
-            app:key="THEME"
-            app:defaultValue="false"
-            app:persistent="true"
-            app:title="@string/darkmode_title" />
+                app:key="THEME"
+                app:defaultValue="false"
+                app:persistent="true"
+                app:title="@string/darkmode_title" />
     </PreferenceCategory>
 
 
     <PreferenceCategory app:title="@string/adv_header">
         <SwitchPreferenceCompat
-            app:key="COLOR_BLIND_MODE"
-            app:defaultValue="false"
-            app:persistent="true"
-            app:title="@string/colorblind_title" />
+                app:key="COLOR_BLIND_MODE"
+                app:defaultValue="false"
+                app:persistent="true"
+                app:title="@string/colorblind_title" />
         <SwitchPreferenceCompat
-            app:key="GPS_TOGGLE"
-            app:defaultValue="true"
-            app:persistent="true"
-            android:id="@+id/settings_gps_toggle"
-            app:title="@string/location_title" />
+                app:key="GPS_TOGGLE"
+                app:defaultValue="true"
+                app:persistent="true"
+                android:id="@+id/settings_gps_toggle"
+                app:title="@string/location_title" />
     </PreferenceCategory>
 
 </PreferenceScreen>

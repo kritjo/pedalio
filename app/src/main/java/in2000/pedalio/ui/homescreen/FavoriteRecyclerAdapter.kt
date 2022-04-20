@@ -23,15 +23,16 @@ class FavoriteRecyclerAdapter(
     private val searchWindow: SearchWindow,
     private val favorites: List<FavoriteResult>,
     private val chosenResult: MutableLiveData<SearchResult>
-): RecyclerView.Adapter<FavoriteRecyclerAdapter.Favorite>(){
+) : RecyclerView.Adapter<FavoriteRecyclerAdapter.Favorite>() {
 
-    class Favorite(view: View) : RecyclerView.ViewHolder(view){
-        val address : TextView = itemView.findViewById(R.id.favText)
-        val addrImg : ImageView = itemView.findViewById(R.id.favIco)
+    class Favorite(view: View) : RecyclerView.ViewHolder(view) {
+        val address: TextView = itemView.findViewById(R.id.favText)
+        val addrImg: ImageView = itemView.findViewById(R.id.favIco)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Favorite {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_favorititem, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.layout_favorititem, parent, false)
         return Favorite(view)
     }
 
@@ -40,10 +41,11 @@ class FavoriteRecyclerAdapter(
         holder.itemView.findViewById<MaterialCardView>(R.id.favorite_button).setOnClickListener {
             chosenResult.postValue(current.toSearchResult())
         }
-        holder.itemView.findViewById<MaterialCardView>(R.id.favorite_button).setOnLongClickListener {
-            searchWindow.removeFavorite(current)
-            true
-        }
+        holder.itemView.findViewById<MaterialCardView>(R.id.favorite_button)
+            .setOnLongClickListener {
+                searchWindow.removeFavorite(current)
+                true
+            }
 
         // The adress is set to Street + Number, City. Unless some are empty
         val adr: String = when {
@@ -58,7 +60,8 @@ class FavoriteRecyclerAdapter(
             }
             // Otherwise add all
             else -> {
-                (current.address?.streetName ?: "") + " " + (current.address?.streetNumber ?: "") + ", " +
+                (current.address?.streetName ?: "") + " " + (current.address?.streetNumber
+                    ?: "") + ", " +
                         current.address?.municipality
             }
         }

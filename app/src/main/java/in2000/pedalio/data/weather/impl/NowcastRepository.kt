@@ -18,11 +18,14 @@ class NowcastRepository(
     /**
      * @see [WeatherRepository.getTemp]
      */
-    override suspend fun getTemp(lat: Double,
-                                 lon: Double,
-                                 timeDelta: Int): Double? {
+    override suspend fun getTemp(
+        lat: Double,
+        lon: Double,
+        timeDelta: Int
+    ): Double? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+            source =
+                Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
         }
         if (source == null) {
             return null
@@ -39,11 +42,14 @@ class NowcastRepository(
     /**
      * @see [WeatherRepository.getPrecipitationRate]
      */
-    override suspend fun getPrecipitationRate(lat: Double,
-                                              lon: Double,
-                                              timeDelta: Int): Double? {
+    override suspend fun getPrecipitationRate(
+        lat: Double,
+        lon: Double,
+        timeDelta: Int
+    ): Double? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+            source =
+                Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
         }
         if (source == null) {
             return null
@@ -61,11 +67,14 @@ class NowcastRepository(
     /**
      * @see [WeatherRepository.getPrecipitation]
      */
-    override suspend fun getPrecipitation(lat: Double,
-                                          lon: Double,
-                                          timeDelta: Int): Double? {
+    override suspend fun getPrecipitation(
+        lat: Double,
+        lon: Double,
+        timeDelta: Int
+    ): Double? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+            source =
+                Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
         }
         if (source == null) {
             return null
@@ -77,7 +86,7 @@ class NowcastRepository(
             ?.instant
             ?.details
             ?.precipitation_amount
-            // If there is no precipitation data at good resolution, use the hourly data
+        // If there is no precipitation data at good resolution, use the hourly data
             ?: cast.properties
                 ?.timeseries?.get(floor((timeDelta / 5).toDouble()).toInt())
                 ?.data
@@ -89,11 +98,14 @@ class NowcastRepository(
     /**
      * @see [WeatherRepository.getRelativeHumidity]
      */
-    override suspend fun getRelativeHumidity(lat: Double,
-                                             lon: Double,
-                                             timeDelta: Int): Double? {
+    override suspend fun getRelativeHumidity(
+        lat: Double,
+        lon: Double,
+        timeDelta: Int
+    ): Double? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+            source =
+                Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
         }
         if (source == null) {
             return null
@@ -110,11 +122,14 @@ class NowcastRepository(
     /**
      * @see [WeatherRepository.getWindDirection]
      */
-    override suspend fun getWindDirection(lat: Double,
-                                          lon: Double,
-                                          timeDelta: Int): Double? {
+    override suspend fun getWindDirection(
+        lat: Double,
+        lon: Double,
+        timeDelta: Int
+    ): Double? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+            source =
+                Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
         }
         if (source == null) {
             return null
@@ -131,11 +146,14 @@ class NowcastRepository(
     /**
      * @see [WeatherRepository.getWindSpeed]
      */
-    override suspend fun getWindSpeed(lat: Double,
-                                      lon: Double,
-                                      timeDelta: Int): Double? {
+    override suspend fun getWindSpeed(
+        lat: Double,
+        lon: Double,
+        timeDelta: Int
+    ): Double? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+            source =
+                Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
         }
         if (source == null) {
             return null
@@ -153,11 +171,14 @@ class NowcastRepository(
     /**
      * @see [WeatherRepository.getGustSpeed]
      */
-    override suspend fun getGustSpeed(lat: Double,
-                                      lon: Double,
-                                      timeDelta: Int): Double? {
+    override suspend fun getGustSpeed(
+        lat: Double,
+        lon: Double,
+        timeDelta: Int
+    ): Double? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+            source =
+                Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
         }
         if (source == null) {
             return null
@@ -174,8 +195,10 @@ class NowcastRepository(
     /**
      * @see [WeatherRepository.radarCoverage]
      */
-    override suspend fun radarCoverage(lat: Double,
-                                       lon: Double): Boolean {
+    override suspend fun radarCoverage(
+        lat: Double,
+        lon: Double
+    ): Boolean {
         val nc = NowcastSource
             .getNowcast(endpoint, lat, lon) ?: return false
 
@@ -193,7 +216,8 @@ class NowcastRepository(
      */
     override suspend fun getWeatherIcon(lat: Double, lon: Double, timeDelta: Int): String? {
         if (source?.second?.latitude != lat && source?.second?.longitude != lon) {
-            source = Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
+            source =
+                Pair(NowcastSource.getNowcast(endpoint, lat, lon) ?: return null, LatLng(lat, lon))
         }
         if (source == null) {
             return null

@@ -1,11 +1,11 @@
 package in2000.pedalio.ui.map
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
+import androidx.fragment.app.Fragment
 import in2000.pedalio.R
 import in2000.pedalio.data.settings.impl.SharedPreferences
 

@@ -4,20 +4,20 @@ import com.tomtom.online.sdk.common.location.LatLng
 import kotlin.math.*
 
 class CoordinateUtil {
-    companion object{
+    companion object {
         /**
          * Limits points on a route (List of LatLng) to a certain amount
          * @param points List of LatLng
          * @param maxPoints Amount of points to limit to
          * @return New list of LatLng
          */
-        fun limitPointsOnRouteSimple(points: List<LatLng>, maxPoints : Int): List<LatLng> {
+        fun limitPointsOnRouteSimple(points: List<LatLng>, maxPoints: Int): List<LatLng> {
             // naive implementation, in future we can use a more sophisticated algorithm which takes into account the distance between points
             if (points.size <= maxPoints) {
                 return points
             }
             val result = mutableListOf<LatLng>()
-            val step : Int = points.size / maxPoints
+            val step: Int = points.size / maxPoints
             for (i in points.indices step step) {
                 result.add(points[i])
             }
@@ -31,7 +31,7 @@ class CoordinateUtil {
          * @return Distance between a and b
          * Math doc: https://www.geeksforgeeks.org/program-distance-two-points-earth/
          */
-        fun calcDistanceBetweenTwoCoordinates(a : LatLng, b : LatLng) : Double {
+        fun calcDistanceBetweenTwoCoordinates(a: LatLng, b: LatLng): Double {
             val lon1 = Math.toRadians(a.longitude)
             val lon2 = Math.toRadians(b.longitude)
             val lat1 = Math.toRadians(a.latitude)

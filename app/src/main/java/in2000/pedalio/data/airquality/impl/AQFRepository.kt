@@ -20,12 +20,14 @@ class AQFRepository(val endpoint: String) : AirQualityRepository() {
             ?.time ?: return Double.NaN
         val closestHour = DateTime.closestHour(
             DateTime.timeDeltaMilli(
-                timeDelta))
+                timeDelta
+            )
+        )
         var selectedSlot: Time? = null
         timeslots.forEach { if (it.from == closestHour) selectedSlot = it }
         if (selectedSlot == null) throw IllegalStateException("Could not get a timeslot for nox")
 
-        return  selectedSlot!!.variables.no2_concentration.value
+        return selectedSlot!!.variables.no2_concentration.value
     }
 
     /**
@@ -37,12 +39,14 @@ class AQFRepository(val endpoint: String) : AirQualityRepository() {
             ?.time ?: return Double.NaN
         val closestHour = DateTime.closestHour(
             DateTime.timeDeltaMilli(
-                timeDelta))
+                timeDelta
+            )
+        )
         var selectedSlot: Time? = null
         timeslots.forEach { if (it.from == closestHour) selectedSlot = it }
         if (selectedSlot == null) throw IllegalStateException("Could not get a timeslot for pm10")
 
-        return  selectedSlot!!.variables.pm10_concentration.value
+        return selectedSlot!!.variables.pm10_concentration.value
     }
 
     /**
@@ -54,12 +58,14 @@ class AQFRepository(val endpoint: String) : AirQualityRepository() {
             ?.time ?: return Double.NaN
         val closestHour = DateTime.closestHour(
             DateTime.timeDeltaMilli(
-                timeDelta))
+                timeDelta
+            )
+        )
         var selectedSlot: Time? = null
         timeslots.forEach { if (it.from == closestHour) selectedSlot = it }
         if (selectedSlot == null) throw IllegalStateException("Could not get a timeslot for pm25")
 
-        return  selectedSlot!!.variables.pm25_concentration.value
+        return selectedSlot!!.variables.pm25_concentration.value
     }
 
     /**
@@ -70,12 +76,14 @@ class AQFRepository(val endpoint: String) : AirQualityRepository() {
             ?.data
             ?.time ?: return Double.NaN
         val closestHour = DateTime.closestHour(
-                DateTime.timeDeltaMilli(
-                    timeDelta))
+            DateTime.timeDeltaMilli(
+                timeDelta
+            )
+        )
         var selectedSlot: Time? = null
         timeslots.forEach { if (it.from == closestHour) selectedSlot = it }
         if (selectedSlot == null) throw IllegalStateException("Could not get a timeslot for aqi")
 
-        return  selectedSlot!!.variables.AQI.value
+        return selectedSlot!!.variables.AQI.value
     }
 }

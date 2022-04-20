@@ -15,7 +15,8 @@ class NetworkUtils {
         @JvmStatic
         suspend fun isNetworkAvailable(): Boolean {
             return try {
-                val (_: Request, res: Response, _: String) = Fuel.get("https://google.com").awaitStringResponse()
+                val (_: Request, res: Response, _: String) = Fuel.get("https://google.com")
+                    .awaitStringResponse()
                 res.statusCode in 200..399
             } catch (e: FuelError) {
                 false

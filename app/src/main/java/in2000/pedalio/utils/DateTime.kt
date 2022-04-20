@@ -21,7 +21,7 @@ class DateTime {
             val calendar = Calendar.getInstance(TimeZone.GMT_ZONE).apply {
                 val split = iso.split("Z")[0].split("-", "T", ":", ".", "+").map { it.toInt() }
                 set(Calendar.YEAR, split[0])
-                set(Calendar.MONTH, split[1]-1) // January is 0
+                set(Calendar.MONTH, split[1] - 1) // January is 0
                 set(Calendar.DATE, split[2])
                 set(Calendar.HOUR_OF_DAY, split[3])
                 set(Calendar.MINUTE, split[4])
@@ -51,7 +51,8 @@ class DateTime {
          */
         @JvmStatic
         fun milliToIso(milli: Long): String = DateTimeFormatter.ISO_INSTANT.format(
-                                                    Instant.ofEpochMilli(milli))
+            Instant.ofEpochMilli(milli)
+        )
 
         /**
          * @param epochMilliSecond ms since epoch
@@ -59,7 +60,7 @@ class DateTime {
          */
         @JvmStatic
         fun closestHour(epochMilliSecond: Long): String {
-            val calendar = Calendar.getInstance().apply{
+            val calendar = Calendar.getInstance().apply {
                 timeInMillis = epochMilliSecond
             }
             if (calendar.get(Calendar.MINUTE) >= 30) {

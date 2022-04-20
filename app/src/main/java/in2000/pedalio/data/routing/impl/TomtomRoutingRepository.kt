@@ -8,13 +8,15 @@ import in2000.pedalio.data.routing.source.tomtom.TomtomRoutingSource
 import in2000.pedalio.utils.NetworkUtils
 import kotlinx.coroutines.runBlocking
 
-class TomtomRoutingRepository(val context : Context) : RoutingRepository {
+class TomtomRoutingRepository(val context: Context) : RoutingRepository {
     /**
      * @see [RoutingRepository.calculateRouteFromWaypoints]
      */
     override fun calculateRouteFromWaypoints(locations: List<LatLng>): RoutePlan? {
         val networkAvailable = runBlocking { return@runBlocking NetworkUtils.isNetworkAvailable() }
-        if (!networkAvailable) { return null }
+        if (!networkAvailable) {
+            return null
+        }
 
         val source = TomtomRoutingSource(context)
         val route = source.getRouteFromLocations(locations)

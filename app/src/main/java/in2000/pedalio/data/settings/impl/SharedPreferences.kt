@@ -12,11 +12,12 @@ import in2000.pedalio.ui.homescreen.FavoriteResult
  * Repository for settings. Uses shared preferences to store settings.
  * @see [SettingsKey]
  */
-class SharedPreferences(context: Context): SettingsRepository() {
+class SharedPreferences(context: Context) : SettingsRepository() {
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     override var distanceUnit: String?
         get() = sharedPreferences.getString(SettingsKey.DISTANCE_UNIT.name, "")
-        set(value) = sharedPreferences.edit().putString(SettingsKey.DISTANCE_UNIT.name, value).apply()
+        set(value) = sharedPreferences.edit().putString(SettingsKey.DISTANCE_UNIT.name, value)
+            .apply()
 
     override var theme: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.THEME.name, false)
@@ -24,7 +25,8 @@ class SharedPreferences(context: Context): SettingsRepository() {
 
     override var colorBlindMode: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.COLOR_BLIND_MODE.name, false)
-        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.COLOR_BLIND_MODE.name, value).apply()
+        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.COLOR_BLIND_MODE.name, value)
+            .apply()
 
     override var gpsToggle: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.GPS_TOGGLE.name, false)
@@ -32,23 +34,28 @@ class SharedPreferences(context: Context): SettingsRepository() {
 
     override var askedForGps: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.ASKED_FOR_GPS.name, false)
-        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.ASKED_FOR_GPS.name, value).apply()
+        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.ASKED_FOR_GPS.name, value)
+            .apply()
 
     override var shownWelcomeScreen: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.SHOWN_WELCOME_SCREEN.name, false)
-        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.SHOWN_WELCOME_SCREEN.name, value).apply()
+        set(value) = sharedPreferences.edit()
+            .putBoolean(SettingsKey.SHOWN_WELCOME_SCREEN.name, value).apply()
 
     override var layerAirQuality: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.LAYER_AIR_QUALITY.name, false)
-        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_AIR_QUALITY.name, value).apply()
+        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_AIR_QUALITY.name, value)
+            .apply()
 
     override var layerWeather: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.LAYER_WEATHER.name, false)
-        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_WEATHER.name, value).apply()
+        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_WEATHER.name, value)
+            .apply()
 
     override var layerBikeRoutes: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.LAYER_BIKE_ROUTES.name, false)
-        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_BIKE_ROUTES.name, value).apply()
+        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_BIKE_ROUTES.name, value)
+            .apply()
 
     /**
      * Should use [appendRecentSearch] instead of using this directly.
@@ -59,10 +66,11 @@ class SharedPreferences(context: Context): SettingsRepository() {
             if (saved == "") return emptyList()
 
             val lClass = TypeToken.getParameterized(List::class.java, SearchResult::class.java).type
-            return Gson().fromJson(saved,lClass) ?: emptyList()
+            return Gson().fromJson(saved, lClass) ?: emptyList()
         }
         set(value) = sharedPreferences.edit().putString(
-            SettingsKey.RECENT_SEARCHES.name, Gson().toJson(value)).apply()
+            SettingsKey.RECENT_SEARCHES.name, Gson().toJson(value)
+        ).apply()
 
     fun appendRecentSearch(searchResult: SearchResult) {
         recentSearches = recentSearches.toMutableList().apply {
@@ -79,11 +87,13 @@ class SharedPreferences(context: Context): SettingsRepository() {
             val saved = sharedPreferences.getString(SettingsKey.FAVORITE_SEARCHES.name, "") ?: ""
             if (saved == "") return emptyList()
 
-            val lClass = TypeToken.getParameterized(List::class.java, FavoriteResult::class.java).type
+            val lClass =
+                TypeToken.getParameterized(List::class.java, FavoriteResult::class.java).type
             return Gson().fromJson(saved, lClass) ?: emptyList()
         }
         set(value) = sharedPreferences.edit().putString(
-            SettingsKey.FAVORITE_SEARCHES.name, Gson().toJson(value)).apply()
+            SettingsKey.FAVORITE_SEARCHES.name, Gson().toJson(value)
+        ).apply()
 
     fun appendFavoriteSearch(favoriteResult: FavoriteResult) {
         favoriteSearches = favoriteSearches.toMutableList().apply {

@@ -15,14 +15,14 @@ import org.junit.Test
 
 class GetWeatherOnRouteUseCaseTest {
     @Test
-    fun getBatchWeather(){
+    fun getBatchWeather() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val routing  = TomtomRoutingRepository(appContext)
-        val origin =        LatLng(59.95901810547076, 10.737168932389016)
-        val middle =        LatLng(59.95896083733742, 10.742256703144921)
-        val destination =   LatLng(59.95275321623974, 10.748902973073466)
+        val routing = TomtomRoutingRepository(appContext)
+        val origin = LatLng(59.95901810547076, 10.737168932389016)
+        val middle = LatLng(59.95896083733742, 10.742256703144921)
+        val destination = LatLng(59.95275321623974, 10.748902973073466)
         val waypoints = listOf(origin, middle, destination)
-        val plan : RoutePlan? = routing.calculateRouteFromWaypoints(waypoints)
+        val plan: RoutePlan? = routing.calculateRouteFromWaypoints(waypoints)
         if (plan == null) {
             Assert.fail("No route found")
             return

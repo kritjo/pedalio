@@ -3,7 +3,7 @@ package in2000.pedalio.data.search.impl
 import android.content.Context
 import com.tomtom.online.sdk.search.OnlineSearchApi
 import com.tomtom.online.sdk.search.SearchApi
-import com.tomtom.online.sdk.search.fuzzy.*
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
 import in2000.pedalio.data.search.SearchRepository
 import in2000.pedalio.data.search.SearchResult
 import in2000.pedalio.utils.NetworkUtils
@@ -12,15 +12,16 @@ import kotlinx.coroutines.runBlocking
 /**
  * Fuzzy search repository.
  */
-class FuzzySearchRepository (context : Context) : SearchRepository() {
-    private var searchApi : SearchApi = OnlineSearchApi.create(context, "beN1MD9T81Hr774H5o2lQGGDywkiqcJ8")
+class FuzzySearchRepository(context: Context) : SearchRepository() {
+    private var searchApi: SearchApi =
+        OnlineSearchApi.create(context, "beN1MD9T81Hr774H5o2lQGGDywkiqcJ8")
 
     /**
      * Perform fuzzy search based on the search specification.
      *
      * @param fuzzySearchSpecification
      */
-    override fun doSearch(fuzzySearchSpecification : FuzzySearchSpecification) : List<SearchResult>? {
+    override fun doSearch(fuzzySearchSpecification: FuzzySearchSpecification): List<SearchResult>? {
         val networkAvailable = runBlocking { return@runBlocking NetworkUtils.isNetworkAvailable() }
         if (!networkAvailable) return null
 
@@ -35,7 +36,9 @@ class FuzzySearchRepository (context : Context) : SearchRepository() {
                     result.position,
                     result.distance,
                     result.info,
-                    result.poi))
+                    result.poi
+                )
+            )
         }
         return searchResults
     }

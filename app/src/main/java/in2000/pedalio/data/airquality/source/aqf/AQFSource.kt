@@ -18,7 +18,7 @@ class AQFSource {
     companion object {
         @SuppressLint("LogNotTimber")
         @JvmStatic
-        suspend fun getForecast(endpoint : String, lat : Double, lon : Double) : AQFDataClass? {
+        suspend fun getForecast(endpoint: String, lat: Double, lon: Double): AQFDataClass? {
             val parameters = listOf(
                 Pair("areaclass", "grunnkrets"),
                 Pair("show", "all"),

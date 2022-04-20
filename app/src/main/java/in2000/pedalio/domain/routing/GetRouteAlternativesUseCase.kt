@@ -39,7 +39,8 @@ class GetRouteAlternativesUseCase {
             bikeRoutesA.forEach { list ->
                 bikeRoutes.add(
                     list.map { LatLng(it.latitude.reduce(4), it.longitude.reduce(4)) }
-                ) }
+                )
+            }
 
             val map = mutableMapOf<RouteType, FullRoute>()
 
@@ -47,8 +48,8 @@ class GetRouteAlternativesUseCase {
             routes?.routes?.minByOrNull { it.summary.lengthInMeters }
                 .also { if (it != null) map[RouteType.SHORTEST] = it }
 
-           findBikeAlternative(bikeRoutes, context, from, to).also {
-                list -> if (list == null) return@also
+            findBikeAlternative(bikeRoutes, context, from, to).also { list ->
+                if (list == null) return@also
                 TomtomRoutingRepository(context).calculateRouteFromWaypoints(
                     CoordinateUtil.limitPointsOnRouteSimple(list, 100)
                 )?.routes?.first().also { if (it != null) map[RouteType.BIKE] = it }
@@ -84,7 +85,10 @@ class GetRouteAlternativesUseCase {
             val closestEnd = flatMap.minByOrNull { end.distanceTo(it) }!!
 
             // Find a route from start to closestStart
-            val startToClosestStart = TomtomRoutingRepository(context).calculateRoute(start, closestStart)?.routes?.first()?.getCoordinates() ?: return null
+            val startToClosestStart = TomtomRoutingRepository(context).calculateRoute(
+                start,
+                closestStart
+            )?.routes?.first()?.getCoordinates() ?: return null
             // Find a route from closestStart to closestEnd
             val closestStartToClosestEnd = dijkstra(
                 bikeRoutes,
@@ -92,7 +96,9 @@ class GetRouteAlternativesUseCase {
                 LatLng(closestEnd.latitude.reduce(4), closestEnd.longitude.reduce(4))
             )
             // Find a route from closestEnd to end
-            val closestEndToEnd = TomtomRoutingRepository(context).calculateRoute(closestEnd, end)?.routes?.first()?.getCoordinates() ?: return null
+            val closestEndToEnd =
+                TomtomRoutingRepository(context).calculateRoute(closestEnd, end)?.routes?.first()
+                    ?.getCoordinates() ?: return null
 
             alternativeRoute.addAll(startToClosestStart)
             alternativeRoute.addAll(closestStartToClosestEnd)
@@ -159,7 +165,8 @@ private fun dijkstra(
     edges.forEach { reversedEdges.add(Pair(it.second, it.first)) }
     edges.addAll(reversedEdges)
 
-    val q = PriorityQueue { a: Pair<Int, LatLng>, b: Pair<Int, LatLng> -> a.first.compareTo(b.first) }
+    val q =
+        PriorityQueue { a: Pair<Int, LatLng>, b: Pair<Int, LatLng> -> a.first.compareTo(b.first) }
     val distances = mutableMapOf<LatLng, Int>()
     vertices.forEach { distances[it] = Int.MAX_VALUE }
     val parents = mutableMapOf<LatLng, LatLng?>()

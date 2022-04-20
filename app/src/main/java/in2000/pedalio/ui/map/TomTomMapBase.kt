@@ -90,7 +90,7 @@ class TomTomMapBase : Fragment() {
 
         tomtomMap.isMyLocationEnabled = true
 
-        mapViewModel.shouldGetPermission.observe(viewLifecycleOwner){
+        mapViewModel.shouldGetPermission.observe(viewLifecycleOwner) {
             if (it) {
                 when (PackageManager.PERMISSION_GRANTED) {
                     ContextCompat.checkSelfPermission(
@@ -115,13 +115,15 @@ class TomTomMapBase : Fragment() {
         mapViewModel.polyline.observe(viewLifecycleOwner) {
             removeMapOverlay("polyline")
             it.forEach { line ->
-                drawPolyline(line.first, line.second, tag = "polyline") }
+                drawPolyline(line.first, line.second, tag = "polyline")
+            }
         }
 
         var currentBubblesCameraChangeListener: TomtomMapCallback.OnCameraChangedListener? = null
         mapViewModel.overlayBubbles.observe(viewLifecycleOwner) { bubbles ->
             bubbles.forEach { overlayBubble ->
-                initializeOverlayBubble(overlayBubble) }
+                initializeOverlayBubble(overlayBubble)
+            }
 
             // If user have enabled the weather layer, add the bubbles.
             if (SharedPreferences(requireContext()).layerWeather) {
@@ -130,7 +132,11 @@ class TomTomMapBase : Fragment() {
 
             val cameraChangeListener = TomtomMapCallback.OnCameraChangedListener { cameraPosition ->
                 // If there is a larger zoom update, update the size of the bubbles.
-                if (mapViewModel.updateBubbleZoomLevel(zoomLevel, cameraPosition.zoom)) zoomChanged = 2
+                if (mapViewModel.updateBubbleZoomLevel(
+                        zoomLevel,
+                        cameraPosition.zoom
+                    )
+                ) zoomChanged = 2
                 if (zoomChanged > 0) {
                     bubbles.forEach { initializeOverlayBubble(it) }
                     zoomChanged--
@@ -167,17 +173,16 @@ class TomTomMapBase : Fragment() {
                     SharedPreferences(requireContext()).layerWeather = false
                     removeBubbles()
                 }
-        }
+            }
 
         layersSelectorFragment.requireView().findViewById<Switch>(R.id.switch_bikeRoutes)
-            .setOnCheckedChangeListener {_, checked: Boolean ->
+            .setOnCheckedChangeListener { _, checked: Boolean ->
                 SharedPreferences(requireContext()).layerBikeRoutes = checked
                 if (checked) {
                     mapViewModel.bikeRoutes.value?.forEach { bikeRoute ->
                         drawPolyline(bikeRoute, Color.BLUE, 3f, "bike_route")
                     }
-                }
-                else {
+                } else {
                     SharedPreferences(requireContext()).layerBikeRoutes = false
                     removeMapOverlay("bike_route")
                 }
@@ -186,14 +191,15 @@ class TomTomMapBase : Fragment() {
         mapViewModel.chosenSearchResult.observe(viewLifecycleOwner) { searchResult ->
             if (searchResult == null) return@observe
             if (::routingSelectorFragment.isInitialized)
-            childFragmentManager.beginTransaction()
-                .remove(routingSelectorFragment)
-                .commitAllowingStateLoss()
+                childFragmentManager.beginTransaction()
+                    .remove(routingSelectorFragment)
+                    .commitAllowingStateLoss()
 
             val from = mapViewModel.currentPos().value!!
             val to = searchResult.position
             mapViewModel.viewModelScope.launch(Dispatchers.IO) {
-                val routes = GetRouteAlternativesUseCase.getRouteAlternatives(from, to, requireContext())
+                val routes =
+                    GetRouteAlternativesUseCase.getRouteAlternatives(from, to, requireContext())
                 routes.forEach { route ->
                     when (route.key) {
                         GetRouteAlternativesUseCase.RouteType.BIKE -> {
@@ -214,7 +220,8 @@ class TomTomMapBase : Fragment() {
                         }
                     }
                 }
-                routingSelectorFragment = RoutingSelector.newInstance(routes, mapViewModel.chosenRoute)
+                routingSelectorFragment =
+                    RoutingSelector.newInstance(routes, mapViewModel.chosenRoute)
                 mapViewModel.chosenSearchResult.postValue(null)
                 childFragmentManager.beginTransaction()
                     .add(R.id.routing_overlay, routingSelectorFragment)
@@ -231,20 +238,22 @@ class TomTomMapBase : Fragment() {
                 .commitAllowingStateLoss()
             val rb = RouteBuilder(list)
             tomtomMap.addRoute(rb)
-            tomtomMap.centerOn(CameraPosition.builder()
-                .pitch(20.0)
-                .zoom(20.0)
-                .focusPosition(mapViewModel.currentPos().value!!)
-                .build()
+            tomtomMap.centerOn(
+                CameraPosition.builder()
+                    .pitch(20.0)
+                    .zoom(20.0)
+                    .focusPosition(mapViewModel.currentPos().value!!)
+                    .build()
             )
             tomtomMap.activateProgressAlongRoute(rb.id, RouteLayerStyle.Builder().build())
             mapViewModel.currentPos().observe(viewLifecycleOwner) {
                 tomtomMap.updateProgressAlongRoute(rb.id, it.toLocation())
-                tomtomMap.centerOn(CameraPosition.builder()
-                    .pitch(20.0)
-                    .zoom(20.0)
-                    .focusPosition(it)
-                    .build()
+                tomtomMap.centerOn(
+                    CameraPosition.builder()
+                        .pitch(20.0)
+                        .zoom(20.0)
+                        .focusPosition(it)
+                        .build()
                 )
             }
         }
@@ -258,9 +267,9 @@ class TomTomMapBase : Fragment() {
         val view = inflater.inflate(R.layout.fragment_tomtommapbase, container, false)
         mapFragment = childFragmentManager.findFragmentById(R.id.fragment_tomtom) as MapFragment
         mapFragment.getAsyncMap {
-           onMapReady(it)
+            onMapReady(it)
         }
-        view.findViewById<Button>(R.id.layers_button).setOnClickListener{toggleLayerSelector()}
+        view.findViewById<Button>(R.id.layers_button).setOnClickListener { toggleLayerSelector() }
         return view
     }
 
@@ -277,10 +286,12 @@ class TomTomMapBase : Fragment() {
      * Toggles the visibility of the layer selector.
      */
     private fun toggleLayerSelector() {
-        if (layersSelectorFragment.isVisible){
-            childFragmentManager.beginTransaction().hide(layersSelectorFragment).commitAllowingStateLoss()
+        if (layersSelectorFragment.isVisible) {
+            childFragmentManager.beginTransaction().hide(layersSelectorFragment)
+                .commitAllowingStateLoss()
         } else {
-            childFragmentManager.beginTransaction().show(layersSelectorFragment).commitAllowingStateLoss()
+            childFragmentManager.beginTransaction().show(layersSelectorFragment)
+                .commitAllowingStateLoss()
         }
     }
 
@@ -295,7 +306,8 @@ class TomTomMapBase : Fragment() {
             // If there is a large change we should recenter the map as it is likely that the user
             // position was not correct previously.
             if (lastPos.latitude - pos.latitude > 1 || lastPos.longitude - pos.longitude > 1
-                || lastPos.latitude - pos.latitude < -1 || lastPos.longitude - pos.longitude < -1) {
+                || lastPos.latitude - pos.latitude < -1 || lastPos.longitude - pos.longitude < -1
+            ) {
                 val cameraPosition: CameraPosition = CameraPosition.builder()
                     .pitch(5.0)
                     .bearing(MapConstants.ORIENTATION_NORTH.toDouble())
@@ -332,7 +344,12 @@ class TomTomMapBase : Fragment() {
      * @param color the color of the line
      */
     @SuppressLint("LogNotTimber")
-    private fun drawPolyline(coordinates: List<LatLng>, color: Int, width: Float = 3.0f, tag: String) {
+    private fun drawPolyline(
+        coordinates: List<LatLng>,
+        color: Int,
+        width: Float = 3.0f,
+        tag: String
+    ) {
         if (coordinates.size < 2) {
             Log.w("drawPolyLine", "Not enough coordinates")
             return
@@ -388,18 +405,18 @@ class TomTomMapBase : Fragment() {
         removeBubbles()
 
         bubbles.forEach {
-                val x = tomtomMap.pixelForLatLng(it.latLng).x
-                val y = tomtomMap.pixelForLatLng(it.latLng).y
-                val params = RelativeLayout.LayoutParams(
-                    bubbleSize,
-                    bubbleSize
-                )
-                // Anchor the button to x,y on screen and center it.
-                params.leftMargin = x.toInt() - bubbleSize / 2
-                params.topMargin = y.toInt() - bubbleSize / 2
-                it.button.tag = tag
-                overlayBubbleViews.add(it.button)
-                overlay?.addView(it.button, params)
+            val x = tomtomMap.pixelForLatLng(it.latLng).x
+            val y = tomtomMap.pixelForLatLng(it.latLng).y
+            val params = RelativeLayout.LayoutParams(
+                bubbleSize,
+                bubbleSize
+            )
+            // Anchor the button to x,y on screen and center it.
+            params.leftMargin = x.toInt() - bubbleSize / 2
+            params.topMargin = y.toInt() - bubbleSize / 2
+            it.button.tag = tag
+            overlayBubbleViews.add(it.button)
+            overlay?.addView(it.button, params)
         }
     }
 

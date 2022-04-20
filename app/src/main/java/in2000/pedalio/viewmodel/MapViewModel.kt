@@ -39,7 +39,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
 
     /** The current weather data. */
-    val weather = MutableLiveData(WeatherDataPoint(LatLng(),0.0,0.0,0.0, 0.0, 0.0, null))
+    val weather = MutableLiveData(WeatherDataPoint(LatLng(), 0.0, 0.0, 0.0, 0.0, 0.0, null))
 
     // The current user location. Could be a fake location, if the user has not granted
     // location permission. Use currentPos() to get the current position.
@@ -64,19 +64,30 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     // ** Callbacks **
     /** Should we request location permission from the user? */
     val shouldGetPermission = MutableLiveData(false)
+
     /** The chosen search result from the search window. */
     val chosenSearchResult = MutableLiveData<SearchResult?>()
+
     /** The chosen route from the route selection overlay. */
     val chosenRoute = MutableLiveData<List<LatLng>>()
+
     /** Callback from the view that we have gotten the permission to access the user's location. */
-    fun permissionCallback() { locationRepository().locationCallback(registerListener) }
+    fun permissionCallback() {
+        locationRepository().locationCallback(registerListener)
+    }
 
     /** The listener that should be used to register for location updates. */
-    var registerListener: (input: LocationUpdateListener) -> Unit = fun(_: LocationUpdateListener) { }
+    var registerListener: (input: LocationUpdateListener) -> Unit =
+        fun(_: LocationUpdateListener) {}
 
     // The repository that should be used to get the current location, using the registerListener.
     private fun locationRepository(): LocationRepository {
-        return LocationRepository(applicationLocal.applicationContext, LatLng(59.92, 10.75), shouldGetPermission, registerListener)
+        return LocationRepository(
+            applicationLocal.applicationContext,
+            LatLng(59.92, 10.75),
+            shouldGetPermission,
+            registerListener
+        )
     }
 
     // Ensure that only one copy of the currentLocation LiveData is created.
@@ -99,24 +110,31 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         val lng: Double = currentPos().value?.longitude ?: 0.0
 
         // If fake location, don't update weather.
-        if (lat == 0.0 || lng == 0.0) { return }
+        if (lat == 0.0 || lng == 0.0) {
+            return
+        }
 
         // Only update every 10 seconds.
         val currMill = System.currentTimeMillis()
-        if (currMill - lastUpdated < 10000 && lastUpdated != 0L) { return }
+        if (currMill - lastUpdated < 10000 && lastUpdated != 0L) {
+            return
+        }
         lastUpdated = currMill
 
         val weatherUseCase =
-            GetWeatherUseCase(NowcastRepository(Endpoints.NOWCAST_COMPLETE),
-                LocationForecastRepository(Endpoints.LOCATIONFORECAST_COMPLETE))
+            GetWeatherUseCase(
+                NowcastRepository(Endpoints.NOWCAST_COMPLETE),
+                LocationForecastRepository(Endpoints.LOCATIONFORECAST_COMPLETE)
+            )
 
         // Get the deviations from the weather to be used in the overlay bubbles.
-        val deviatingWeather = GetDeviatingWeather(weatherUseCase, 1.0, 1.0, 0.5,
+        val deviatingWeather = GetDeviatingWeather(
+            weatherUseCase, 1.0, 1.0, 0.5,
             listOf(
                 LatLng(59.961731, 10.750947), // Korsvoll
                 LatLng(59.962913, 10.783847), // Kjellsås
                 LatLng(59.941240, 10.81926),  // Bjerke
-                LatLng(59.933194,10.670373),  // Huseby
+                LatLng(59.933194, 10.670373),  // Huseby
                 LatLng(59.922826, 10.679366), // Skøyen
                 LatLng(59.930228, 10.862871), // Alna
                 LatLng(59.942360, 10.704445), // Vindern
@@ -154,15 +172,23 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                     } else {
                         R.color.purple_700
                     }
-                    bubbles.add(OverlayBubble(it.pos, String.format("%.1f", it.weatherDataPoint.temperature) + "°",
-                        context.resources.getColor(color, applicationLocal.theme),
-                        context.resources.getColor(R.color.off_white, applicationLocal.theme)))
+                    bubbles.add(
+                        OverlayBubble(
+                            it.pos, String.format("%.1f", it.weatherDataPoint.temperature) + "°",
+                            context.resources.getColor(color, applicationLocal.theme),
+                            context.resources.getColor(R.color.off_white, applicationLocal.theme)
+                        )
+                    )
                 }
                 DeviationTypes.PRECIPITATION -> {
-                    bubbles.add(OverlayBubble(it.pos, String.format("%.1f", it.weatherDataPoint.precipitation) +
-                            "\uD83D\uDCA7", // Water drop
-                        context.resources.getColor(R.color.black, applicationLocal.theme),
-                        context.resources.getColor(R.color.off_white, applicationLocal.theme)))
+                    bubbles.add(
+                        OverlayBubble(
+                            it.pos, String.format("%.1f", it.weatherDataPoint.precipitation) +
+                                    "\uD83D\uDCA7", // Water drop
+                            context.resources.getColor(R.color.black, applicationLocal.theme),
+                            context.resources.getColor(R.color.off_white, applicationLocal.theme)
+                        )
+                    )
                 }
                 DeviationTypes.WIND -> {
                     // Currently Ignored. Design choice.
@@ -205,7 +231,10 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         // Update weather every 60 seconds even if the user has not moved.
-        Handler(Looper.getMainLooper()).postDelayed({ viewModelScope.launch(Dispatchers.IO) {
-            updateWeatherAndDeviations(application.applicationContext) } }, 60000)
+        Handler(Looper.getMainLooper()).postDelayed({
+            viewModelScope.launch(Dispatchers.IO) {
+                updateWeatherAndDeviations(application.applicationContext)
+            }
+        }, 60000)
     }
 }

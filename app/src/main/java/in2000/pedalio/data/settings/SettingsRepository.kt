@@ -11,8 +11,8 @@ abstract class SettingsRepository {
     abstract var gpsToggle: Boolean
     abstract var askedForGps: Boolean
     abstract var shownWelcomeScreen: Boolean
-    abstract var layerAirQuality : Boolean
-    abstract var layerWeather : Boolean
+    abstract var layerAirQuality: Boolean
+    abstract var layerWeather: Boolean
     abstract var recentSearches: List<SearchResult>
     abstract var favoriteSearches: List<FavoriteResult>
 }

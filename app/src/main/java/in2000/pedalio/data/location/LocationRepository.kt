@@ -19,10 +19,12 @@ import in2000.pedalio.data.settings.impl.SharedPreferences
  * @property shouldGetPermission whether the permission to access the location should be requested
  * @property registerListener a function to register a location listener
  */
-class LocationRepository(val context: Context,
-                         private val defaultLocation: LatLng,
-                         private val shouldGetPermission: MutableLiveData<Boolean>,
-                         private val registerListener: (input: LocationUpdateListener) -> Unit) {
+class LocationRepository(
+    val context: Context,
+    private val defaultLocation: LatLng,
+    private val shouldGetPermission: MutableLiveData<Boolean>,
+    private val registerListener: (input: LocationUpdateListener) -> Unit
+) {
     /**
      * The location data. Public interface of the location data.
      */

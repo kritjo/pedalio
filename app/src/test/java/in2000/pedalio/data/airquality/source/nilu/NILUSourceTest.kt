@@ -2,8 +2,8 @@ package in2000.pedalio.data.airquality.source.nilu
 
 import in2000.pedalio.data.Endpoints
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
-
+import org.junit.Assert.assertEquals
+import org.junit.Assert.fail
 import org.junit.Test
 
 class NILUSourceTest {
