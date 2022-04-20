@@ -1,5 +1,6 @@
 package in2000.pedalio.data.weather.source.locationforecast
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelError
@@ -10,7 +11,7 @@ import in2000.pedalio.data.weather.source.LocationForecastCompleteDataClass
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-class LocationforecastSource {
+class LocationForecastSource {
     companion object {
         /**
          * Do API call
@@ -19,6 +20,7 @@ class LocationforecastSource {
          * @param lon Longitude
          * @return A Locationforecast data class
          */
+        @SuppressLint("LogNotTimber")
         @JvmStatic
         suspend fun getLocationforecast(
             endpoint: String,
@@ -26,7 +28,7 @@ class LocationforecastSource {
             lon: Double
         ): LocationForecastCompleteDataClass? {
             return try {
-                val (req: Request, _: Response, res: String) =
+                val (_: Request, _: Response, res: String) =
                     Fuel.get(endpoint, listOf(Pair("lat", lat), Pair("lon", lon)))
                         .awaitStringResponse()
                 Json.decodeFromString(res)

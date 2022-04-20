@@ -4,7 +4,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Test
 import com.tomtom.online.sdk.common.location.LatLng
 import in2000.pedalio.data.Endpoints
-import in2000.pedalio.data.weather.impl.LocationforecastRepository
+import in2000.pedalio.data.weather.impl.LocationForecastRepository
 import in2000.pedalio.data.weather.impl.NowcastRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -22,7 +22,7 @@ class GetWeatherUseCaseTest {
     @Test
     fun testGetWeatherUseCase() {
         val latLng = LatLng(59.92, 10.75)
-        val locationforecastRepository = LocationforecastRepository(Endpoints.LOCATIONFORECAST_COMPLETE)
+        val locationforecastRepository = LocationForecastRepository(Endpoints.LOCATIONFORECAST_COMPLETE)
         val nowcastRepository = NowcastRepository(Endpoints.NOWCAST_COMPLETE)
         val getWeatherUseCase = GetWeatherUseCase(nowcastRepository, locationforecastRepository)
         runBlocking {

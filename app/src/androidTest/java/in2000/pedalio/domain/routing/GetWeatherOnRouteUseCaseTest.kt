@@ -5,7 +5,7 @@ import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.routing.route.RoutePlan
 import in2000.pedalio.data.Endpoints
 import in2000.pedalio.data.routing.impl.TomtomRoutingRepository
-import in2000.pedalio.data.weather.impl.LocationforecastRepository
+import in2000.pedalio.data.weather.impl.LocationForecastRepository
 import in2000.pedalio.data.weather.impl.NowcastRepository
 import in2000.pedalio.domain.weather.GetWeatherUseCase
 import in2000.pedalio.utils.CoordinateUtil
@@ -31,7 +31,7 @@ class GetWeatherOnRouteUseCaseTest {
         val routePoints = CoordinateUtil.limitPointsOnRouteSimple(route.getCoordinates(), 10)
         Assert.assertTrue(routePoints.size in 7..12)
         val nowcast = NowcastRepository(Endpoints.NOWCAST_COMPLETE)
-        val locationforecast = LocationforecastRepository(Endpoints.LOCATIONFORECAST_COMPLETE)
+        val locationforecast = LocationForecastRepository(Endpoints.LOCATIONFORECAST_COMPLETE)
         val weatherUseCase = GetWeatherUseCase(nowcast, locationforecast)
         val weatherOnRouteUseCase = GetWeatherOnRouteUseCase(weatherUseCase, context = appContext)
         runBlocking {

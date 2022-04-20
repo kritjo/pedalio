@@ -2,10 +2,8 @@ package in2000.pedalio.viewmodel
 
 import android.app.Application
 import android.content.Context
-import android.icu.util.Calendar
 import android.os.Handler
 import android.os.Looper
-import android.os.SystemClock
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -16,7 +14,7 @@ import in2000.pedalio.data.Endpoints
 import in2000.pedalio.data.bikeRoutes.impl.OsloBikeRouteRepostiory
 import in2000.pedalio.data.location.LocationRepository
 import in2000.pedalio.data.search.SearchResult
-import in2000.pedalio.data.weather.impl.LocationforecastRepository
+import in2000.pedalio.data.weather.impl.LocationForecastRepository
 import in2000.pedalio.data.weather.impl.NowcastRepository
 import in2000.pedalio.domain.weather.DeviationTypes
 import in2000.pedalio.domain.weather.GetDeviatingWeather
@@ -34,7 +32,6 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         var currentLocation: MutableLiveData<LatLng>? = null
     }
 
-    val errno = MutableLiveData(ERRNO.NO_ERROR)
 
     // Pair of LatLng and Color
     val polyline = MutableLiveData(listOf(Pair(listOf(LatLng()), 0)))
@@ -95,7 +92,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
         val weatherUseCase =
             GetWeatherUseCase(NowcastRepository(Endpoints.NOWCAST_COMPLETE),
-                LocationforecastRepository(Endpoints.LOCATIONFORECAST_COMPLETE))
+                LocationForecastRepository(Endpoints.LOCATIONFORECAST_COMPLETE))
         val deviatingWeather = GetDeviatingWeather(weatherUseCase, 1.0, 1.0, 0.5,
             listOf(
                 LatLng(59.961731, 10.750947), // Korsvoll
@@ -133,14 +130,14 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                             R.color.purple_700
                         }
                         bubbles.add(OverlayBubble(it.pos, String.format("%.1f", it.weatherDataPoint.temperature) + "°",
-                            context.resources.getColor(color),
-                            context.resources.getColor(R.color.off_white)))
+                            context.resources.getColor(color, applicationLocal.theme),
+                            context.resources.getColor(R.color.off_white, applicationLocal.theme)))
                     }
                     DeviationTypes.PERCIPITATION -> {
                         bubbles.add(OverlayBubble(it.pos, String.format("%.1f", it.weatherDataPoint.percipitation) +
                                 "\uD83D\uDCA7", // Water drop
-                            context.resources.getColor(R.color.black),
-                            context.resources.getColor(R.color.off_white)))
+                            context.resources.getColor(R.color.black, applicationLocal.theme),
+                            context.resources.getColor(R.color.off_white, applicationLocal.theme)))
                     }
                     DeviationTypes.WIND -> {
                         // Currently Ignored TODO maybe
@@ -169,9 +166,4 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         }
         return false
     }
-}
-
-enum class ERRNO {
-    NO_ERROR,
-    NO_INTERNET,
 }
