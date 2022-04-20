@@ -33,6 +33,10 @@ class SharedPreferences(context: Context): SettingsRepository() {
         get() = sharedPreferences.getBoolean(SettingsKey.ASKED_FOR_GPS.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.ASKED_FOR_GPS.name, value).apply()
 
+    override var shownWelcomeScreen: Boolean
+        get() = sharedPreferences.getBoolean(SettingsKey.SHOWN_WELCOME_SCREEN.name, false)
+        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.SHOWN_WELCOME_SCREEN.name, value).apply()
+
     override var layerAirQuality: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.LAYER_AIR_QUALITY.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_AIR_QUALITY.name, value).apply()
@@ -112,6 +116,10 @@ enum class SettingsKey {
      * The key for the setting that stores the asked for GPS.
      */
     ASKED_FOR_GPS,
+    /**
+     * The key for the setting that stores the shown welcome screen setting.
+     */
+    SHOWN_WELCOME_SCREEN,
     /**
      * The keys for layer settings
      */

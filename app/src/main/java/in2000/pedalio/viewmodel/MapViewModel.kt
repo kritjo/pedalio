@@ -34,6 +34,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         var currentLocation: MutableLiveData<LatLng>? = null
     }
 
+    val errno = MutableLiveData(ERRNO.NO_ERROR)
+
     // Pair of LatLng and Color
     val polyline = MutableLiveData(listOf(Pair(listOf(LatLng()), 0)))
 
@@ -167,4 +169,9 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         }
         return false
     }
+}
+
+enum class ERRNO {
+    NO_ERROR,
+    NO_INTERNET,
 }

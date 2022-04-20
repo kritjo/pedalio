@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.mindorks.editdrawabletext.DrawablePosition
 import com.mindorks.editdrawabletext.onDrawableClickListener
@@ -68,11 +70,15 @@ class SearchWindow : Fragment() {
             }
         }
         results.observe(viewLifecycleOwner) {
-            if (stateRecently.value == false) {
-                val adapter = ResultAdapter(this, it, chosenResult)
-                recyclerView.adapter = adapter
-            }
+            if (it == null) {
+                Toast.makeText(requireContext(), "Ingen resultater. Sjekk nettverksforbinnelsen.", Toast.LENGTH_SHORT).show()
 
+            } else {
+                if (stateRecently.value == false) {
+                    val adapter = ResultAdapter(this, it, chosenResult)
+                    recyclerView.adapter = adapter
+                }
+            }
         }
         results.postValue(emptyList())
 

@@ -22,7 +22,11 @@ class GetWeatherOnRouteUseCaseTest {
         val middle =        LatLng(59.95896083733742, 10.742256703144921)
         val destination =   LatLng(59.95275321623974, 10.748902973073466)
         val waypoints = listOf(origin, middle, destination)
-        val plan : RoutePlan = routing.calculateRouteFromWaypoints(waypoints)
+        val plan : RoutePlan? = routing.calculateRouteFromWaypoints(waypoints)
+        if (plan == null) {
+            Assert.fail("No route found")
+            return
+        }
         val route = plan.routes[0]
         val routePoints = CoordinateUtil.limitPointsOnRouteSimple(route.getCoordinates(), 10)
         Assert.assertTrue(routePoints.size in 7..12)

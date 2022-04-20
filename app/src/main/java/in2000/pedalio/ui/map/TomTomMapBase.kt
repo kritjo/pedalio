@@ -1,31 +1,48 @@
 package in2000.pedalio.ui.map
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.RelativeLayout
+import android.widget.Switch
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.NonNull
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
+import com.tomtom.online.sdk.common.util.LogUtils
 import com.tomtom.online.sdk.map.*
 import com.tomtom.online.sdk.map.route.RouteLayerStyle
+import in2000.pedalio.MainActivity
 import in2000.pedalio.R
 import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.domain.routing.GetRouteAlternativesUseCase
+import in2000.pedalio.utils.NetworkUtils
+import in2000.pedalio.viewmodel.ERRNO
 import in2000.pedalio.viewmodel.MapViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 /**
@@ -54,6 +71,7 @@ class TomTomMapBase : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        LogUtils.enableLogs(Log.VERBOSE);
         requestPermissionLauncher =
             registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
@@ -69,7 +87,30 @@ class TomTomMapBase : Fragment() {
             }
         initLayerSelector()
     }
-
+/*
+    override fun onStart() {
+        super.onStart()
+        mapViewModel.errno.observe(viewLifecycleOwner) {
+            if (it == ERRNO.NO_INTERNET) {
+                Toast.makeText(requireContext(), R.string.no_network_connection,
+                    Toast.LENGTH_SHORT).show()
+                requireContext().getSystemService(ConnectivityManager::class.java).registerNetworkCallback(
+                    NetworkRequest.Builder()
+                        .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                        .build(),
+                    object: ConnectivityManager.NetworkCallback() {
+                        override fun onAvailable(network: Network) {
+                            super.onAvailable(network)
+                            val intent = Intent(requireContext(), MainActivity::class.java)
+                            startActivity(intent)
+                            finishAffinity(requireActivity())
+                        }
+                    }
+                )
+            }
+        }
+    }
+*/
     private fun onMapReady(map: TomtomMap) {
         tomtomMap = map
         // This callback should be first thing after this.tomtomMap assign

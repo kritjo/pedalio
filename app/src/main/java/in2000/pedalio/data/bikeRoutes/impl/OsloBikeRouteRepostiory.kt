@@ -20,8 +20,8 @@ class OsloBikeRouteRepostiory(val endpoint: String) : BikeRouteRepository() {
     override suspend fun getRoutes(): List<List<LatLng>> {
         val stringRoutes = OsloBikeRoutesSource.getRoutes(endpoint)
             // remove non RFC7946 compliant data
-            .replace("\"geometry_name\":\"shape\",", "")
-            .replace(",\"totalFeatures.*".toRegex(), "}")
+            ?.replace("\"geometry_name\":\"shape\",", "")
+            ?.replace(",\"totalFeatures.*".toRegex(), "}") ?: return emptyList()
 
         // Transform the coordinates to WGS84 using Proj4j
         val epsg25832: Projection? = ProjectionFactory.getProjection(25832)

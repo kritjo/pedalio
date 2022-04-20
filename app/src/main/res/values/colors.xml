@@ -8,6 +8,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="off_white">#FFF5F5F5</color>
+
+    <color name="primary">#EB7325</color>
+    <color name="primary_t">#C6EB7325</color>
+    <color name="secondary">#26E0EB</color>
+    <color name="orange">#FF8E42</color>
+    <color name="teal">#00959E</color>
+    <color name="brown">#9E470D</color>
+
     <color name="red">#FFF44336</color>
     <color name="light_grey">#F0F0F0</color>
 
