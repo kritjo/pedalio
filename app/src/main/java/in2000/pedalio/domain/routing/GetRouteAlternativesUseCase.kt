@@ -151,6 +151,7 @@ private fun dijkstra(
     return path.reversed()
 }
 
+//removing decimal places
 private fun Double.reduce(decp: Int): Double {
     var value = this
     value *= 10.0.pow(decp)
