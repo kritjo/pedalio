@@ -11,10 +11,22 @@ import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.location.LocationUpdateListener
 import in2000.pedalio.data.settings.impl.SharedPreferences
 
+/**
+ * Repository for location data. This class uses the registerListener in order to aquire the location
+ * data.
+ *
+ * @property context
+ * @property defaultLocation the default location to use if no location is available
+ * @property shouldGetPermission whether the permission to access the location should be requested
+ * @property registerListener a function to register a location listener
+ */
 class LocationRepository(val context: Context,
                          private val defaultLocation: LatLng,
                          private val shouldGetPermission: MutableLiveData<Boolean>,
                          private val registerListener: (input: LocationUpdateListener) -> Unit) {
+    /**
+     * The location data. Public interface of the location data.
+     */
     val currentPosition = MutableLiveData(defaultLocation)
     private val settingsRepository = SharedPreferences(context)
 
