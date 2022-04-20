@@ -15,4 +15,24 @@
     <color name="orange">#FF8E42</color>
     <color name="teal">#00959E</color>
     <color name="brown">#9E470D</color>
+
+    <color name="red">#FFF44336</color>
+    <color name="light_grey">#F0F0F0</color>
+
+    <color name="primaryOrange">#EB7325</color>
+
+    <color name="secondaryDarkBlue">#00959E</color>
+    <color name="secondaryLightBlue">#26E0EB</color>
+    <color name="secondarySuperLightBlue">#5AF6FF</color>
+
+    <color name="secondaryLightOrange">#FF8E42</color>
+    <color name="secondarySuperLightOrange">#FFD1B3</color>
+
+
+    <color name="primaryOrangeTrans">#37EB7325</color>
+    <color name="secondaryLightBlueTran">#3426E0EB</color>
+
+
+
+
 </resources>

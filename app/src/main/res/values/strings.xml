@@ -7,6 +7,11 @@
     <string name="title_map">Map</string>
     <string name="cd_map">Map</string>
 
+    <string name="button">Button</string>
+    <string name="sok">sok</string>
+    <string name="s_k">søk</string>
+
+
     <string name="settings_title">Settings</string>
 
     <!-- Preference Titles -->
@@ -16,6 +21,19 @@
     <string name="location_title">Use GPS location</string>
     <string name="darkmode_title">Dark mode</string>
     <string name="colorblind_title">Color blind mode</string>
+    <string name="test">Test</string>
+
+    <!-- Weather fragment -->
+    <string name="degrees">%1$s°</string>
+    <string name="m_s">%1$s m/s</string>
+    <string name="mm_h">%1$s mm/h</string>
+    <string name="favorites">Favoritter (Hold inne for å fjerne)</string>
+    <string name="recently_searched_hint">Nylige søk</string>
+    <string name="search_result_hint">Søkeresultater</string>
+    <string name="favorite_question">Favoritt?</string>
+
+    <string name="no_network_connection">Ingen nettverkstilgang, vennligst koble til nettverk.</string>
+
 
     <string name ="next">Neste</string>
     <string name ="welcome_header">Velkommen til Pedalio!</string>

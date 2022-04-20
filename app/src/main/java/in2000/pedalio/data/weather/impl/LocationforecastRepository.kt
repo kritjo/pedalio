@@ -19,8 +19,12 @@ class LocationforecastRepository(
                          timeDelta: Int): Double? {
         val forecast = LocationforecastSource
             .getLocationforecast(endpoint, lat, lon)
-        if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
-            throw IllegalStateException("No time available")
+        if (forecast != null) {
+            if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
+                throw IllegalStateException("No time available")
+        } else {
+            return null
+        }
         return forecast
             .properties
             ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
@@ -36,8 +40,12 @@ class LocationforecastRepository(
                                               timeDelta: Int): Double? {
         val forecast = LocationforecastSource
             .getLocationforecast(endpoint, lat, lon)
-        if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
-            throw IllegalStateException("No time available")
+        if (forecast != null) {
+            if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
+                throw IllegalStateException("No time available")
+        } else {
+            return null
+        }
         return forecast
             .properties
             ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
@@ -52,8 +60,12 @@ class LocationforecastRepository(
                                           timeDelta: Int): Double? {
         val forecast = LocationforecastSource
             .getLocationforecast(endpoint, lat, lon)
-        if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
-            throw IllegalStateException("No time available")
+        if (forecast != null) {
+            if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
+                throw IllegalStateException("No time available")
+        } else {
+            return null
+        }
         return forecast
             .properties
             ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
@@ -69,8 +81,12 @@ class LocationforecastRepository(
                                              timeDelta: Int): Double? {
         val forecast = LocationforecastSource
             .getLocationforecast(endpoint, lat, lon)
-        if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
-            throw IllegalStateException("No time available")
+        if (forecast != null) {
+            if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
+                throw IllegalStateException("No time available")
+        } else {
+            return null
+        }
         return forecast
             .properties
             ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
@@ -86,8 +102,12 @@ class LocationforecastRepository(
                                           timeDelta: Int): Double? {
         val forecast = LocationforecastSource
             .getLocationforecast(endpoint, lat, lon)
-        if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
-            throw IllegalStateException("No time available")
+        if (forecast != null) {
+            if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
+                throw IllegalStateException("No time available")
+        } else {
+            return null
+        }
         return  forecast
             .properties
             ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
@@ -103,8 +123,12 @@ class LocationforecastRepository(
                                       timeDelta: Int): Double? {
         val forecast = LocationforecastSource
             .getLocationforecast(endpoint, lat, lon)
-        if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
-            throw IllegalStateException("No time available")
+        if (forecast != null) {
+            if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
+                throw IllegalStateException("No time available")
+        } else {
+            return null
+        }
         return  forecast
             .properties
             ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
@@ -120,8 +144,12 @@ class LocationforecastRepository(
                                       timeDelta: Int): Double? {
         val forecast = LocationforecastSource
             .getLocationforecast(endpoint, lat, lon)
-        if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
-            throw IllegalStateException("No time available")
+        if (forecast != null) {
+            if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
+                throw IllegalStateException("No time available")
+        } else {
+            return null
+        }
         return  forecast
             .properties
             ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
@@ -134,5 +162,23 @@ class LocationforecastRepository(
     override suspend fun radarCoverage(lat: Double,
                                        lon: Double): Boolean {
         throw UnsupportedOperationException("Not implemented by Locationforecast")
+    }
+
+    override suspend fun getWeatherIcon(lat: Double, lon: Double, timeDelta: Int): String? {
+        val forecast = LocationforecastSource
+            .getLocationforecast(endpoint, lat, lon)
+        if (forecast != null) {
+            if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
+                throw IllegalStateException("No time available")
+        } else {
+            return null
+        }
+        return  forecast
+            .properties
+            ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
+            ?.data
+            ?.next_1_hours
+            ?.summary
+            ?.symbol_code
     }
 }

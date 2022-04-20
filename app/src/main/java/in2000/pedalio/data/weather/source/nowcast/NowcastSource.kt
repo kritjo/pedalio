@@ -2,6 +2,7 @@ package in2000.pedalio.data.weather.source.nowcast
 
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.coroutines.awaitStringResponse
@@ -25,13 +26,16 @@ class NowcastSource {
             endpoint: String,
             lat: Double,
             lon: Double
-        ): NowcastCompleteDataClass {
-            val (req: Request, _: Response, res: String) =
-                Fuel.get(endpoint, listOf(Pair("lat", lat), Pair("lon", lon)))
-                    .awaitStringResponse()
-            Log.i("Request", req.toString())
-            Log.i("Response", res)
-            return Json.decodeFromString(res)
+        ): NowcastCompleteDataClass? {
+            return try {
+                val (req: Request, _: Response, res: String) =
+                    Fuel.get(endpoint, listOf(Pair("lat", lat), Pair("lon", lon)))
+                        .awaitStringResponse()
+                Json.decodeFromString(res)
+            } catch (e: FuelError) {
+                Log.e("NowcastSource", "Error: ${e.message}")
+                null
+            }
         } 
     }
 }

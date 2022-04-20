@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(welcomeIntent)
             settings.shownWelcomeScreen = true
         }
+        this.supportActionBar?.hide()
         setContentView(R.layout.activity_main)
-
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.nav_host_container
         ) as NavHostFragment

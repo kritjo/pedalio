@@ -9,10 +9,10 @@ interface RoutingRepository { // Routing API from TomTom
     /**
      * Calculates a route between several points (waypoints).
      */
-    fun calculateRouteFromWaypoints(locations : List<LatLng>) : RoutePlan
+    fun calculateRouteFromWaypoints(locations : List<LatLng>) : RoutePlan?
 
     /**
      * Calculates a route between two points.
      */
-    fun calculateRoute(from : LatLng, to : LatLng) : RoutePlan
+    fun calculateRoute(from : LatLng, to : LatLng) : RoutePlan?
 }

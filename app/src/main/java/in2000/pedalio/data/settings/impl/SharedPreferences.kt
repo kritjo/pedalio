@@ -1,8 +1,12 @@
-package in2000.pedalio.data
+package in2000.pedalio.data.settings.impl
 
 import android.content.Context
 import androidx.preference.PreferenceManager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import in2000.pedalio.data.search.SearchResult
 import in2000.pedalio.data.settings.SettingsRepository
+import in2000.pedalio.ui.homescreen.FavoriteResult
 
 /**
  * Repository for settings. Uses shared preferences to store settings.
@@ -33,6 +37,62 @@ class SharedPreferences(context: Context): SettingsRepository() {
         get() = sharedPreferences.getBoolean(SettingsKey.SHOWN_WELCOME_SCREEN.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.SHOWN_WELCOME_SCREEN.name, value).apply()
 
+    override var layerAirQuality: Boolean
+        get() = sharedPreferences.getBoolean(SettingsKey.LAYER_AIR_QUALITY.name, false)
+        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_AIR_QUALITY.name, value).apply()
+
+    override var layerWeather: Boolean
+        get() = sharedPreferences.getBoolean(SettingsKey.LAYER_WEATHER.name, false)
+        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_WEATHER.name, value).apply()
+
+    override var layerBikeRoutes: Boolean
+        get() = sharedPreferences.getBoolean(SettingsKey.LAYER_BIKE_ROUTES.name, false)
+        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_BIKE_ROUTES.name, value).apply()
+
+    override var recentSearches: List<SearchResult>
+        get(): List<SearchResult> {
+            val saved = sharedPreferences.getString(SettingsKey.RECENT_SEARCHES.name, "") ?: ""
+            if (saved == "") {
+                return emptyList()
+            }
+            val lClass = TypeToken.getParameterized(List::class.java, SearchResult::class.java).type
+            return Gson().fromJson(saved,lClass) ?: emptyList()
+        }
+        set(value) = sharedPreferences.edit().putString(
+            SettingsKey.RECENT_SEARCHES.name, Gson().toJson(value)).apply()
+
+    fun appendRecentSearch(searchResult: SearchResult) {
+        recentSearches = recentSearches.toMutableList().apply {
+            if (size > 9) removeAt(9)
+            add(0, searchResult)
+        }
+    }
+
+    override var favoriteSearches: List<FavoriteResult>
+        get(): List<FavoriteResult> {
+            val saved = sharedPreferences.getString(SettingsKey.FAVORITE_SEARCHES.name, "") ?: ""
+            if (saved == "") {
+                return emptyList()
+            }
+            val lClass = TypeToken.getParameterized(List::class.java, FavoriteResult::class.java).type
+            return Gson().fromJson(
+                saved, lClass) ?: emptyList()
+        }
+        set(value) = sharedPreferences.edit().putString(
+            SettingsKey.FAVORITE_SEARCHES.name, Gson().toJson(value)).apply()
+
+    fun appendFavoriteSearch(favoriteResult: FavoriteResult) {
+        favoriteSearches = favoriteSearches.toMutableList().apply {
+            if (size > 9) removeAt(9)
+            add(0, favoriteResult)
+        }
+    }
+
+    fun removeFavorite(favoriteResult: FavoriteResult) {
+        favoriteSearches = favoriteSearches.toMutableList().apply {
+            remove(favoriteResult)
+        }
+    }
 }
 
 enum class SettingsKey {
@@ -60,4 +120,17 @@ enum class SettingsKey {
      * The key for the setting that stores the shown welcome screen setting.
      */
     SHOWN_WELCOME_SCREEN,
+    /**
+     * The keys for layer settings
+     */
+    LAYER_AIR_QUALITY,
+    LAYER_WEATHER,
+
+    /**
+     * The key for the setting that stores the bike routes toggle.
+     */
+    LAYER_BIKE_ROUTES,
+
+    RECENT_SEARCHES,
+    FAVORITE_SEARCHES
 }

@@ -1,12 +1,14 @@
 package in2000.pedalio.data.airquality.impl
 
+import android.util.Log
+import in2000.pedalio.data.Endpoints
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 
 import org.junit.Test
 
 class AQFRepositoryTest {
-    val ENDPOINT = "https://in2000-apiproxy.ifi.uio.no/weatherapi/airqualityforecast/0.1/"
+    val ENDPOINT = Endpoints.AIRQUALITY_FORECAST
 
     @Test
     fun getAQI() {

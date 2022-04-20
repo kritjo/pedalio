@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/soket"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/secondarySuperLightBlue"
+    tools:context=".MainActivity">
+
+
+    <com.mindorks.editdrawabletext.EditDrawableText
+        android:id="@+id/search"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/custom_search_button2"
+        android:drawableLeft="@drawable/ic_action_back"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/black"
+        android:hint="@string/s_k"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/lowerSearch"
+        app:layout_constraintDimensionRatio="9:1"
+        app:layout_constraintEnd_toEndOf="@id/marginRight"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/marginLeft"
+        app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlHardcoded" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_favorites"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/lowerFavRecycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lowerFavorite"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <TextView
+        android:id="@+id/textFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/favorites"
+        android:textColor="@color/primaryOrange"
+        app:layout_constraintBottom_toTopOf="@id/lowerFavorite"
+        app:layout_constraintStart_toStartOf="@+id/marginLeft"
+        app:layout_constraintTop_toTopOf="@+id/lowerSearch" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/marginLeft"
+        app:layout_constraintStart_toStartOf="@id/marginLeft"
+        app:layout_constraintTop_toBottomOf="@id/lowerFavRecycler">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lowerSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.10" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/marginLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.02" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/marginRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.98" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lowerFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lowerFavRecycler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.30" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lowerRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/parentGuideRight"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/parentGuideLeft"
+        app:layout_constraintTop_toTopOf="@+id/recGuide"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    <TextView
+        android:id="@+id/lowerRecyclerHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recently_searched_hint"
+        android:textColor="@color/primaryOrange"
+        app:layout_constraintBottom_toTopOf="@+id/recGuide"
+        app:layout_constraintStart_toStartOf="@+id/marginLeft"
+        app:layout_constraintTop_toBottomOf="@+id/search_favorites" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/recGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.35" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/parentGuideLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/parentGuideRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="1" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
