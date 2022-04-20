@@ -1,4 +1,4 @@
-package in2000.pedalio.data.airquality.source.AQF
+package in2000.pedalio.data.airquality.source.aqf
 
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.Request
@@ -21,7 +21,7 @@ class AQFSource {
                 Pair("lat", lat.toString()),
                 Pair("lon", lon.toString())
             )
-            val (req: Request, _: Response, res: String) = Fuel.get(endpoint, parameters).awaitStringResponse()
+            val (_: Request, _: Response, res: String) = Fuel.get(endpoint, parameters).awaitStringResponse()
             return Json.decodeFromString(res)
         }
     }

@@ -1,4 +1,4 @@
-package in2000.pedalio.data.airquality.source.NILU
+package in2000.pedalio.data.airquality.source.nilu
 
 import kotlinx.serialization.Serializable
 

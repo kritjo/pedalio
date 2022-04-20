@@ -1,4 +1,4 @@
-package in2000.pedalio.data.airquality.source.NILU
+package in2000.pedalio.data.airquality.source.nilu
 
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.Request
@@ -22,18 +22,13 @@ class NILUSource {
         }
     }
 
-    enum class COMPONENTS(s: String) {
-        CO("co"),
-        NO("no"),
-        NO2("no2"),
-        NOx("nox"),
-        O3("o3"),
-        PM1("pm1"),
-        PM10("pm10"),
-        PM2_5("pm2.5"),
-        SO2("so2"),
-        ALL("all") {
+    enum class COMPONENTS {
+        NO2,
+        PM10,
+        PM2_5,
+        ALL {
             override fun toString(): String {
+                // For all components, we should pass an empty string
                 return ""
             }
         }

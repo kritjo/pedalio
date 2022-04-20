@@ -1,4 +1,4 @@
-package in2000.pedalio.data.airquality.source.AQF
+package in2000.pedalio.data.airquality.source.aqf
 
 import in2000.pedalio.data.Endpoints
 import kotlinx.coroutines.runBlocking
