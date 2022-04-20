@@ -3,7 +3,7 @@ package in2000.pedalio.data.weather
 /**
  * Data repository for access of weather data for a single position. Both current and future data.
  */
-abstract class WeatherRepository() {
+abstract class WeatherRepository {
     /**
      * @return Temp in Celsius after timeDelta minutes
      * @param lat Latitude of position for temp

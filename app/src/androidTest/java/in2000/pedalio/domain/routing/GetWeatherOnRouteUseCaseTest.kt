@@ -36,11 +36,9 @@ class GetWeatherOnRouteUseCaseTest {
         val weatherOnRouteUseCase = GetWeatherOnRouteUseCase(weatherUseCase, context = appContext)
         runBlocking {
             val weatherOnRoute = weatherOnRouteUseCase.getBatchWeather(routePoints)
-            if (weatherOnRoute != null) {
-                Assert.assertTrue(weatherOnRoute.size in 7..12)
-                weatherOnRoute.forEach() {
-                    Assert.assertTrue(it.temperature!! in -20f..40f)
-                }
+            Assert.assertTrue(weatherOnRoute.size in 7..12)
+            weatherOnRoute.forEach {
+                Assert.assertTrue(it.temperature!! in -20f..40f)
             }
         }
     }
