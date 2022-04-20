@@ -7,7 +7,7 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class NILUSourceTest {
-    val ENDPOINT = "https://api.nilu.no/aq/utd"
+    val ENDPOINT = Endpoints.NILU_FORECAST
 
     @Test
     fun endpointTest() {

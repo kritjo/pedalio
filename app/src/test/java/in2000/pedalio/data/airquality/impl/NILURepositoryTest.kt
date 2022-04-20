@@ -1,12 +1,13 @@
 package in2000.pedalio.data.airquality.impl
 
+import in2000.pedalio.data.Endpoints
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 
 import org.junit.Test
 
 class NILURepositoryTest {
-    val ENDPOINT = "https://api.nilu.no/aq/utd"
+    val ENDPOINT = Endpoints.NILU_FORECAST
 
     @Test
     fun getAQI() {

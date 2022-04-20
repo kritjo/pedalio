@@ -7,7 +7,7 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class AQFSourceTest {
-    val ENDPOINT = "https://in2000-apiproxy.ifi.uio.no/weatherapi/airqualityforecast/0.1/"
+    val ENDPOINT = Endpoints.AIRQUALITY_FORECAST
 
     @Test
     fun endpointTest() {
