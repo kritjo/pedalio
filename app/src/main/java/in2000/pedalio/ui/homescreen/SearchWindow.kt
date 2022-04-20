@@ -33,7 +33,6 @@ import java.util.concurrent.Executors.newSingleThreadExecutor
 class SearchWindow : Fragment() {
     private val mapViewModel: MapViewModel by activityViewModels()
     private val chosenResult = MutableLiveData<SearchResult>()
-    private val sharedPreferences = SharedPreferences(requireContext())
 
     // Using a single thread executor to avoid race conditions.
     private val coroutineDispatcher = newSingleThreadExecutor().asCoroutineDispatcher()
@@ -53,7 +52,7 @@ class SearchWindow : Fragment() {
         val lowerRecyclerHint = v.findViewById<TextView>(R.id.lowerRecyclerHint)
         val search = v.findViewById<com.mindorks.editdrawabletext.EditDrawableText>(R.id.search)
         val favoriteRecycler = v.findViewById<RecyclerView>(R.id.search_favorites)
-
+        val sharedPreferences = SharedPreferences(requireContext())
         favoriteRecycler.adapter =
             FavoriteRecyclerAdapter(this, sharedPreferences.favoriteSearches, chosenResult)
 
