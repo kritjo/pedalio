@@ -33,7 +33,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/weather_degrees" />
+                    app:layout_constraintBottom_toTopOf="@+id/weather_degrees"
+                    android:contentDescription="@string/content_description_weather_symbol" />
 
             <TextView
                     android:text="@string/degrees"

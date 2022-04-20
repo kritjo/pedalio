@@ -4,7 +4,6 @@ import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import java.time.Instant
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 /**
  * Utility Functions for date and time
@@ -12,28 +11,17 @@ import java.util.*
  */
 class DateTime {
     companion object {
-        @JvmStatic
-        val currentISOTime
-            get() = DateTimeFormatter.ISO_INSTANT.format(
-                Instant.ofEpochMilli(
-                    Calendar.getInstance().timeInMillis
-                )
-            )
 
+        /**
+         * @param iso ISO 8609 date string
+         * @return ms since epoch
+         */
         @JvmStatic
-        val currentClosestHour
-            get() = closest_hour(Calendar.getInstance().timeInMillis)
-
-        @JvmStatic
-        val currentTimeInMillis
-            get() = Calendar.getInstance().timeInMillis
-
-        @JvmStatic
-        fun iso_to_milli(iso: String): Long {
+        fun isoToMilli(iso: String): Long {
             val calendar = Calendar.getInstance(TimeZone.GMT_ZONE).apply {
                 val split = iso.split("Z")[0].split("-", "T", ":", ".", "+").map { it.toInt() }
                 set(Calendar.YEAR, split[0])
-                set(Calendar.MONTH, split[1]-1) // January is 0
+                set(Calendar.MONTH, split[1] - 1) // January is 0
                 set(Calendar.DATE, split[2])
                 set(Calendar.HOUR_OF_DAY, split[3])
                 set(Calendar.MINUTE, split[4])
@@ -57,13 +45,22 @@ class DateTime {
             return calendar.timeInMillis
         }
 
+        /**
+         * @param milli ms since epoch
+         * @return ISO 8609 date string
+         */
         @JvmStatic
-        fun milli_to_iso(milli: Long): String = DateTimeFormatter.ISO_INSTANT.format(
-                                                    Instant.ofEpochMilli(milli))
+        fun milliToIso(milli: Long): String = DateTimeFormatter.ISO_INSTANT.format(
+            Instant.ofEpochMilli(milli)
+        )
 
+        /**
+         * @param epochMilliSecond ms since epoch
+         * @return ISO 8609 date string of closest hour
+         */
         @JvmStatic
-        fun closest_hour(epochMilliSecond: Long): String {
-            val calendar = Calendar.getInstance().apply{
+        fun closestHour(epochMilliSecond: Long): String {
+            val calendar = Calendar.getInstance().apply {
                 timeInMillis = epochMilliSecond
             }
             if (calendar.get(Calendar.MINUTE) >= 30) {
@@ -76,15 +73,12 @@ class DateTime {
             return DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochMilli(calendar.timeInMillis))
         }
 
+        /**
+         * @param min how many minutes from now.
+         * @return ISO 8609 date string of the calculated delta.
+         */
         @JvmStatic
-        fun timedelta_iso(min: Int): String {
-            val calendar = Calendar.getInstance()
-            calendar.roll(Calendar.MINUTE, min)
-            return DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochMilli(calendar.timeInMillis))
-        }
-
-        @JvmStatic
-        fun timedelta_milli(min: Int): Long {
+        fun timeDeltaMilli(min: Int): Long {
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + min)
             return calendar.timeInMillis

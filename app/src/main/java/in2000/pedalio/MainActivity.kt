@@ -1,8 +1,8 @@
 package in2000.pedalio
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,6 +12,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import in2000.pedalio.data.settings.impl.SharedPreferences
 
+/**
+ * Main activity of the app.
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController

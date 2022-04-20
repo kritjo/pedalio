@@ -15,10 +15,10 @@ import com.tomtom.online.sdk.routing.route.description.TravelMode
  * Data source for routing with TomTom.
  * Doc: https://developer.tomtom.com/maps-android-sdk/documentation/routing/documentation
  */
-class TomtomRoutingSource (context : Context) {
+class TomtomRoutingSource(context: Context) {
     private val travelMode = TravelMode.BICYCLE
     private val apiKey: String = "beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
-    private val routingApi: RoutingApi = OnlineRoutingApi.create(context, apiKey);
+    private val routingApi: RoutingApi = OnlineRoutingApi.create(context, apiKey)
 
     /**
      * Creates route specification used in getRouteFromLocations
@@ -43,11 +43,14 @@ class TomtomRoutingSource (context : Context) {
 
     /**
      * Get route from locations
-     * @param waypoints list of locations
+     * @param locations list of locations
      * @param considerTraffic consider traffic
      * @return route
      */
-    fun getRouteFromLocations(locations: List<LatLng>, considerTraffic: Boolean = false): Result<RoutePlan> {
+    fun getRouteFromLocations(
+        locations: List<LatLng>,
+        considerTraffic: Boolean = false
+    ): Result<RoutePlan> {
         val routeSpecification = createRouteSpecification(locations, considerTraffic)
         return routingApi.planRoute(routeSpecification)
     }
