@@ -12,6 +12,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import in2000.pedalio.data.settings.impl.SharedPreferences
 
+/**
+ * Main activity of the app.
+ */
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
