@@ -12,7 +12,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.mindorks.editdrawabletext.DrawablePosition
 import com.mindorks.editdrawabletext.onDrawableClickListener
@@ -26,71 +25,68 @@ import kotlinx.coroutines.*
 import java.util.concurrent.Executors.newSingleThreadExecutor
 
 /**
- * A simple [Fragment] subclass.
- * Use the [SearchWindow.newInstance] factory method to
- * create an instance of this fragment.
+ * The search window fragment. This fragment is responsible for displaying the search window on
+ * click of the search button from the map.
  */
 class SearchWindow : Fragment() {
-
     private val mapViewModel: MapViewModel by activityViewModels()
     private val chosenResult = MutableLiveData<SearchResult>()
+    private val sharedPreferences = SharedPreferences(requireContext())
 
-    /**
-     * The search result list.
-     * @see SearchResult
-     * Will be updated when the user types in the search bar.
-     * Threds are used to avoid blocking the UI.
-     */
+    // Using a single thread executor to avoid race conditions.
+    private val coroutineDispatcher = newSingleThreadExecutor().asCoroutineDispatcher()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fragment_search_window, container, false)
 
+        // state of the search window. If true, we should display recently searched results.
+        // If false, we should display the search results.
+        // Should be true only when search input is empty.
         val stateRecently = MutableLiveData(true)
+
+        val recyclerView = v.findViewById<RecyclerView>(R.id.lowerRecycler)
         val lowerRecyclerHint = v.findViewById<TextView>(R.id.lowerRecyclerHint)
         val search = v.findViewById<com.mindorks.editdrawabletext.EditDrawableText>(R.id.search)
         val favoriteRecycler = v.findViewById<RecyclerView>(R.id.search_favorites)
-        val sharedPreferences = SharedPreferences(requireContext())
+
         favoriteRecycler.adapter =
             FavoriteRecyclerAdapter(this, sharedPreferences.favoriteSearches, chosenResult)
 
-        val recyclerView = v.findViewById<RecyclerView>(R.id.lowerRecycler)
-
         val results = MutableLiveData(emptyList<SearchResult>())
-        val recents = sharedPreferences.recentSearches
+        val recent = sharedPreferences.recentSearches
 
         stateRecently.observe(viewLifecycleOwner) {
             if (it) {
+                // Display recently searched results.
                 lowerRecyclerHint.text = getString(R.string.recently_searched_hint)
-                val adapter = ResultAdapter(this, recents, chosenResult)
+                val adapter = ResultAdapter(this, recent, chosenResult)
                 recyclerView.adapter = adapter
             } else {
                 lowerRecyclerHint.text = getString(R.string.search_result_hint)
             }
         }
+
         results.observe(viewLifecycleOwner) {
+            // Only null if there is an error
             if (it == null) {
                 Toast.makeText(requireContext(), "Ingen resultater. Sjekk nettverksforbinnelsen.", Toast.LENGTH_SHORT).show()
 
             } else {
                 if (stateRecently.value == false) {
+                    // Display search results.
                     val adapter = ResultAdapter(this, it, chosenResult)
                     recyclerView.adapter = adapter
                 }
             }
         }
+        // Initialize the search results.
         results.postValue(emptyList())
 
-        val coroutineDispatcher = newSingleThreadExecutor().asCoroutineDispatcher()
+        // Only search every 500ms.
         var timeLastSearch = System.currentTimeMillis()
-
-
-        /**
-         * The search bar listener.
-         * threading is done using coroutines.
-         * @see coroutineDispatcher
-         */
         search.addTextChangedListener {
             lifecycleScope.launch(coroutineDispatcher) {
                  if (System.currentTimeMillis() - timeLastSearch < 500) {
@@ -120,6 +116,7 @@ class SearchWindow : Fragment() {
             }
         }
 
+        // Back button.
         search.setDrawableClickListener(object : onDrawableClickListener {
             override fun onClick(target: DrawablePosition) {
                 if (target == DrawablePosition.LEFT)
@@ -127,6 +124,7 @@ class SearchWindow : Fragment() {
             }
         })
 
+        // If user chooses a search result, navigate to the map and pass the result.
         chosenResult.observe(viewLifecycleOwner) {
             if (it != null) {
                 sharedPreferences.appendRecentSearch(it)
@@ -138,29 +136,25 @@ class SearchWindow : Fragment() {
         return v
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @return A new instance of fragment search_window.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance() =
-            SearchWindow().apply {
-                arguments = Bundle()
-            }
-    }
-
-    fun favoriteCallback(current: FavoriteResult) {
+    /**
+     * Used to add a favorite to the database.
+     *
+     * @param current the favorite to be added.
+     */
+    fun addFavorite(current: FavoriteResult) {
         val sharedPreferences = SharedPreferences(requireContext())
         sharedPreferences.appendFavoriteSearch(current)
         requireView().findViewById<RecyclerView>(R.id.search_favorites).adapter =
             FavoriteRecyclerAdapter(this, sharedPreferences.favoriteSearches, chosenResult)
     }
 
-    fun favoriteRemoveCallback(current: FavoriteResult) {
+
+    /**
+     * Used to remove a favorite from the database.
+     *
+     * @param current the favorite to be removed.
+     */
+    fun removeFavorite(current: FavoriteResult) {
         val sharedPreferences = SharedPreferences(requireContext())
         sharedPreferences.removeFavorite(current)
         requireView().findViewById<RecyclerView>(R.id.search_favorites).adapter =
