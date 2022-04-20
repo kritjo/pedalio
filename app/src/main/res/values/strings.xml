@@ -61,4 +61,8 @@
     <string name="question_fastest_route">Ruten med færrest meter i lengde.</string>
     <string name="question_safest_route">Ruten for deg som prioriterer sykkelfelt over distanse.</string>
     <string name="safest_route">Tryggeste rute</string>
+    <string name="content_description_logo">Sykkel på blå bakgrunn</string>
+    <string name="content_description_weather_symbol">Værsymbol</string>
+    <string name="content_description_favorite">Favorittikon</string>
+    <string name="content_description_location_pin">Lokasjonspin</string>
 </resources>

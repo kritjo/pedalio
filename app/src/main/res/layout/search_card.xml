@@ -40,7 +40,8 @@
                 app:layout_constraintHorizontal_bias="0.094"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/resultUnderLocationText"
-                app:layout_constraintVertical_bias="0.166" />
+                app:layout_constraintVertical_bias="0.166"
+                android:contentDescription="@string/content_description_location_pin" />
 
         <TextView
                 android:layout_width="68dp"
