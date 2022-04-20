@@ -5,12 +5,6 @@ import kotlin.math.pow
 
 class MathUtil {
     companion object {
-      /**
-       * Calculates the distance between two points in meters.
-       * @param latLng1 The first point.
-       * @param latLng2 The second point.
-       * @return The distance between the two points in meters.
-       */
       // Docs : https://gisgeography.com/inverse-distance-weighting-idw-interpolation/#:~:text=Interpolated%20points%20are%20estimated%20based,has%20from%20the%20known%20values.
         fun inverseDistanceWeighting(here : LatLng, stations : List<Pair<LatLng, Double>>): Double {
           val POWER = 2;

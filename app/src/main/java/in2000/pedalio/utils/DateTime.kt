@@ -28,11 +28,6 @@ class DateTime {
         val currentTimeInMillis
             get() = Calendar.getInstance().timeInMillis
 
-        /**
-         * Returns the closest hour to the given time in millis
-         * @param timeInMillis time in millis
-         * @return closest hour
-         */
         @JvmStatic
         fun iso_to_milli(iso: String): Long {
             val calendar = Calendar.getInstance(TimeZone.GMT_ZONE).apply {
