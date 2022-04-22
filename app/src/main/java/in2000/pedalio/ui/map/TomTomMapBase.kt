@@ -13,15 +13,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RelativeLayout
-import android.widget.Switch
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.common.util.LogUtils
@@ -144,11 +142,12 @@ class TomTomMapBase : Fragment() {
         }
 
         // Draw a polygon on the map when viewModel says so.
-        mapViewModel.AQPolygons.observe(viewLifecycleOwner) {
+        mapViewModel.aqPolygons.observe(viewLifecycleOwner) {
             removeMapOverlay("polygons")
             it.forEach { polygon ->
                 drawPolygon(polygon.first, polygon.second, polygon.third, "polygons")
-        }}
+            }
+        }
 
 
         var currentBubblesCameraChangeListener: TomtomMapCallback.OnCameraChangedListener? = null
@@ -199,6 +198,7 @@ class TomTomMapBase : Fragment() {
             if (isChecked) {
                 // Do this in a separate thread to avoid blocking the UI.
                 mapViewModel.viewModelScope.launch(Dispatchers.Default) {
+                    mapViewModel.updateAirQuality(mapViewModel.aqComponent)
                     mapViewModel.createAQPolygons(mapViewModel.getAirQuality())
                 }
             } else {
@@ -234,6 +234,13 @@ class TomTomMapBase : Fragment() {
 
         mapViewModel.chosenSearchResult.observe(viewLifecycleOwner) { searchResult ->
             if (searchResult == null) return@observe
+            requireView().findViewById<ProgressBar>(R.id.progressBar).visibility = View.VISIBLE
+            val routeDone = MutableLiveData(false)
+            routeDone.observe(viewLifecycleOwner) {
+                if (it)
+                    requireView().findViewById<ProgressBar>(R.id.progressBar).visibility = View.GONE
+            }
+
             if (::routingSelectorFragment.isInitialized)
                 childFragmentManager.beginTransaction()
                     .remove(routingSelectorFragment)
@@ -243,7 +250,7 @@ class TomTomMapBase : Fragment() {
             val to = searchResult.position
             mapViewModel.viewModelScope.launch(Dispatchers.IO) {
                 val routes =
-                    GetRouteAlternativesUseCase.getRouteAlternatives(from, to, requireContext())
+                    mapViewModel.getRoute(from, to, requireContext())
                 routes.forEach { route ->
                     when (route.key) {
                         GetRouteAlternativesUseCase.RouteType.BIKE -> {
@@ -269,6 +276,7 @@ class TomTomMapBase : Fragment() {
                 childFragmentManager.beginTransaction()
                     .add(R.id.routing_overlay, routingSelectorFragment)
                     .commitAllowingStateLoss()
+                routeDone.postValue(true)
             }
         }
 

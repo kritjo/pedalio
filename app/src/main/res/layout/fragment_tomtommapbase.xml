@@ -7,14 +7,16 @@
         android:id="@+id/fragment_tomtommapbase"
         tools:context="in2000.pedalio.ui.map.TomTomMapBase">
 
-    <fragment xmlns:tomtom="http://schemas.android.com/apk/res-auto"
+    <fragment
             android:id="@+id/fragment_tomtom"
             android:name="com.tomtom.online.sdk.map.MapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tomtom:mapsApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
-            tomtom:trafficApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
-            tools:ignore="FragmentTagUsage" />
+            app:mapsApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
+            app:trafficApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
+            tools:ignore="FragmentTagUsage"
+            tools:layout_editor_absoluteY="0dp"
+            tools:layout_editor_absoluteX="170dp" />
 
     <RelativeLayout
             android:id="@+id/overlay"
@@ -81,6 +83,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/fragment_tomtom"
             app:layout_constraintVertical_bias="0.857" />
+
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="76dp"
+            android:layout_height="83dp"
+            android:id="@+id/progressBar"
+            app:layout_constraintTop_toTopOf="@+id/fragment_tomtom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/fragment_tomtom"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
