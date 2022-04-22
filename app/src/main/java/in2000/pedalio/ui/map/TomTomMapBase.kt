@@ -143,6 +143,14 @@ class TomTomMapBase : Fragment() {
             }
         }
 
+        // Draw a polygon on the map when viewModel says so.
+        mapViewModel.AQPolygons.observe(viewLifecycleOwner) {
+            removeMapOverlay("polygons")
+            it.forEach { polygon ->
+                drawPolygon(polygon.first, polygon.second, polygon.third, "polygons")
+        }}
+
+
         var currentBubblesCameraChangeListener: TomtomMapCallback.OnCameraChangedListener? = null
         mapViewModel.overlayBubbles.observe(viewLifecycleOwner) { bubbles ->
             bubbles.forEach { overlayBubble ->
@@ -183,6 +191,18 @@ class TomTomMapBase : Fragment() {
                 it.forEach { bikeRoute ->
                     drawPolyline(bikeRoute, Color.BLUE, 3f, "bike_route")
                 }
+            }
+        }
+
+        layersSelectorFragment.requireView().findViewById<Switch>(R.id.switch_airquality).setOnCheckedChangeListener { _, isChecked ->
+            SharedPreferences(requireContext()).layerAirQuality = isChecked
+            if (isChecked) {
+                // Do this in a separate thread to avoid blocking the UI.
+                mapViewModel.viewModelScope.launch(Dispatchers.Default) {
+                    mapViewModel.createAQPolygons(mapViewModel.getAirQuality())
+                }
+            } else {
+                removeMapOverlay("polygons")
             }
         }
 
@@ -424,6 +444,23 @@ class TomTomMapBase : Fragment() {
             .tag(tag)
             .build()
         tomtomMap.overlaySettings.addOverlay(polyline)
+    }
+
+    /**
+     * Draw a polygon on the map.
+     *
+     * @param coordinates The coordinates at the vertices of the polygon.
+     * @param color The fill color of the polygon.
+     * @param opacity The opacity of the polygon.
+     */
+    private fun drawPolygon(coordinates: List<LatLng>, color: Int, opacity: Float, tag: String) {
+        val polygon = PolygonBuilder.create()
+            .coordinates(coordinates)
+            .color(color)
+            .opacity(opacity)
+            .tag(tag)
+            .build()
+        tomtomMap.overlaySettings.addOverlay(polygon)
     }
 
     /**
