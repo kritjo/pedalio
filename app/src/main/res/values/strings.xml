@@ -74,4 +74,5 @@
     <string name="safest_route">Tryggeste rute</string>
     <string name="layers">Layers</string>
     <string name="waiting_for_location">Waiting for location…</string>
+    <string name="cancel_route">Cancel</string>
 </resources>

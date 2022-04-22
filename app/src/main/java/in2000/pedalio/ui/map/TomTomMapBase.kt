@@ -233,9 +233,12 @@ class TomTomMapBase : Fragment() {
         }
 
         mapViewModel.chosenRoute.observe(viewLifecycleOwner) { list ->
+            if (list == null) return@observe
             mapViewModel.routesOnDisplay.forEach {
                 tomtomMap.removeRoute(it)
             }
+
+
             childFragmentManager.beginTransaction()
                 .hide(routingSelectorFragment)
                 .commitAllowingStateLoss()
@@ -259,6 +262,16 @@ class TomTomMapBase : Fragment() {
                         .build()
                 )
             }
+            requireView().findViewById<Button>(R.id.cancel_route_button).apply {
+                visibility = View.VISIBLE
+                setOnClickListener {
+                    tomtomMap.removeRoute(rb.id)
+                    mapViewModel.routesOnDisplay.clear()
+                    requireView().findViewById<Button>(R.id.cancel_route_button).visibility =
+                        View.GONE
+                }
+            }
+            mapViewModel.chosenRoute.postValue(null)
         }
     }
 

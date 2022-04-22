@@ -69,7 +69,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     val chosenSearchResult = MutableLiveData<SearchResult?>()
 
     /** The chosen route from the route selection overlay. */
-    val chosenRoute = MutableLiveData<List<LatLng>>()
+    val chosenRoute = MutableLiveData<List<LatLng>?>()
 
     /** Callback from the view that we have gotten the permission to access the user's location. */
     fun permissionCallback() {
