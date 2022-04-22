@@ -1,17 +1,17 @@
 package in2000.pedalio.data.weather.impl
 
+import in2000.pedalio.data.Endpoints
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
-
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class NowcastRepositoryTest {
-    val ENDPOINT = "https://in2000-apiproxy.ifi.uio.no/weatherapi/nowcast/2.0/complete"
+    private val endpoint = Endpoints.NOWCAST_COMPLETE
 
     @Test
     fun getRelativeHumidity() {
         val rh = runBlocking {
-            NowcastRepository(ENDPOINT).getRelativeHumidity(59.95, 10.75, 0)
+            NowcastRepository(endpoint).getRelativeHumidity(59.95, 10.75, 0)
         }
         assertTrue(rh!! in 0.0..100.0)
     }

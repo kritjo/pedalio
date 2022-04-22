@@ -5,8 +5,9 @@ import com.tomtom.online.sdk.common.location.LatLng
 data class WeatherDataPoint(
     val pos: LatLng?,
     val temperature: Double?,
-    val percipitation: Double?,
+    val precipitation: Double?,
     val humidity: Double?,
     val windSpeed: Double?,
     val windDirection: Double?,
+    val symbolCode: String?
 )

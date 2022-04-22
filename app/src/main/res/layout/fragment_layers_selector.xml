@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layers_selector"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:layerType="hardware"
-    tools:context=".ui.map.LayersSelector">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/layers_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layerType="hardware"
+        tools:context=".ui.map.LayersSelector">
 
     <androidx.cardview.widget.CardView
             android:id="@+id/view"
@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:minHeight="48dp"
-                    android:text="Air quality"
+                    android:text="@string/air_quality"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minHeight="48dp"
-                    android:text="Weather"
+                    android:text="@string/weather"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/switch_airquality"
@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:minHeight="48dp"
                     android:layout_marginBottom="16dp"
-                    android:text="Bike routes"
+                    android:text="@string/bike_routes"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/switch_weather"

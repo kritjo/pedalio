@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2019, The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,8 +14,7 @@
   ~ limitations under the License.
   -->
 
-<navigation
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/home"
@@ -28,16 +26,28 @@
             android:label="@string/title_home"
             tools:layout="@layout/fragment_title">
         <action
-            android:id="@+id/action_titleScreen_to_search_window"
-            app:destination="@id/search_window" />
+                android:id="@+id/action_titleScreen_to_search_window"
+                app:destination="@id/search_window" />
+        <action
+                android:id="@+id/action_titleScreen_to_no_network_window"
+                app:destination="@id/no_network" />
     </fragment>
     <fragment
-        android:id="@+id/search_window"
-        android:name="in2000.pedalio.ui.homescreen.search_window"
-        android:label="fragment_search_window"
-        tools:layout="@layout/fragment_search_window" >
+            android:id="@+id/search_window"
+            android:name="in2000.pedalio.ui.homescreen.SearchWindow"
+            android:label="fragment_search_window"
+            tools:layout="@layout/fragment_search_window">
         <action
-            android:id="@+id/action_search_window_to_titleScreen"
-            app:destination="@id/titleScreen" />
+                android:id="@+id/action_search_window_to_titleScreen"
+                app:destination="@id/titleScreen" />
+    </fragment>
+    <fragment
+            android:id="@+id/no_network"
+            android:name="in2000.pedalio.ui.homescreen.NoNetworkFragment"
+            android:label="fragment_no_network"
+            tools:layout="@layout/fragment_no_network">
+        <action
+                android:id="@+id/action_no_network_to_titleScreen"
+                app:destination="@id/titleScreen" />
     </fragment>
 </navigation>

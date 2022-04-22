@@ -27,13 +27,14 @@
 
             <ImageView
                     android:src="@drawable/ic_map_traffic_ice_orange_large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
                     android:id="@+id/weather_icon"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/weather_degrees" />
+                    app:layout_constraintBottom_toTopOf="@+id/weather_degrees"
+                    android:contentDescription="@string/content_description_weather_symbol" />
 
             <TextView
                     android:text="@string/degrees"

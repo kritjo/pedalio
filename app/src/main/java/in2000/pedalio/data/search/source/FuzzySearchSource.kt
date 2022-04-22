@@ -6,14 +6,14 @@ import com.tomtom.online.sdk.search.fuzzy.FuzzyLocationDescriptor
 import com.tomtom.online.sdk.search.fuzzy.FuzzySearchEngineDescriptor
 import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
 
-class FuzzySearchSource(private val maxFuzzyLevel : Int = 2) {
+class FuzzySearchSource(private val maxFuzzyLevel: Int = 2) {
     /**
      * Get FuzzySearchEngineDescriptor for a given location.
      *
      * @param position Position used to bias the results.
      * @param radius The radius in meters. Default value is 0.
      */
-    private fun getLocationDescriptor(position : LatLng, radius : Double) : FuzzyLocationDescriptor {
+    private fun getLocationDescriptor(position: LatLng, radius: Double): FuzzyLocationDescriptor {
         val location = LatLngBias(position, radius)
         return FuzzyLocationDescriptor.Builder()
             .positionBias(location)

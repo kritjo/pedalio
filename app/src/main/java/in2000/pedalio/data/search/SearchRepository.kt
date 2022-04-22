@@ -1,8 +1,8 @@
 package in2000.pedalio.data.search
 
 import com.tomtom.online.sdk.common.location.LatLng
-import com.tomtom.online.sdk.search.data.common.Poi
 import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
+import com.tomtom.online.sdk.search.information.Poi
 import com.tomtom.online.sdk.search.location.Address
 
 /**
@@ -11,7 +11,7 @@ import com.tomtom.online.sdk.search.location.Address
  */
 
 abstract class SearchRepository {
-    abstract fun doSearch(fuzzySearchSpecification : FuzzySearchSpecification) : List<SearchResult>
+    abstract fun doSearch(fuzzySearchSpecification: FuzzySearchSpecification): List<SearchResult>?
 }
 
 data class SearchResult(
@@ -20,5 +20,5 @@ data class SearchResult(
     val position: LatLng,
     val distance: Double,
     val info: String,
-    val poi: com.tomtom.online.sdk.search.information.Poi?
+    val poi: Poi?
 )
