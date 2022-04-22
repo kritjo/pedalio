@@ -2,6 +2,7 @@ package in2000.pedalio.viewmodel
 
 import android.app.Application
 import android.content.Context
+import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.AndroidViewModel
@@ -15,6 +16,7 @@ import in2000.pedalio.data.airquality.source.nilu.NILUSource
 import in2000.pedalio.data.bikeRoutes.impl.OsloBikeRouteRepostiory
 import in2000.pedalio.data.location.LocationRepository
 import in2000.pedalio.data.search.SearchResult
+import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.data.weather.impl.LocationForecastRepository
 import in2000.pedalio.data.weather.impl.NowcastRepository
 import in2000.pedalio.domain.weather.DeviationTypes
@@ -22,6 +24,7 @@ import in2000.pedalio.domain.weather.GetDeviatingWeather
 import in2000.pedalio.domain.weather.GetWeatherUseCase
 import in2000.pedalio.domain.weather.WeatherDataPoint
 import in2000.pedalio.ui.map.OverlayBubble
+import in2000.pedalio.utils.MathUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -36,6 +39,11 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     /** Lines to be drawn on the map. Pair of lat/long coordinates and a color. */
     val polyline = MutableLiveData(listOf(Pair(listOf(LatLng()), 0)))
 
+    // List of Triple of LatLng, Color, and Opacity
+    val AQPolygons = MutableLiveData(listOf<Triple<List<LatLng>, Int, Float>>())
+    val AQcomponent : NILUSource.COMPONENTS = NILUSource.COMPONENTS.NO2
+    val AQmaxValue : Float = 50f
+
     /** overlayBubbles to be drawn on the map. */
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
 
@@ -48,6 +56,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     // Time since weather data was last updated. Only update every 10 seconds.
     private var lastUpdated = 0L
+
+    private var AQPairs : List<Pair<LatLng?, Double>>? = null
 
     /** Bike routes from api. */
     val bikeRoutes = MutableLiveData(listOf<List<LatLng>>()).also {
@@ -135,7 +145,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                 LatLng(59.961731, 10.750947), // Korsvoll
                 LatLng(59.962913, 10.783847), // Kjellsås
                 LatLng(59.941240, 10.81926),  // Bjerke
-                LatLng(59.933194, 10.670373),  // Huseby
+                LatLng(59.933194,10.670373),  // Huseby
                 LatLng(59.922826, 10.679366), // Skøyen
                 LatLng(59.930228, 10.862871), // Alna
                 LatLng(59.942360, 10.704445), // Vindern
@@ -155,15 +165,6 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
             ),
             context
         )
-
-        // Get AQ data.
-        val here = currentLocation?.value
-        if(here != null){
-            val nilu = NILUSource.getNow(Endpoints.NILU_FORECAST, here.latitude, here.longitude, 12, NILUSource.COMPONENTS.NO2)
-            val resPair = nilu?.map { Pair(it.latitude?.let { it1 -> LatLng(it1, it.longitude ?: 0.0) }, it.value ?: 0.0) }
-            createAQPolygons(resPair)
-        }
-
 
         // Get the weather data from the current location.
         val weatherData = weatherUseCase.getWeather(currentPos().value!!, context = context)
@@ -208,10 +209,71 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         overlayBubbles.postValue(bubbles)
     }
 
-    private fun createAQPolygons(resPair: List<Pair<LatLng?, Double>>?) {
-        // test polygon
+    private suspend fun updateAirQuality(component : NILUSource.COMPONENTS) {
+        // Get AQ data. (default: Majorstuen)
+        val here = currentLocation?.value ?: LatLng(59.926933, 10.716704)
+        val nilu = NILUSource.getNow(
+            Endpoints.NILU_FORECAST,
+            here.latitude,
+            here.longitude,
+            12,
+            component
+        )
+        //val pixelPair = resPair?.map { Pair(tomtomMap.pixelForLatLng(it.first!!), it.second) }
+        AQPairs = nilu?.map {
+            Pair(
+                it.latitude?.let { lat -> LatLng(lat, it.longitude ?: 0.0) },
+                it.value ?: 0.0
+            )
+        }
+    }
 
+    fun getAirQuality(): List<Pair<LatLng?, Double>> {
+        if (AQPairs.isNullOrEmpty()) {
+            return emptyList()
+        }
+        return AQPairs as List<Pair<LatLng?, Double>>
+    }
 
+    fun createAQPolygons(resPair: List<Pair<LatLng?, Double>>) {
+        // create new polygons
+        val polygons = mutableListOf<Triple<List<LatLng>, Int, Float>>()
+
+        val originCord = LatLng(59.961200, 10.610488) // Top left
+        val cordInterval = 0.01 // 0.01 = around 1111 meters
+        val maxBlocksWidth = 27
+        val maxBlocksHeight = 12
+
+        for(i in 0 until maxBlocksHeight){
+            for(j in 0 until maxBlocksWidth){
+                // Create polygon
+                val topLeft = LatLng(originCord.latitude - i * cordInterval, originCord.longitude + j * cordInterval)
+                val topRight = LatLng(topLeft.latitude, topLeft.longitude + cordInterval)
+                val bottomLeft = LatLng(topLeft.latitude + cordInterval, topLeft.longitude)
+                val bottomRight = LatLng(topLeft.latitude + cordInterval, topLeft.longitude + cordInterval)
+                val middle = LatLng(topLeft.latitude + cordInterval / 2, topLeft.longitude + cordInterval / 2)
+                val polygon = listOf( // create polygon with converted pixel points to LatLng
+                    topLeft,
+                    topRight,
+                    bottomRight,
+                    bottomLeft
+                )
+                val value = interpolateAirQuality(middle, resPair)
+                val color = Color.rgb(
+                    ((value/ AQmaxValue) * 255).toInt(),
+                    (130-((value/ AQmaxValue) * 100)).toInt(),
+                    32
+                )
+
+                polygons.add(Triple(polygon, color, 0.35f))
+            }
+        }
+
+        AQPolygons.postValue(polygons)
+    }
+
+    private fun interpolateAirQuality(point: LatLng, resPair: List<Pair<LatLng?, Double>>): Double {
+        return MathUtil.inverseDistanceWeighting(point, resPair as List<Pair<LatLng, Double>>)
     }
 
     /**
@@ -246,11 +308,19 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     init {
-        // Update weather every 60 seconds even if the user has not moved.
-        Handler(Looper.getMainLooper()).postDelayed({
-            viewModelScope.launch(Dispatchers.IO) {
-                updateWeatherAndDeviations(application.applicationContext)
+        // Update weather and air quality every 60 seconds even if the user has not moved.
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                viewModelScope.launch(Dispatchers.IO) {
+                    updateWeatherAndDeviations(application.applicationContext)
+                    updateAirQuality(AQcomponent)
+                }
+                if (SharedPreferences(application.applicationContext).layerAirQuality) {
+                    createAQPolygons(getAirQuality())
+                }
+                handler.postDelayed(this, 60000)
             }
-        }, 60000)
+        }, 1000) // First run is run after 1 second
     }
 }
