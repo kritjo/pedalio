@@ -27,6 +27,7 @@ import in2000.pedalio.domain.weather.GetDeviatingWeather
 import in2000.pedalio.domain.weather.GetWeatherUseCase
 import in2000.pedalio.domain.weather.WeatherDataPoint
 import in2000.pedalio.ui.map.OverlayBubble
+import in2000.pedalio.utils.CoordinateUtil
 import in2000.pedalio.utils.MathUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -95,10 +96,18 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         end: LatLng,
         context: Context
     ): Map<GetRouteAlternativesUseCase.RouteType, FullRoute> {
-        if (!cachedRoutes.containsKey(Pair(start, end))) {
-            cachedRoutes[Pair(start, end)] =
-                GetRouteAlternativesUseCase.getRouteAlternatives(start, end, context)
+        var foundCached = false
+        var foundRoutes: Map<GetRouteAlternativesUseCase.RouteType, FullRoute> = mapOf()
+        cachedRoutes.forEach { (coords, routes) ->
+            if (CoordinateUtil.calcDistanceBetweenTwoCoordinates(start, coords.first) * 1000 < 10) {
+                foundCached = true
+                foundRoutes = routes
+            }
         }
+        if (foundCached) return foundRoutes
+
+        cachedRoutes[Pair(start, end)] =
+            GetRouteAlternativesUseCase.getRouteAlternatives(start, end, context)
         return cachedRoutes[Pair(start, end)]!!
     }
 
