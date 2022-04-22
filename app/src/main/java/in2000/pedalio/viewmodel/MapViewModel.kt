@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.location.LocationUpdateListener
+import com.tomtom.online.sdk.map.CameraPosition
 import in2000.pedalio.R
 import in2000.pedalio.data.Endpoints
 import in2000.pedalio.data.bikeRoutes.impl.OsloBikeRouteRepostiory
@@ -70,6 +71,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     /** The chosen route from the route selection overlay. */
     val chosenRoute = MutableLiveData<List<LatLng>?>()
+
+    var savedCameraPosition: CameraPosition? = null
 
     /** Callback from the view that we have gotten the permission to access the user's location. */
     fun permissionCallback() {

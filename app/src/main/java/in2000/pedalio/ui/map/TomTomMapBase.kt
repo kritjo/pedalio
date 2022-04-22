@@ -91,7 +91,9 @@ class TomTomMapBase : Fragment() {
                 tomtomMap.removeRoute(it)
             }
         }
-
+        if (::tomtomMap.isInitialized) {
+            mapViewModel.savedCameraPosition = tomtomMap.uiSettings.cameraPosition
+        }
         super.onPause()
     }
 
@@ -102,6 +104,10 @@ class TomTomMapBase : Fragment() {
         mapViewModel.registerListener = tomtomMap::addLocationUpdateListener
         mapViewModel.currentPos().observe(viewLifecycleOwner) {
             onPosChange(it)
+        }
+
+        mapViewModel.savedCameraPosition?.let {
+            tomtomMap.uiSettings.cameraPosition = it
         }
 
         if (SharedPreferences(requireContext()).gpsToggle) {
