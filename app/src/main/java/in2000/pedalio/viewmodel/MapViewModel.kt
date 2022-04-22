@@ -315,10 +315,12 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                 viewModelScope.launch(Dispatchers.IO) {
                     updateWeatherAndDeviations(application.applicationContext)
                     updateAirQuality(AQcomponent)
+                    // Wait for update to finish before drawing
+                    if (SharedPreferences(application.applicationContext).layerAirQuality) {
+                        createAQPolygons(getAirQuality())
+                    }
                 }
-                if (SharedPreferences(application.applicationContext).layerAirQuality) {
-                    createAQPolygons(getAirQuality())
-                }
+
                 handler.postDelayed(this, 60000)
             }
         }, 1000) // First run is run after 1 second
