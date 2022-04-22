@@ -82,6 +82,19 @@ class TomTomMapBase : Fragment() {
         initLayerSelector()
     }
 
+    override fun onPause() {
+        if (::routingSelectorFragment.isInitialized) {
+            childFragmentManager.beginTransaction()
+                .remove(routingSelectorFragment)
+                .commitAllowingStateLoss()
+            mapViewModel.routesOnDisplay.forEach {
+                tomtomMap.removeRoute(it)
+            }
+        }
+
+        super.onPause()
+    }
+
     private fun onMapReady(map: TomtomMap) {
         tomtomMap = map
         // This callback should be first thing after this.tomtomMap assign. In order to get pos
@@ -227,7 +240,6 @@ class TomTomMapBase : Fragment() {
                 }
                 routingSelectorFragment =
                     RoutingSelector.newInstance(routes, mapViewModel.chosenRoute)
-                mapViewModel.chosenSearchResult.postValue(null)
                 childFragmentManager.beginTransaction()
                     .add(R.id.routing_overlay, routingSelectorFragment)
                     .commitAllowingStateLoss()
