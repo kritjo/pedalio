@@ -87,6 +87,7 @@ class TomTomMapBase : Fragment() {
                 .commitAllowingStateLoss()
             mapViewModel.routesOnDisplay.forEach {
                 tomtomMap.removeRoute(it)
+                tomtomMap.deactivateProgressAlongRoute(it)
             }
         }
         if (::tomtomMap.isInitialized) {
@@ -243,6 +244,12 @@ class TomTomMapBase : Fragment() {
 
         mapViewModel.chosenSearchResult.observe(viewLifecycleOwner) { searchResult ->
             if (searchResult == null) return@observe
+            // If we already have an active route, do not show search results again,
+            // except if the search results are different from last time (e.g. new route selected
+            // while we have an active)
+            if (mapViewModel.chosenRoute.value != null && !mapViewModel.newSearchResult)
+                return@observe
+
             requireView().findViewById<ProgressBar>(R.id.progressBar).visibility = View.VISIBLE
             val routeDone = MutableLiveData(false)
             routeDone.observe(viewLifecycleOwner) {
@@ -291,6 +298,10 @@ class TomTomMapBase : Fragment() {
 
         mapViewModel.chosenRoute.observe(viewLifecycleOwner) { list ->
             if (list == null) return@observe
+
+            // we have handled the search result, so we can clear it
+            mapViewModel.newSearchResult = false
+
             var finished = false
             var canceled = false
             mapViewModel.routesOnDisplay.forEach {
@@ -330,9 +341,17 @@ class TomTomMapBase : Fragment() {
             requireView().findViewById<Button>(R.id.cancel_route_button).apply {
                 visibility = View.VISIBLE
                 setOnClickListener {
+                    val removes = mutableListOf<Long>()
+                    tomtomMap.routes.forEach {
+                        removes.add(it.id)
+                    }
+                    removes.forEach {
+                        tomtomMap.deactivateProgressAlongRoute(it)
+                        tomtomMap.removeRoute(it)
+                    }
                     canceled = true
-                    tomtomMap.deactivateProgressAlongRoute(rb.id)
-                    tomtomMap.removeRoute(rb.id)
+                    mapViewModel.chosenRoute.postValue(null)
+                    mapViewModel.chosenSearchResult.postValue(null)
                     mapViewModel.routesOnDisplay.clear()
                     requireView().findViewById<Button>(R.id.cancel_route_button).visibility =
                         View.GONE
@@ -341,15 +360,23 @@ class TomTomMapBase : Fragment() {
 
             // Message when route is finished and cleanup
             val finishCord = list.last()
-            mapViewModel.currentPos().observe(viewLifecycleOwner) {
+            mapViewModel.currentPos().observe(viewLifecycleOwner) { latLng ->
                 if (CoordinateUtil.calcDistanceBetweenTwoCoordinates(
-                        it,
+                        latLng,
                         finishCord
                     ) * 1000 < 50
                     && !finished
                 ) {
-                    tomtomMap.deactivateProgressAlongRoute(rb.id)
-                    tomtomMap.removeRoute(rb.id)
+                    val removes = mutableListOf<Long>()
+                    tomtomMap.routes.forEach {
+                        removes.add(it.id)
+                    }
+                    removes.forEach {
+                        tomtomMap.deactivateProgressAlongRoute(it)
+                        tomtomMap.removeRoute(it)
+                    }
+                    mapViewModel.chosenRoute.postValue(null)
+                    mapViewModel.chosenSearchResult.postValue(null)
                     mapViewModel.routesOnDisplay.clear()
                     requireView().findViewById<Button>(R.id.cancel_route_button).visibility =
                         View.GONE
@@ -361,8 +388,6 @@ class TomTomMapBase : Fragment() {
                     finished = true
                 }
             }
-
-            mapViewModel.chosenRoute.postValue(null)
         }
     }
 
@@ -479,6 +504,7 @@ class TomTomMapBase : Fragment() {
      * @param color The fill color of the polygon.
      * @param opacity The opacity of the polygon.
      */
+    @Suppress("SameParameterValue") // Possible future use
     private fun drawPolygon(coordinates: List<LatLng>, color: Int, opacity: Float, tag: String) {
         val polygon = PolygonBuilder.create()
             .coordinates(coordinates)

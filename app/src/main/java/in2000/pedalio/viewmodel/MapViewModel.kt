@@ -83,6 +83,9 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     /** The chosen search result from the search window. */
     val chosenSearchResult = MutableLiveData<SearchResult?>()
 
+    /** Trigger for when this is a new unique search result */
+    var newSearchResult = false
+
     /** The chosen route from the route selection overlay. */
     val chosenRoute = MutableLiveData<List<LatLng>?>()
 
@@ -99,7 +102,9 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         var foundCached = false
         var foundRoutes: Map<GetRouteAlternativesUseCase.RouteType, FullRoute> = mapOf()
         cachedRoutes.forEach { (coords, routes) ->
-            if (CoordinateUtil.calcDistanceBetweenTwoCoordinates(start, coords.first) * 1000 < 10) {
+            if (CoordinateUtil.calcDistanceBetweenTwoCoordinates(start, coords.first) * 1000 < 10
+                && end == coords.second
+            ) {
                 foundCached = true
                 foundRoutes = routes
             }
