@@ -88,11 +88,11 @@ class RoutingSelector private constructor() : Fragment() {
         const val SHORTEST_COLOR = Color.YELLOW
         const val SHORTEST_CONTRAST_COLOR = Color.BLACK
 
-        private lateinit var chosenRoute: MutableLiveData<List<LatLng>>
+        private lateinit var chosenRoute: MutableLiveData<List<LatLng>?>
 
         fun newInstance(
             routes: Map<GetRouteAlternativesUseCase.RouteType, FullRoute>,
-            chosenRoute: MutableLiveData<List<LatLng>>
+            chosenRoute: MutableLiveData<List<LatLng>?>
         ) = RoutingSelector().apply {
             arguments = bundleOf(
                 Pair(

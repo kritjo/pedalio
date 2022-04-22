@@ -74,4 +74,7 @@
     <string name="question_mark">\?</string>
     <string name="safest_route">Tryggeste rute</string>
     <string name="layers">Lag</string>
+    <string name="waiting_for_location">Venter på posisjon…</string>
+    <string name="cancel_route">Avbryt</string>
+    <string name="arrived_at_dest">Du er fremme!</string>
 </resources>

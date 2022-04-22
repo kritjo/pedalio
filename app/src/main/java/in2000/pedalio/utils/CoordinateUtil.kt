@@ -40,7 +40,7 @@ class CoordinateUtil {
             val dlat = lat2 - lat1
             val aa = sin(dlat / 2).pow(2.0) + cos(lat1) * cos(lat2) * sin(dlon / 2).pow(2.0)
             val c = 2 * asin(sqrt(aa))
-            return 6371 * c
+            return 6378.8 * c
         }
     }
 }

@@ -38,7 +38,7 @@
     <string name="next">Next</string>
     <string name="welcome_header">Welcome to Pedalio!</string>
 
-    <string name="welcome_header_2">Safety tips...</string>
+    <string name="welcome_header_2">Safety tips…</string>
     <string name="rules">
         1. Be visible in traffic \n \n
         2. Give clear signs \n \n
@@ -73,4 +73,7 @@
     <string name="question_mark">\?</string>
     <string name="safest_route">Safest route</string>
     <string name="layers">Layers</string>
+    <string name="waiting_for_location">Waiting for location…</string>
+    <string name="cancel_route">Cancel</string>
+    <string name="arrived_at_dest">You have arrived at your destination!</string>
 </resources>

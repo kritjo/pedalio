@@ -10,6 +10,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.location.LocationUpdateListener
+import com.tomtom.online.sdk.map.CameraPosition
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import in2000.pedalio.R
 import in2000.pedalio.data.Endpoints
 import in2000.pedalio.data.airquality.source.nilu.NILUSource
@@ -19,6 +21,7 @@ import in2000.pedalio.data.search.SearchResult
 import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.data.weather.impl.LocationForecastRepository
 import in2000.pedalio.data.weather.impl.NowcastRepository
+import in2000.pedalio.domain.routing.GetRouteAlternativesUseCase
 import in2000.pedalio.domain.weather.DeviationTypes
 import in2000.pedalio.domain.weather.GetDeviatingWeather
 import in2000.pedalio.domain.weather.GetWeatherUseCase
@@ -40,9 +43,9 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     val polyline = MutableLiveData(listOf(Pair(listOf(LatLng()), 0)))
 
     // List of Triple of LatLng, Color, and Opacity
-    val AQPolygons = MutableLiveData(listOf<Triple<List<LatLng>, Int, Float>>())
-    val AQcomponent : NILUSource.COMPONENTS = NILUSource.COMPONENTS.NO2
-    val AQmaxValue : Float = 50f
+    val aqPolygons = MutableLiveData(listOf<Triple<List<LatLng>, Int, Float>>())
+    val aqComponent: NILUSource.COMPONENTS = NILUSource.COMPONENTS.NO2
+    val aqMaxValue: Float = 50f
 
     /** overlayBubbles to be drawn on the map. */
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
@@ -57,7 +60,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     // Time since weather data was last updated. Only update every 10 seconds.
     private var lastUpdated = 0L
 
-    private var AQPairs : List<Pair<LatLng?, Double>>? = null
+    private var aqPairs: List<Pair<LatLng, Double>>? = null
 
     /** Bike routes from api. */
     val bikeRoutes = MutableLiveData(listOf<List<LatLng>>()).also {
@@ -80,7 +83,25 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     val chosenSearchResult = MutableLiveData<SearchResult?>()
 
     /** The chosen route from the route selection overlay. */
-    val chosenRoute = MutableLiveData<List<LatLng>>()
+    val chosenRoute = MutableLiveData<List<LatLng>?>()
+
+    var savedCameraPosition: CameraPosition? = null
+
+    private val cachedRoutes: HashMap<Pair<LatLng, LatLng>, Map<GetRouteAlternativesUseCase.RouteType, FullRoute>> =
+        hashMapOf()
+
+    suspend fun getRoute(
+        start: LatLng,
+        end: LatLng,
+        context: Context
+    ): Map<GetRouteAlternativesUseCase.RouteType, FullRoute> {
+        if (!cachedRoutes.containsKey(Pair(start, end))) {
+            cachedRoutes[Pair(start, end)] =
+                GetRouteAlternativesUseCase.getRouteAlternatives(start, end, context)
+        }
+        return cachedRoutes[Pair(start, end)]!!
+    }
+
 
     /** Callback from the view that we have gotten the permission to access the user's location. */
     fun permissionCallback() {
@@ -91,14 +112,43 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     var registerListener: (input: LocationUpdateListener) -> Unit =
         fun(_: LocationUpdateListener) {}
 
+    // Assure that only one locationRepository is created.
+    private var locationRepository: LocationRepository? = null
+
     // The repository that should be used to get the current location, using the registerListener.
     private fun locationRepository(): LocationRepository {
-        return LocationRepository(
+        if (locationRepository == null) {
+            locationRepository = LocationRepository(
+                applicationLocal.applicationContext,
+                LatLng(59.92, 10.75),
+                shouldGetPermission,
+                registerListener
+            )
+        }
+        return locationRepository!!
+    }
+
+    /**
+     * Update the location repository, necessary on lifecycle changes.
+     *
+     * @param registerListener The listener that should be used to register for location updates.
+     */
+    fun updateLocationRepository(registerListener: (input: LocationUpdateListener) -> Unit) {
+        this.registerListener = registerListener
+        locationRepository = LocationRepository(
             applicationLocal.applicationContext,
             LatLng(59.92, 10.75),
             shouldGetPermission,
             registerListener
         )
+        currentLocation = locationRepository().currentPosition
+    }
+
+    /**
+     * @return Is the current location the default location?
+     */
+    fun currentLocationIsDefault(): Boolean {
+        return locationRepository().currentPositionIsDefault
     }
 
     // Ensure that only one copy of the currentLocation LiveData is created.
@@ -209,7 +259,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         overlayBubbles.postValue(bubbles)
     }
 
-    private suspend fun updateAirQuality(component : NILUSource.COMPONENTS) {
+    suspend fun updateAirQuality(component: NILUSource.COMPONENTS) {
         // Get AQ data. (default: Majorstuen)
         val here = currentLocation?.value ?: LatLng(59.926933, 10.716704)
         val nilu = NILUSource.getNow(
@@ -219,23 +269,22 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
             12,
             component
         )
-        //val pixelPair = resPair?.map { Pair(tomtomMap.pixelForLatLng(it.first!!), it.second) }
-        AQPairs = nilu?.map {
+        aqPairs = nilu?.map {
             Pair(
-                it.latitude?.let { lat -> LatLng(lat, it.longitude ?: 0.0) },
+                it.latitude?.let { lat -> LatLng(lat, it.longitude ?: 0.0) } ?: LatLng(0.0, 0.0),
                 it.value ?: 0.0
             )
         }
     }
 
-    fun getAirQuality(): List<Pair<LatLng?, Double>> {
-        if (AQPairs.isNullOrEmpty()) {
+    fun getAirQuality(): List<Pair<LatLng, Double>> {
+        if (aqPairs.isNullOrEmpty()) {
             return emptyList()
         }
-        return AQPairs as List<Pair<LatLng?, Double>>
+        return aqPairs!!.filter { it.first.latitude != 0.0 && it.first.longitude != 0.0 }
     }
 
-    fun createAQPolygons(resPair: List<Pair<LatLng?, Double>>) {
+    fun createAQPolygons(resPair: List<Pair<LatLng, Double>>) {
         // create new polygons
         val polygons = mutableListOf<Triple<List<LatLng>, Int, Float>>()
 
@@ -244,8 +293,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         val maxBlocksWidth = 27
         val maxBlocksHeight = 12
 
-        for(i in 0 until maxBlocksHeight){
-            for(j in 0 until maxBlocksWidth){
+        for (i in 0 until maxBlocksHeight) {
+            for (j in 0 until maxBlocksWidth) {
                 // Create polygon
                 val topLeft = LatLng(originCord.latitude - i * cordInterval, originCord.longitude + j * cordInterval)
                 val topRight = LatLng(topLeft.latitude, topLeft.longitude + cordInterval)
@@ -260,8 +309,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                 )
                 val value = interpolateAirQuality(middle, resPair)
                 val color = Color.rgb(
-                    ((value/ AQmaxValue) * 255).toInt(),
-                    (130-((value/ AQmaxValue) * 100)).toInt(),
+                    ((value / aqMaxValue) * 255).toInt(),
+                    (130 - ((value / aqMaxValue) * 100)).toInt(),
                     32
                 )
 
@@ -269,11 +318,11 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-        AQPolygons.postValue(polygons)
+        aqPolygons.postValue(polygons)
     }
 
-    private fun interpolateAirQuality(point: LatLng, resPair: List<Pair<LatLng?, Double>>): Double {
-        return MathUtil.inverseDistanceWeighting(point, resPair as List<Pair<LatLng, Double>>)
+    private fun interpolateAirQuality(point: LatLng, resPair: List<Pair<LatLng, Double>>): Double {
+        return MathUtil.inverseDistanceWeighting(point, resPair)
     }
 
     /**
@@ -314,7 +363,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
             override fun run() {
                 viewModelScope.launch(Dispatchers.IO) {
                     updateWeatherAndDeviations(application.applicationContext)
-                    updateAirQuality(AQcomponent)
+                    updateAirQuality(aqComponent)
                     // Wait for update to finish before drawing
                     if (SharedPreferences(application.applicationContext).layerAirQuality) {
                         createAQPolygons(getAirQuality())

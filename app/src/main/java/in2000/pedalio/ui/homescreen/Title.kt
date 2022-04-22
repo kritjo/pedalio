@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import in2000.pedalio.R
 import in2000.pedalio.utils.NetworkUtils
+import in2000.pedalio.viewmodel.MapViewModel
 import kotlinx.coroutines.runBlocking
 
 
@@ -25,6 +28,8 @@ class Title : Fragment() {
             NetworkUtils.isNetworkAvailable()
         }
 
+        val mapViewModel: MapViewModel by activityViewModels()
+
         return if (!networkAvailable) {
             // If no network is available, show the offline screen.
             findNavController().navigate(R.id.action_titleScreen_to_no_network_window)
@@ -36,7 +41,16 @@ class Title : Fragment() {
 
             // Set up the search button.
             searchButton.setOnClickListener {
-                Navigation.findNavController(v).navigate(R.id.action_titleScreen_to_search_window)
+                if (!mapViewModel.currentLocationIsDefault()) {
+                    Navigation.findNavController(v)
+                        .navigate(R.id.action_titleScreen_to_search_window)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.waiting_for_location),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
             v
         }

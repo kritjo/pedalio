@@ -13,14 +13,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RelativeLayout
-import android.widget.Switch
+import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.common.util.LogUtils
@@ -29,6 +28,7 @@ import com.tomtom.online.sdk.map.route.RouteLayerStyle
 import in2000.pedalio.R
 import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.domain.routing.GetRouteAlternativesUseCase
+import in2000.pedalio.utils.CoordinateUtil
 import in2000.pedalio.viewmodel.MapViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -68,6 +68,7 @@ class TomTomMapBase : Fragment() {
                 if (isGranted) {
                     SharedPreferences(requireContext()).askedForGps = true
                     SharedPreferences(requireContext()).gpsToggle = true
+                    mapViewModel.registerListener = tomtomMap::addLocationUpdateListener
                     mapViewModel.permissionCallback()
                     if (::tomtomMap.isInitialized)
                         tomtomMap.isMyLocationEnabled = true
@@ -79,16 +80,39 @@ class TomTomMapBase : Fragment() {
         initLayerSelector()
     }
 
+    override fun onPause() {
+        if (::routingSelectorFragment.isInitialized) {
+            childFragmentManager.beginTransaction()
+                .remove(routingSelectorFragment)
+                .commitAllowingStateLoss()
+            mapViewModel.routesOnDisplay.forEach {
+                tomtomMap.removeRoute(it)
+            }
+        }
+        if (::tomtomMap.isInitialized) {
+            mapViewModel.savedCameraPosition = tomtomMap.uiSettings.cameraPosition
+        }
+        super.onPause()
+    }
+
     private fun onMapReady(map: TomtomMap) {
         tomtomMap = map
         // This callback should be first thing after this.tomtomMap assign. In order to get pos
         // updates.
         mapViewModel.registerListener = tomtomMap::addLocationUpdateListener
+        mapViewModel.updateLocationRepository(mapViewModel.registerListener)
+
         mapViewModel.currentPos().observe(viewLifecycleOwner) {
             onPosChange(it)
         }
 
-        tomtomMap.isMyLocationEnabled = true
+        mapViewModel.savedCameraPosition?.let {
+            tomtomMap.uiSettings.cameraPosition = it
+        }
+
+        if (SharedPreferences(requireContext()).gpsToggle) {
+            tomtomMap.isMyLocationEnabled = true
+        }
 
         mapViewModel.shouldGetPermission.observe(viewLifecycleOwner) {
             if (it) {
@@ -120,11 +144,12 @@ class TomTomMapBase : Fragment() {
         }
 
         // Draw a polygon on the map when viewModel says so.
-        mapViewModel.AQPolygons.observe(viewLifecycleOwner) {
+        mapViewModel.aqPolygons.observe(viewLifecycleOwner) {
             removeMapOverlay("polygons")
             it.forEach { polygon ->
                 drawPolygon(polygon.first, polygon.second, polygon.third, "polygons")
-        }}
+            }
+        }
 
 
         var currentBubblesCameraChangeListener: TomtomMapCallback.OnCameraChangedListener? = null
@@ -175,6 +200,7 @@ class TomTomMapBase : Fragment() {
             if (isChecked) {
                 // Do this in a separate thread to avoid blocking the UI.
                 mapViewModel.viewModelScope.launch(Dispatchers.Default) {
+                    mapViewModel.updateAirQuality(mapViewModel.aqComponent)
                     mapViewModel.createAQPolygons(mapViewModel.getAirQuality())
                 }
             } else {
@@ -210,6 +236,13 @@ class TomTomMapBase : Fragment() {
 
         mapViewModel.chosenSearchResult.observe(viewLifecycleOwner) { searchResult ->
             if (searchResult == null) return@observe
+            requireView().findViewById<ProgressBar>(R.id.progressBar).visibility = View.VISIBLE
+            val routeDone = MutableLiveData(false)
+            routeDone.observe(viewLifecycleOwner) {
+                if (it)
+                    requireView().findViewById<ProgressBar>(R.id.progressBar).visibility = View.GONE
+            }
+
             if (::routingSelectorFragment.isInitialized)
                 childFragmentManager.beginTransaction()
                     .remove(routingSelectorFragment)
@@ -219,7 +252,7 @@ class TomTomMapBase : Fragment() {
             val to = searchResult.position
             mapViewModel.viewModelScope.launch(Dispatchers.IO) {
                 val routes =
-                    GetRouteAlternativesUseCase.getRouteAlternatives(from, to, requireContext())
+                    mapViewModel.getRoute(from, to, requireContext())
                 routes.forEach { route ->
                     when (route.key) {
                         GetRouteAlternativesUseCase.RouteType.BIKE -> {
@@ -242,17 +275,21 @@ class TomTomMapBase : Fragment() {
                 }
                 routingSelectorFragment =
                     RoutingSelector.newInstance(routes, mapViewModel.chosenRoute)
-                mapViewModel.chosenSearchResult.postValue(null)
                 childFragmentManager.beginTransaction()
                     .add(R.id.routing_overlay, routingSelectorFragment)
                     .commitAllowingStateLoss()
+                routeDone.postValue(true)
             }
         }
 
         mapViewModel.chosenRoute.observe(viewLifecycleOwner) { list ->
+            if (list == null) return@observe
+            var finished = false
             mapViewModel.routesOnDisplay.forEach {
                 tomtomMap.removeRoute(it)
             }
+
+
             childFragmentManager.beginTransaction()
                 .hide(routingSelectorFragment)
                 .commitAllowingStateLoss()
@@ -265,17 +302,57 @@ class TomTomMapBase : Fragment() {
                     .focusPosition(mapViewModel.currentPos().value!!)
                     .build()
             )
+
+            // Show progress along the route
             tomtomMap.activateProgressAlongRoute(rb.id, RouteLayerStyle.Builder().build())
             mapViewModel.currentPos().observe(viewLifecycleOwner) {
-                tomtomMap.updateProgressAlongRoute(rb.id, it.toLocation())
-                tomtomMap.centerOn(
-                    CameraPosition.builder()
-                        .pitch(20.0)
-                        .zoom(20.0)
-                        .focusPosition(it)
-                        .build()
-                )
+                if (!finished) {
+                    tomtomMap.updateProgressAlongRoute(rb.id, it.toLocation())
+                    tomtomMap.centerOn(
+                        CameraPosition.builder()
+                            .pitch(20.0)
+                            .zoom(20.0)
+                            .focusPosition(it)
+                            .build()
+                    )
+                }
             }
+
+            // Cancel route button
+            requireView().findViewById<Button>(R.id.cancel_route_button).apply {
+                visibility = View.VISIBLE
+                setOnClickListener {
+                    tomtomMap.removeRoute(rb.id)
+                    mapViewModel.routesOnDisplay.clear()
+                    requireView().findViewById<Button>(R.id.cancel_route_button).visibility =
+                        View.GONE
+                }
+            }
+
+            // Message when route is finished and cleanup
+            val finishCord = list.last()
+            mapViewModel.currentPos().observe(viewLifecycleOwner) {
+                if (CoordinateUtil.calcDistanceBetweenTwoCoordinates(
+                        it,
+                        finishCord
+                    ) * 1000 < 50
+                    && !finished
+                ) {
+                    tomtomMap.deactivateProgressAlongRoute(rb.id)
+                    tomtomMap.removeRoute(rb.id)
+                    mapViewModel.routesOnDisplay.clear()
+                    requireView().findViewById<Button>(R.id.cancel_route_button).visibility =
+                        View.GONE
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.arrived_at_dest),
+                        Toast.LENGTH_LONG
+                    ).show()
+                    finished = true
+                }
+            }
+
+            mapViewModel.chosenRoute.postValue(null)
         }
     }
 
@@ -346,7 +423,9 @@ class TomTomMapBase : Fragment() {
                     .focusPosition(pos)
                     .build()
                 tomtomMap.centerOn(cameraPosition)
-                tomtomMap.isMyLocationEnabled = true
+                if (SharedPreferences(requireContext()).gpsToggle) {
+                    tomtomMap.isMyLocationEnabled = true
+                }
             }
         }
         lastPos = pos
