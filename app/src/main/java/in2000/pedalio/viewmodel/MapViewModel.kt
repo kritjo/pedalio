@@ -129,6 +129,22 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
+     * Update the location repository, necessary on lifecycle changes.
+     *
+     * @param registerListener The listener that should be used to register for location updates.
+     */
+    fun updateLocationRepository(registerListener: (input: LocationUpdateListener) -> Unit) {
+        this.registerListener = registerListener
+        locationRepository = LocationRepository(
+            applicationLocal.applicationContext,
+            LatLng(59.92, 10.75),
+            shouldGetPermission,
+            registerListener
+        )
+        currentLocation = locationRepository().currentPosition
+    }
+
+    /**
      * @return Is the current location the default location?
      */
     fun currentLocationIsDefault(): Boolean {

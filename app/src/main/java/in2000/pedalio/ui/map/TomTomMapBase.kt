@@ -100,6 +100,8 @@ class TomTomMapBase : Fragment() {
         // This callback should be first thing after this.tomtomMap assign. In order to get pos
         // updates.
         mapViewModel.registerListener = tomtomMap::addLocationUpdateListener
+        mapViewModel.updateLocationRepository(mapViewModel.registerListener)
+
         mapViewModel.currentPos().observe(viewLifecycleOwner) {
             onPosChange(it)
         }
@@ -282,6 +284,7 @@ class TomTomMapBase : Fragment() {
 
         mapViewModel.chosenRoute.observe(viewLifecycleOwner) { list ->
             if (list == null) return@observe
+            var finished = false
             mapViewModel.routesOnDisplay.forEach {
                 tomtomMap.removeRoute(it)
             }
@@ -303,14 +306,16 @@ class TomTomMapBase : Fragment() {
             // Show progress along the route
             tomtomMap.activateProgressAlongRoute(rb.id, RouteLayerStyle.Builder().build())
             mapViewModel.currentPos().observe(viewLifecycleOwner) {
-                tomtomMap.updateProgressAlongRoute(rb.id, it.toLocation())
-                tomtomMap.centerOn(
-                    CameraPosition.builder()
-                        .pitch(20.0)
-                        .zoom(20.0)
-                        .focusPosition(it)
-                        .build()
-                )
+                if (!finished) {
+                    tomtomMap.updateProgressAlongRoute(rb.id, it.toLocation())
+                    tomtomMap.centerOn(
+                        CameraPosition.builder()
+                            .pitch(20.0)
+                            .zoom(20.0)
+                            .focusPosition(it)
+                            .build()
+                    )
+                }
             }
 
             // Cancel route button
@@ -331,7 +336,9 @@ class TomTomMapBase : Fragment() {
                         it,
                         finishCord
                     ) * 1000 < 50
+                    && !finished
                 ) {
+                    tomtomMap.deactivateProgressAlongRoute(rb.id)
                     tomtomMap.removeRoute(rb.id)
                     mapViewModel.routesOnDisplay.clear()
                     requireView().findViewById<Button>(R.id.cancel_route_button).visibility =
@@ -341,6 +348,7 @@ class TomTomMapBase : Fragment() {
                         getString(R.string.arrived_at_dest),
                         Toast.LENGTH_LONG
                     ).show()
+                    finished = true
                 }
             }
 
