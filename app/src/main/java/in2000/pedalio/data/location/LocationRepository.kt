@@ -1,6 +1,5 @@
 package in2000.pedalio.data.location
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
@@ -64,11 +63,19 @@ class LocationRepository(
         }
     }
 
-    @SuppressLint("MissingPermission") // should only be called when we have permissions
     fun locationCallback(registerListener: (input: LocationUpdateListener) -> Unit) {
         registerListener {
             currentPosition.postValue(LatLng(it.latitude, it.longitude))
             currentPositionIsDefault = false
+        }
+    }
+
+    fun registerNewListener(registerListener: (input: LocationUpdateListener) -> Unit) {
+        registerListener {
+            if (it != defaultLocation) {
+                currentPosition.postValue(LatLng(it.latitude, it.longitude))
+                currentPositionIsDefault = false
+            }
         }
     }
 }
