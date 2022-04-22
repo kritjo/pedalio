@@ -24,16 +24,17 @@ class FuzzySearchSource(private val maxFuzzyLevel: Int = 2) {
      * Create a FuzzySearchSpecification for a given search query and location.
      * @param searchQuery The search query.
      * @param position Position used to bias the results.
-     * @param radius The radius in meters. Default value is 4000.0
+     * @param radius The radius in meters. Default value is 30000.0
      */
     fun createSpecification(
         searchQuery: String,
         position: LatLng,
-        radius: Double = 4000.0
+        radius: Double = 30000.0
     ): FuzzySearchSpecification {
         val searchEngineDescriptor = FuzzySearchEngineDescriptor.Builder()
             .minFuzzyLevel(1)
             .maxFuzzyLevel(maxFuzzyLevel)
+            .language("no-NO")
             .build()
 
         val fuzzyLocationDescriptor = getLocationDescriptor(position, radius)
