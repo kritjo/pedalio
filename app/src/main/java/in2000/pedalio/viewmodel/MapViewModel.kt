@@ -11,6 +11,7 @@ import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.location.LocationUpdateListener
 import in2000.pedalio.R
 import in2000.pedalio.data.Endpoints
+import in2000.pedalio.data.airquality.source.nilu.NILUSource
 import in2000.pedalio.data.bikeRoutes.impl.OsloBikeRouteRepostiory
 import in2000.pedalio.data.location.LocationRepository
 import in2000.pedalio.data.search.SearchResult
@@ -155,6 +156,15 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
             context
         )
 
+        // Get AQ data.
+        val here = currentLocation?.value
+        if(here != null){
+            val nilu = NILUSource.getNow(Endpoints.NILU_FORECAST, here.latitude, here.longitude, 12, NILUSource.COMPONENTS.NO2)
+            val resPair = nilu?.map { Pair(it.latitude?.let { it1 -> LatLng(it1, it.longitude ?: 0.0) }, it.value ?: 0.0) }
+            createAQPolygons(resPair)
+        }
+
+
         // Get the weather data from the current location.
         val weatherData = weatherUseCase.getWeather(currentPos().value!!, context = context)
         weather.postValue(weatherData)
@@ -196,6 +206,12 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
         overlayBubbles.postValue(bubbles)
+    }
+
+    private fun createAQPolygons(resPair: List<Pair<LatLng?, Double>>?) {
+        // test polygon
+
+
     }
 
     /**
