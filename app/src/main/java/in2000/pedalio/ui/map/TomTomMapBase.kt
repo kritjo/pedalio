@@ -145,9 +145,16 @@ class TomTomMapBase : Fragment() {
 
         // Draw a polygon on the map when viewModel says so.
         mapViewModel.aqPolygons.observe(viewLifecycleOwner) {
-            removeMapOverlay("polygons")
-            it.forEach { polygon ->
-                drawPolygon(polygon.first, polygon.second, polygon.third, "polygons")
+            removeMapOverlay("air_quality_polygons")
+            if (SharedPreferences(requireContext()).layerAirQuality) {
+                it.forEach { polygon ->
+                    drawPolygon(
+                        polygon.first,
+                        polygon.second,
+                        polygon.third,
+                        "air_quality_polygons"
+                    )
+                }
             }
         }
 
@@ -204,7 +211,7 @@ class TomTomMapBase : Fragment() {
                     mapViewModel.createAQPolygons(mapViewModel.getAirQuality())
                 }
             } else {
-                removeMapOverlay("polygons")
+                removeMapOverlay("air_quality_polygons")
             }
         }
 
