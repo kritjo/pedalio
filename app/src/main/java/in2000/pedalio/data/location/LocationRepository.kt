@@ -29,6 +29,7 @@ class LocationRepository(
      * The location data. Public interface of the location data.
      */
     val currentPosition = MutableLiveData(defaultLocation)
+    var currentPositionIsDefault = true
     private val settingsRepository = SharedPreferences(context)
 
     init {
@@ -56,6 +57,7 @@ class LocationRepository(
                 // Register location listener
                 registerListener {
                     currentPosition.postValue(LatLng(it.latitude, it.longitude))
+                    currentPositionIsDefault = false
                 }
             }
             return@let locationManager
@@ -66,6 +68,7 @@ class LocationRepository(
     fun locationCallback(registerListener: (input: LocationUpdateListener) -> Unit) {
         registerListener {
             currentPosition.postValue(LatLng(it.latitude, it.longitude))
+            currentPositionIsDefault = false
         }
     }
 }

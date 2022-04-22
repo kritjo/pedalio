@@ -80,14 +80,27 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     var registerListener: (input: LocationUpdateListener) -> Unit =
         fun(_: LocationUpdateListener) {}
 
+    // Assure that only one locationRepository is created.
+    private var locationRepository: LocationRepository? = null
+
     // The repository that should be used to get the current location, using the registerListener.
     private fun locationRepository(): LocationRepository {
-        return LocationRepository(
-            applicationLocal.applicationContext,
-            LatLng(59.92, 10.75),
-            shouldGetPermission,
-            registerListener
-        )
+        if (locationRepository == null) {
+            locationRepository = LocationRepository(
+                applicationLocal.applicationContext,
+                LatLng(59.92, 10.75),
+                shouldGetPermission,
+                registerListener
+            )
+        }
+        return locationRepository!!
+    }
+
+    /**
+     * @return Is the current location the default location?
+     */
+    fun currentLocationIsDefault(): Boolean {
+        return locationRepository().currentPositionIsDefault
     }
 
     // Ensure that only one copy of the currentLocation LiveData is created.

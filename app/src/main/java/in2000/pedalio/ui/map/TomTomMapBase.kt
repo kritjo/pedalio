@@ -68,6 +68,7 @@ class TomTomMapBase : Fragment() {
                 if (isGranted) {
                     SharedPreferences(requireContext()).askedForGps = true
                     SharedPreferences(requireContext()).gpsToggle = true
+                    mapViewModel.registerListener = tomtomMap::addLocationUpdateListener
                     mapViewModel.permissionCallback()
                     if (::tomtomMap.isInitialized)
                         tomtomMap.isMyLocationEnabled = true
@@ -88,7 +89,9 @@ class TomTomMapBase : Fragment() {
             onPosChange(it)
         }
 
-        tomtomMap.isMyLocationEnabled = true
+        if (SharedPreferences(requireContext()).gpsToggle) {
+            tomtomMap.isMyLocationEnabled = true
+        }
 
         mapViewModel.shouldGetPermission.observe(viewLifecycleOwner) {
             if (it) {
@@ -326,7 +329,9 @@ class TomTomMapBase : Fragment() {
                     .focusPosition(pos)
                     .build()
                 tomtomMap.centerOn(cameraPosition)
-                tomtomMap.isMyLocationEnabled = true
+                if (SharedPreferences(requireContext()).gpsToggle) {
+                    tomtomMap.isMyLocationEnabled = true
+                }
             }
         }
         lastPos = pos
