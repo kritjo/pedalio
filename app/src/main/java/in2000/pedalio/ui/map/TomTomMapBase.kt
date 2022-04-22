@@ -86,8 +86,8 @@ class TomTomMapBase : Fragment() {
                 .remove(routingSelectorFragment)
                 .commitAllowingStateLoss()
             mapViewModel.routesOnDisplay.forEach {
-                tomtomMap.removeRoute(it)
                 tomtomMap.deactivateProgressAlongRoute(it)
+                tomtomMap.removeRoute(it)
             }
         }
         if (::tomtomMap.isInitialized) {
