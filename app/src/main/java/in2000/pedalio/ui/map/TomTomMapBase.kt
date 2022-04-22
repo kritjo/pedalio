@@ -330,7 +330,7 @@ class TomTomMapBase : Fragment() {
                         View.GONE
                     Toast.makeText(
                         requireContext(),
-                        getString(R.string.arrivet_at_dest),
+                        getString(R.string.arrived_at_dest),
                         Toast.LENGTH_LONG
                     ).show()
                 }
