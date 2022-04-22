@@ -5,9 +5,9 @@ import kotlin.math.pow
 
 class MathUtil {
     companion object {
+      private const val POWER = 2
       // Docs : https://gisgeography.com/inverse-distance-weighting-idw-interpolation/#:~:text=Interpolated%20points%20are%20estimated%20based,has%20from%20the%20known%20values.
         fun inverseDistanceWeighting(here : LatLng, stations : List<Pair<LatLng, Double>>): Double {
-          val POWER = 2
           var sum = 0.0
           var sumDx = 0.0
           for (i in stations.indices) {
