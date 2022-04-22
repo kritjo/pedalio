@@ -173,7 +173,10 @@ class TomTomMapBase : Fragment() {
         layersSelectorFragment.requireView().findViewById<Switch>(R.id.switch_airquality).setOnCheckedChangeListener { _, isChecked ->
             SharedPreferences(requireContext()).layerAirQuality = isChecked
             if (isChecked) {
-                mapViewModel.createAQPolygons(mapViewModel.getAirQuality())
+                // Do this in a separate thread to avoid blocking the UI.
+                mapViewModel.viewModelScope.launch(Dispatchers.Default) {
+                    mapViewModel.createAQPolygons(mapViewModel.getAirQuality())
+                }
             } else {
                 removeMapOverlay("polygons")
             }
