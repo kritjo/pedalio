@@ -135,6 +135,8 @@ class SearchWindow : Fragment() {
             if (it != null) {
                 sharedPreferences.appendRecentSearch(it)
                 mapViewModel.chosenSearchResult.postValue(it)
+                // clear prev route, as we are navigating to a new place.
+                mapViewModel.chosenRoute.postValue(null)
                 mapViewModel.newSearchResult = true
                 Navigation.findNavController(v).navigate(R.id.action_search_window_to_titleScreen)
             }

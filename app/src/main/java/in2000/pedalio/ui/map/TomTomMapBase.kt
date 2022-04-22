@@ -309,9 +309,11 @@ class TomTomMapBase : Fragment() {
             }
 
 
-            childFragmentManager.beginTransaction()
-                .hide(routingSelectorFragment)
-                .commitAllowingStateLoss()
+            if (::routingSelectorFragment.isInitialized)
+                childFragmentManager.beginTransaction()
+                    .hide(routingSelectorFragment)
+                    .commitAllowingStateLoss()
+
             val rb = RouteBuilder(list)
             tomtomMap.addRoute(rb)
             tomtomMap.centerOn(
