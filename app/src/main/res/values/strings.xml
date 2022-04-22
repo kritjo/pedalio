@@ -75,4 +75,5 @@
     <string name="layers">Layers</string>
     <string name="waiting_for_location">Waiting for location…</string>
     <string name="cancel_route">Cancel</string>
+    <string name="arrivet_at_dest">You have arrived at your destination!</string>
 </resources>

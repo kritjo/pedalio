@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.Switch
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -29,6 +30,7 @@ import com.tomtom.online.sdk.map.route.RouteLayerStyle
 import in2000.pedalio.R
 import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.domain.routing.GetRouteAlternativesUseCase
+import in2000.pedalio.utils.CoordinateUtil
 import in2000.pedalio.viewmodel.MapViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -251,6 +253,8 @@ class TomTomMapBase : Fragment() {
                     .focusPosition(mapViewModel.currentPos().value!!)
                     .build()
             )
+
+            // Show progress along the route
             tomtomMap.activateProgressAlongRoute(rb.id, RouteLayerStyle.Builder().build())
             mapViewModel.currentPos().observe(viewLifecycleOwner) {
                 tomtomMap.updateProgressAlongRoute(rb.id, it.toLocation())
@@ -262,6 +266,8 @@ class TomTomMapBase : Fragment() {
                         .build()
                 )
             }
+
+            // Cancel route button
             requireView().findViewById<Button>(R.id.cancel_route_button).apply {
                 visibility = View.VISIBLE
                 setOnClickListener {
@@ -271,6 +277,27 @@ class TomTomMapBase : Fragment() {
                         View.GONE
                 }
             }
+
+            // Message when route is finished and cleanup
+            val finishCord = list.last()
+            mapViewModel.currentPos().observe(viewLifecycleOwner) {
+                if (CoordinateUtil.calcDistanceBetweenTwoCoordinates(
+                        it,
+                        finishCord
+                    ) * 1000 < 50
+                ) {
+                    tomtomMap.removeRoute(rb.id)
+                    mapViewModel.routesOnDisplay.clear()
+                    requireView().findViewById<Button>(R.id.cancel_route_button).visibility =
+                        View.GONE
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.arrivet_at_dest),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+
             mapViewModel.chosenRoute.postValue(null)
         }
     }
