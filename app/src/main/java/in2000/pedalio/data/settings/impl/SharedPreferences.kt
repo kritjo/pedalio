@@ -73,8 +73,10 @@ class SharedPreferences(context: Context) : SettingsRepository() {
         ).apply()
 
     fun appendRecentSearch(searchResult: SearchResult) {
+        // return if duplicate
+        if (recentSearches.contains(searchResult)) return
         recentSearches = recentSearches.toMutableList().apply {
-            if (size > 9) removeAt(9)
+            if (size > 9) removeAt(9) // remove last if list is full
             add(0, searchResult)
         }
     }
@@ -96,6 +98,8 @@ class SharedPreferences(context: Context) : SettingsRepository() {
         ).apply()
 
     fun appendFavoriteSearch(favoriteResult: FavoriteResult) {
+        // return if duplicate
+        if (favoriteSearches.contains(favoriteResult)) return
         favoriteSearches = favoriteSearches.toMutableList().apply {
             if (size > 9) removeAt(9)
             add(0, favoriteResult)
