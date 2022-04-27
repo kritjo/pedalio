@@ -39,6 +39,9 @@ class Title : Fragment() {
             val v = inflater.inflate(R.layout.fragment_title, container, false)
             val searchButton = v.findViewById<EditText>(R.id.search_button)
 
+            searchButton.setOnLongClickListener { false }
+            searchButton.isLongClickable = false
+
             // Set up the search button.
             searchButton.setOnClickListener {
                 if (!mapViewModel.currentLocationIsDefault()) {

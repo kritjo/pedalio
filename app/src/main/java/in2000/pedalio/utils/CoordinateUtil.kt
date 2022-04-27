@@ -17,7 +17,7 @@ class CoordinateUtil {
                 return points
             }
             val result = mutableListOf<LatLng>()
-            val step: Int = points.size / maxPoints
+            val step: Int = ceil(points.size.toDouble() / maxPoints.toDouble()).toInt()
             for (i in points.indices step step) {
                 result.add(points[i])
             }

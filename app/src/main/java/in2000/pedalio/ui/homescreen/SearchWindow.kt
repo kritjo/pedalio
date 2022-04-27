@@ -1,11 +1,16 @@
 package in2000.pedalio.ui.homescreen
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -26,6 +31,7 @@ import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.Executors.newSingleThreadExecutor
+
 
 /**
  * The search window fragment. This fragment is responsible for displaying the search window on
@@ -59,6 +65,19 @@ class SearchWindow : Fragment() {
 
         val results = MutableLiveData(emptyList<SearchResult>())
         val recent = sharedPreferences.recentSearches
+
+        // Add a listener for when "done" key is pressed on keyboard
+        search.setOnEditorActionListener { _, i, _ ->
+            if (i == EditorInfo.IME_ACTION_DONE
+                || i == EditorInfo.IME_ACTION_NEXT
+            ) {
+                getSystemService(requireContext(), InputMethodManager::class.java)
+                    ?.hideSoftInputFromWindow(requireView().windowToken, 0)
+                true
+            } else {
+                false
+            }
+        }
 
         stateRecently.observe(viewLifecycleOwner) {
             if (it) {
@@ -156,6 +175,17 @@ class SearchWindow : Fragment() {
         }
 
         return v
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // Show the keyboard.
+        val search = requireView().findViewById<EditText>(R.id.search)
+        search.requestFocus()
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(search, InputMethodManager.SHOW_IMPLICIT)
+
     }
 
     /**
