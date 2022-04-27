@@ -59,7 +59,7 @@ class SharedPreferences(context: Context) : SettingsRepository() {
             .apply()
 
     override var layerAQComponent : String?
-        get() : String? = sharedPreferences.getString(SettingsKey.LAYER_AQ_COMPONENT.name, "PM2.5")
+        get() : String? = sharedPreferences.getString(SettingsKey.LAYER_AQ_COMPONENT.name, "NO2")
         set(value) = sharedPreferences.edit().putString(SettingsKey.LAYER_AQ_COMPONENT.name, value).apply()
 
     /**

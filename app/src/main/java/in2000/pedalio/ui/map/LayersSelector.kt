@@ -9,8 +9,10 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.Switch
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import in2000.pedalio.R
 import in2000.pedalio.data.settings.impl.SharedPreferences
+import in2000.pedalio.viewmodel.MapViewModel
 
 /**
  * Overlay that allows the user to select which layers are displayed on the map.
@@ -46,7 +48,9 @@ class LayersSelector : Fragment() {
                     // get selected item string
                     val selectedItem = parent?.getItemAtPosition(position).toString()
                     sharedPref.layerAQComponent = selectedItem
-                    //Log.d("LayersSelector", "Selected AQ component: $selectedItem")
+                    val mapViewModel: MapViewModel by activityViewModels()
+                    mapViewModel.parseAndUpdateComponentFromPreferences()
+                    mapViewModel.createAQPolygons(mapViewModel.getAirQuality())
                 }
             }
         return view
