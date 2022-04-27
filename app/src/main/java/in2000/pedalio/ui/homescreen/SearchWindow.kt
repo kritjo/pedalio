@@ -1,11 +1,13 @@
 package in2000.pedalio.ui.homescreen
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
@@ -160,6 +162,17 @@ class SearchWindow : Fragment() {
         }
 
         return v
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // Show the keyboard.
+        val search = requireView().findViewById<EditText>(R.id.search)
+        search.requestFocus()
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(search, InputMethodManager.SHOW_IMPLICIT)
+
     }
 
     /**
