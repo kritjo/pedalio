@@ -8,4 +8,9 @@
         <item>metric</item>
         <item>freedom</item>
     </string-array>
+    <string-array name="aq_components">
+        <item>PM2.5</item>
+        <item>NO2</item>
+        <item>AQI</item>
+    </string-array>
 </resources>

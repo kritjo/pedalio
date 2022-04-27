@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import in2000.pedalio.data.airquality.source.nilu.NILUSource
 import in2000.pedalio.data.search.SearchResult
 import in2000.pedalio.data.settings.SettingsRepository
 import in2000.pedalio.ui.homescreen.FavoriteResult
@@ -56,6 +57,14 @@ class SharedPreferences(context: Context) : SettingsRepository() {
         get() = sharedPreferences.getBoolean(SettingsKey.LAYER_BIKE_ROUTES.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_BIKE_ROUTES.name, value)
             .apply()
+
+    override var layerAQComponent : String?
+        get() : String? = sharedPreferences.getString(SettingsKey.LAYER_AQ_COMPONENT.name, "PM2.5")
+        set(value) = sharedPreferences.edit().putString(SettingsKey.LAYER_AQ_COMPONENT.name, value).apply()
+
+    override var layerAQMaxValue : Float
+        get() : Float = sharedPreferences.getFloat(SettingsKey.LAYER_AQ_COMPONENT_MAX_VALUE.name, 10f)
+        set(value) = sharedPreferences.edit().putFloat(SettingsKey.LAYER_AQ_COMPONENT_MAX_VALUE.name, value).apply()
 
     /**
      * Should use [appendRecentSearch] instead of using this directly.
@@ -156,6 +165,9 @@ enum class SettingsKey {
      * The key for the setting that stores the bike routes layer toggle.
      */
     LAYER_BIKE_ROUTES,
+
+    LAYER_AQ_COMPONENT,
+    LAYER_AQ_COMPONENT_MAX_VALUE,
 
     /**
      * The key for the setting that stores the recent searches.
