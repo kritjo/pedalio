@@ -26,7 +26,8 @@
             app:layout_constraintStart_toStartOf="@id/marginLeft"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="RtlHardcoded"
-            app:layout_constraintVertical_bias="0.625" />
+            app:layout_constraintVertical_bias="0.625"
+            android:inputType="textPostalAddress" />
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_favorites"

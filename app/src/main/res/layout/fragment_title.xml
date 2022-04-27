@@ -37,8 +37,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/fragment_title"
             android:autofillHints=""
-            tools:ignore="RtlHardcoded"
-            android:inputType="text" />
+            tools:ignore="RtlHardcoded,TextContrastCheck"
+            android:inputType="none"
+            android:minHeight="48dp"
+            android:textColorHint="#F4511E" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
