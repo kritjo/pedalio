@@ -295,17 +295,17 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
      fun parseAndUpdateComponentFromPreferences(){
         val prefs = SharedPreferences(getApplication<Application>().applicationContext)
         val component = when (prefs.layerAQComponent) {
-            "PM2.5" -> {
-                aqMaxValue = 30.0f // Moderate level, limit prolonged outdoor exertion
-                NILUSource.COMPONENTS.PM2_5
-            }
-            "PM10" -> {
-                aqMaxValue = 140.0f
-                NILUSource.COMPONENTS.PM10
-            }
             "NO2" -> {
                 aqMaxValue = 60.0f
                 NILUSource.COMPONENTS.NO2
+            }
+            "PM2.5" -> {
+                aqMaxValue = 40.0f // Moderate level, limit prolonged outdoor exertion
+                NILUSource.COMPONENTS.PM2_5
+            }
+            "PM10" -> {
+                aqMaxValue = 100.0f
+                NILUSource.COMPONENTS.PM10
             }
             else -> {
                 null
@@ -314,9 +314,6 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         if (component != null) {
             Log.d("AQ", "Updating AQ component to $component with max value $aqMaxValue")
             aqComponent = component
-            viewModelScope.launch(Dispatchers.IO) {
-                updateAirQuality(aqComponent)
-            }
         } else {
             Log.d("AQ", "No AQ component selected (null)")
         }
@@ -330,8 +327,6 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         val cordInterval = 0.01 // 0.01 = around 1111 meters
         val maxBlocksWidth = 27
         val maxBlocksHeight = 12
-
-        parseAndUpdateComponentFromPreferences()
 
         for (i in 0 until maxBlocksHeight) {
             for (j in 0 until maxBlocksWidth) {
@@ -400,6 +395,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     init {
+        parseAndUpdateComponentFromPreferences()
         // Update weather and air quality every 60 seconds even if the user has not moved.
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed(object : Runnable {
