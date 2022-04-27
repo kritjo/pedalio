@@ -142,5 +142,19 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="1" />
 
+    <ProgressBar
+        android:id="@+id/search_progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="76dp"
+        android:layout_height="83dp"
+        android:elevation="30dp"
+        android:gravity="center"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/soket"
+        app:layout_constraintTop_toTopOf="@+id/soket"
+        tools:visibility="visible" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

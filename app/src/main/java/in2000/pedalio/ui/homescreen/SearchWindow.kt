@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
@@ -91,11 +92,12 @@ class SearchWindow : Fragment() {
         }
 
         results.observe(viewLifecycleOwner) {
+            hideProgressBar()
             // Only null if there is an error
             if (it == null) {
                 Toast.makeText(
                     requireContext(),
-                    "Ingen resultater. Sjekk nettverksforbinnelsen.",
+                    "Ingen resultater. Sjekk nettverksforbinnelsen.", // TODO: this should be a text resource
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -113,6 +115,7 @@ class SearchWindow : Fragment() {
         // Only search every 500ms.
         var timeLastSearch = System.currentTimeMillis()
         search.addTextChangedListener {
+            showProgressBar()
             lifecycleScope.launch(coroutineDispatcher) {
                 if (System.currentTimeMillis() - timeLastSearch < 500) {
                     delay(500 - (System.currentTimeMillis() - timeLastSearch))
@@ -211,5 +214,13 @@ class SearchWindow : Fragment() {
         sharedPreferences.removeFavorite(current)
         requireView().findViewById<RecyclerView>(R.id.search_favorites).adapter =
             FavoriteRecyclerAdapter(this, sharedPreferences.favoriteSearches, chosenResult)
+    }
+
+    private fun showProgressBar() {
+        requireView().findViewById<ProgressBar>(R.id.search_progressBar).visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        requireView().findViewById<ProgressBar>(R.id.search_progressBar).visibility = View.GONE
     }
 }
