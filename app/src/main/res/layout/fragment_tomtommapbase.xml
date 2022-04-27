@@ -2,19 +2,23 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_tomtommapbase"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_tomtommapbase"
     tools:context="in2000.pedalio.ui.map.TomTomMapBase">
 
-    <fragment xmlns:tomtom="http://schemas.android.com/apk/res-auto"
+    <fragment
         android:id="@+id/fragment_tomtom"
         android:name="com.tomtom.online.sdk.map.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tomtom:mapsApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
-        tomtom:trafficApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
-        tools:ignore="FragmentTagUsage" />
+        app:mapsApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
+
+        app:trafficApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
+        tools:ignore="FragmentTagUsage"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
 
     <RelativeLayout
         android:id="@+id/overlay"
@@ -24,50 +28,65 @@
         app:layout_constraintTop_toTopOf="@+id/fragment_tomtom" />
 
     <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/weather"
-            android:name="in2000.pedalio.ui.map.WeatherOverlay"
-            android:layout_width="108dp"
-            android:layout_height="140dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.123"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.947" />
+        android:id="@+id/weather"
+        android:name="in2000.pedalio.ui.map.WeatherOverlay"
+        android:layout_width="108dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline15"
+        app:layout_constraintTop_toTopOf="@+id/guideline20"
+        tools:layout="@layout/fragment_weather_overlay" />
 
     <Button
         android:id="@+id/layers_button"
         android:layout_width="wrap_content"
         android:layout_height="59dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/off_white"
-        android:text="Layers"
-        android:textColor="@color/purple_700"
+        android:text="@string/layers"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline15" />
 
     <RelativeLayout
-            android:id="@+id/routing_overlay"
-            android:layout_width="336dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/fragment_tomtom"
-            app:layout_constraintEnd_toEndOf="@+id/fragment_tomtom"
-            app:layout_constraintHorizontal_bias="0.492"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/fragment_tomtom"
-            app:layout_constraintVertical_bias="0.857" />
-
-    <RelativeLayout
-        android:id="@+id/popup_overlay"
+        android:id="@+id/routing_overlay"
         android:layout_width="336dp"
-        android:layout_height="168dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_tomtom"
         app:layout_constraintEnd_toEndOf="@+id/fragment_tomtom"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/fragment_tomtom"
         app:layout_constraintVertical_bias="0.857" />
+
+    <RelativeLayout
+        android:id="@+id/popup_overlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline8"
+        app:layout_constraintEnd_toEndOf="@+id/fragment_tomtom"
+        app:layout_constraintHorizontal_bias="0.786"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

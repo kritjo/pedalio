@@ -57,4 +57,5 @@
     <string name ="rule_7">7. bruker lys i mørket</string>
     <string name ="rule_8">8. bruker hjelm</string>
     <string name ="done">Forstått</string>
+    <string name="layers">Layers</string>
 </resources>

@@ -17,6 +17,7 @@ class SharedPreferences(context: Context): SettingsRepository() {
         get() = sharedPreferences.getString(SettingsKey.DISTANCE_UNIT.name, "")
         set(value) = sharedPreferences.edit().putString(SettingsKey.DISTANCE_UNIT.name, value).apply()
 
+
     override var theme: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.THEME.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.THEME.name, value).apply()

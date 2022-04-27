@@ -1,17 +1,12 @@
 package in2000.pedalio.ui.map
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
-import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,11 +15,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.Switch
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.NonNull
-import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -33,16 +25,13 @@ import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.common.util.LogUtils
 import com.tomtom.online.sdk.map.*
 import com.tomtom.online.sdk.map.route.RouteLayerStyle
-import in2000.pedalio.MainActivity
 import in2000.pedalio.R
 import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.domain.routing.GetRouteAlternativesUseCase
-import in2000.pedalio.utils.NetworkUtils
-import in2000.pedalio.viewmodel.ERRNO
 import in2000.pedalio.viewmodel.MapViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import java.nio.file.Paths
 
 
 /**
@@ -112,6 +101,9 @@ class TomTomMapBase : Fragment() {
     }
 */
     private fun onMapReady(map: TomtomMap) {
+
+
+
         tomtomMap = map
         // This callback should be first thing after this.tomtomMap assign
         mapViewModel.registerListener = tomtomMap::addLocationUpdateListener
@@ -120,6 +112,8 @@ class TomTomMapBase : Fragment() {
         }
 
         tomtomMap.isMyLocationEnabled = true
+        tomtomMap.uiSettings.compassView.hide()
+
 
         mapViewModel.shouldGetPermission.observe(viewLifecycleOwner){
             if (it) {

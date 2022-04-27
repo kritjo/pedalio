@@ -5,7 +5,7 @@
     android:id="@+id/soket"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/secondarySuperLightBlue"
+    android:background="?attr/colorOnBackground"
     tools:context=".MainActivity">
 
 
@@ -15,6 +15,7 @@
         android:layout_height="0dp"
         android:layout_gravity="top|center"
         android:layout_marginTop="10dp"
+        android:textColor="@color/black"
         android:background="@drawable/custom_search_button2"
         android:drawableLeft="@drawable/ic_action_back"
         android:drawablePadding="10dp"
@@ -34,6 +35,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
+        android:background="?attr/colorOnBackground"
         app:layout_constraintBottom_toTopOf="@id/lowerFavRecycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +56,6 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/marginLeft"
         app:layout_constraintStart_toStartOf="@id/marginLeft"
@@ -101,8 +102,8 @@
         android:id="@+id/lowerRecycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white"
         android:elevation="10dp"
+        android:background="?attr/colorOnPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/parentGuideRight"
         app:layout_constraintHorizontal_bias="0.5"

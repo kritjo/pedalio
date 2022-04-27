@@ -11,11 +11,10 @@
 
     <androidx.cardview.widget.CardView
             android:id="@+id/view"
-            android:layout_width="108dp"
-            android:layout_height="140dp"
-            app:cardBackgroundColor="@color/off_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/Transparent"
             app:cardCornerRadius="8dp"
-            app:cardElevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -23,7 +22,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/secondaryLightBlueTran">
 
             <ImageView
                     android:src="@drawable/ic_map_traffic_ice_orange_large"
@@ -37,6 +37,7 @@
 
             <TextView
                     android:text="@string/degrees"
+                    android:textColor="@color/secondaryDarkBlue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/weather_degrees"
@@ -49,6 +50,7 @@
                     android:text="@string/m_s"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/secondaryDarkBlue"
                     android:id="@+id/weather_wind"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/weather_degrees"
@@ -60,6 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/percipation"
+                    android:textColor="@color/secondaryDarkBlue"
                     app:layout_constraintTop_toBottomOf="@+id/weather_wind"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

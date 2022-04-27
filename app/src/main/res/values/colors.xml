@@ -18,6 +18,8 @@
 
     <color name="red">#FFF44336</color>
     <color name="light_grey">#F0F0F0</color>
+    <color name="grey">#5E5E5E</color>
+
 
     <color name="primaryOrange">#EB7325</color>
 
@@ -31,6 +33,8 @@
 
     <color name="primaryOrangeTrans">#37EB7325</color>
     <color name="secondaryLightBlueTran">#3426E0EB</color>
+    <color name="Transparent">#00FFFFFF</color>
+
 
 
 

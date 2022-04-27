@@ -30,6 +30,7 @@
 
                 <TextView
                         android:text="Raskeste rute"
+                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/fastest_route"
@@ -43,6 +44,7 @@
 
                 <TextView
                         android:text="km"
+                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/fastest_km"
@@ -55,6 +57,7 @@
 
                 <TextView
                         android:text="min"
+                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/fastest_min"
@@ -95,6 +98,7 @@
 
                 <TextView
                         android:text="Tryggeste rute"
+                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/safest_route"
@@ -108,6 +112,7 @@
 
                 <TextView
                         android:text="km"
+                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/safest_km"
@@ -120,6 +125,7 @@
 
                 <TextView
                         android:text="min"
+                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/safest_min"

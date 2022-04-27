@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|center"
         android:layout_marginTop="10dp"
+        android:autofillHints=""
         android:background="@drawable/custom_search_button"
         android:drawableLeft="@drawable/ic_action_name"
         android:drawablePadding="5dp"
@@ -32,11 +33,18 @@
         android:focusableInTouchMode="false"
         android:hint="@string/s_k"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline14"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fragment_title"
-        android:autofillHints="" />
+        app:layout_constraintTop_toTopOf="@+id/fragment_title" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
