@@ -21,7 +21,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.tomtom.online.sdk.common.location.BoundingBox
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.common.util.LogUtils
 import com.tomtom.online.sdk.map.*
@@ -277,24 +276,6 @@ class TomTomMapBase : Fragment() {
                             rb.style(rsb.build())
                             tomtomMap.addRoute(rb)
                             mapViewModel.routesOnDisplay.add(rb.id)
-                            val boundingBox =
-                                BoundingBox.fromCoordinates(route.value.getCoordinates())
-                            val cameraFocusArea =
-                                CameraFocusArea.Builder(boundingBox).build()
-                            tomtomMap.centerOn(cameraFocusArea)
-
-                            val center = boundingBox.center
-                            val bottomright = boundingBox.bottomRight
-
-                            val shift = (center.latitude - bottomright.latitude) / 2
-
-                            val new_center = LatLng(center.latitude - 2 * shift, center.longitude)
-
-                            val new_boundingBox = CameraPosition.builder().focusPosition(new_center)
-                                .zoom(tomtomMap.zoomLevel - 0.3)
-                                .build()
-
-                            tomtomMap.centerOn(new_boundingBox)
                         }
                         GetRouteAlternativesUseCase.RouteType.SHORTEST -> {
                             val rb = RouteBuilder(route.value.getCoordinates())
