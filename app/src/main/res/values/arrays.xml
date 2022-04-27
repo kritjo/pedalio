@@ -9,8 +9,8 @@
         <item>freedom</item>
     </string-array>
     <string-array name="aq_components">
-        <item>PM2.5</item>
         <item>NO2</item>
-        <item>AQI</item>
+        <item>PM2.5</item>
+        <item>PM10</item>
     </string-array>
 </resources>
