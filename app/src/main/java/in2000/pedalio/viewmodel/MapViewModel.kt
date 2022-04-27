@@ -315,13 +315,16 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                     bottomLeft
                 )
                 val value = interpolateAirQuality(middle, resPair)
-                val color = Color.rgb(
-                    ((value / aqMaxValue) * 255).toInt(),
-                    (130 - ((value / aqMaxValue) * 100)).toInt(),
-                    32
+                val normValue = (value / aqMaxValue) // 0 - 1f
+                val color : Int = Color.HSVToColor(
+                    floatArrayOf( // red
+                        ((240f + normValue * 120f) % 360f).toFloat(),
+                        0.5f + normValue.toFloat()/2f,
+                        1f
+                    )
                 )
 
-                polygons.add(Triple(polygon, color, 0.35f))
+                polygons.add(Triple(polygon, color, normValue.toFloat()*0.75f))
             }
         }
 
