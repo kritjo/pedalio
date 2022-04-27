@@ -17,5 +17,4 @@ abstract class SettingsRepository {
     abstract var recentSearches: List<SearchResult>
     abstract var favoriteSearches: List<FavoriteResult>
     abstract var layerAQComponent: String?
-    abstract var layerAQMaxValue: Float
 }

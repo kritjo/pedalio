@@ -62,10 +62,6 @@ class SharedPreferences(context: Context) : SettingsRepository() {
         get() : String? = sharedPreferences.getString(SettingsKey.LAYER_AQ_COMPONENT.name, "PM2.5")
         set(value) = sharedPreferences.edit().putString(SettingsKey.LAYER_AQ_COMPONENT.name, value).apply()
 
-    override var layerAQMaxValue : Float
-        get() : Float = sharedPreferences.getFloat(SettingsKey.LAYER_AQ_COMPONENT_MAX_VALUE.name, 10f)
-        set(value) = sharedPreferences.edit().putFloat(SettingsKey.LAYER_AQ_COMPONENT_MAX_VALUE.name, value).apply()
-
     /**
      * Should use [appendRecentSearch] instead of using this directly.
      */
@@ -166,8 +162,10 @@ enum class SettingsKey {
      */
     LAYER_BIKE_ROUTES,
 
+    /**
+     * The key for the setting that stores the selected air quality component.
+     */
     LAYER_AQ_COMPONENT,
-    LAYER_AQ_COMPONENT_MAX_VALUE,
 
     /**
      * The key for the setting that stores the recent searches.
