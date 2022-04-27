@@ -29,7 +29,7 @@ class FuzzySearchSource(private val maxFuzzyLevel: Int = 2) {
     fun createSpecification(
         searchQuery: String,
         position: LatLng,
-        radius: Double = 30000.0
+        radius: Double = 35000.0
     ): FuzzySearchSpecification {
         val searchEngineDescriptor = FuzzySearchEngineDescriptor.Builder()
             .minFuzzyLevel(1)

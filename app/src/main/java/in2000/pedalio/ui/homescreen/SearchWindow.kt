@@ -15,6 +15,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.mindorks.editdrawabletext.DrawablePosition
 import com.mindorks.editdrawabletext.onDrawableClickListener
+import com.tomtom.online.sdk.common.location.LatLng
 import in2000.pedalio.R
 import in2000.pedalio.data.search.SearchResult
 import in2000.pedalio.data.search.impl.FuzzySearchRepository
@@ -108,7 +109,7 @@ class SearchWindow : Fragment() {
                     stateRecently.postValue(true)
                     return@launch
                 }
-                val result = FuzzySearchRepository(requireContext())
+                var result = FuzzySearchRepository(requireContext())
                     .doSearch(
                         FuzzySearchSource()
                             .createSpecification(
@@ -116,6 +117,18 @@ class SearchWindow : Fragment() {
                                 mapViewModel.currentPos().value!!
                             )
                     )
+                // do search again with larger radius from oslo if there is no result.
+                if (result == null || result.isEmpty()) {
+                    result = FuzzySearchRepository(requireContext())
+                        .doSearch(
+                            FuzzySearchSource()
+                                .createSpecification(
+                                    it.toString(),
+                                    LatLng(59.914831510617894, 10.732526176708147),
+                                    40000.0 // 120 km
+                                )
+                        )
+                }
                 stateRecently.postValue(false)
                 results.postValue(result)
             }
