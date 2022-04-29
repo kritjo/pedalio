@@ -3,6 +3,10 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "org.jetbrains.dokka"
+
 android {
     compileSdk 32
 
@@ -87,4 +91,12 @@ dependencies {
 
     // GSON for object storage
     implementation 'com.google.code.gson:gson:2.9.0'
+}
+
+dokkaHtml.configure {
+    dokkaSourceSets {
+        named("main") {
+            noAndroidSdkLink.set(false)
+        }
+    }
 }
