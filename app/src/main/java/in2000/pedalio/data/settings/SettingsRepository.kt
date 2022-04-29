@@ -1,5 +1,6 @@
 package in2000.pedalio.data.settings
 
+import in2000.pedalio.data.airquality.source.nilu.NILUSource
 import in2000.pedalio.data.search.SearchResult
 import in2000.pedalio.ui.homescreen.FavoriteResult
 
@@ -15,4 +16,5 @@ abstract class SettingsRepository {
     abstract var layerWeather: Boolean
     abstract var recentSearches: List<SearchResult>
     abstract var favoriteSearches: List<FavoriteResult>
+    abstract var layerAQComponent: String?
 }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -45,8 +46,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     // List of Triple of LatLng, Color, and Opacity
     val aqPolygons = MutableLiveData(listOf<Triple<List<LatLng>, Int, Float>>())
-    val aqComponent: NILUSource.COMPONENTS = NILUSource.COMPONENTS.NO2
-    val aqMaxValue: Float = 50f
+    var aqComponent: NILUSource.COMPONENTS = NILUSource.COMPONENTS.NO2
+    var aqMaxValue: Float = 50f
 
     /** overlayBubbles to be drawn on the map. */
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
@@ -291,6 +292,33 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         return aqPairs!!.filter { it.first.latitude != 0.0 && it.first.longitude != 0.0 }
     }
 
+     fun parseAndUpdateComponentFromPreferences(){
+        val prefs = SharedPreferences(getApplication<Application>().applicationContext)
+        val component = when (prefs.layerAQComponent) {
+            "NO2" -> {
+                aqMaxValue = 60.0f
+                NILUSource.COMPONENTS.NO2
+            }
+            "PM2.5" -> {
+                aqMaxValue = 40.0f // Moderate level, limit prolonged outdoor exertion
+                NILUSource.COMPONENTS.PM2_5
+            }
+            "PM10" -> {
+                aqMaxValue = 100.0f
+                NILUSource.COMPONENTS.PM10
+            }
+            else -> {
+                null
+            }
+        }
+        if (component != null) {
+            Log.d("AQ", "Updating AQ component to $component with max value $aqMaxValue")
+            aqComponent = component
+        } else {
+            Log.d("AQ", "No AQ component selected (null)")
+        }
+    }
+
     fun createAQPolygons(resPair: List<Pair<LatLng, Double>>) {
         // create new polygons
         val polygons = mutableListOf<Triple<List<LatLng>, Int, Float>>()
@@ -367,6 +395,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     init {
+        parseAndUpdateComponentFromPreferences()
         // Update weather and air quality every 60 seconds even if the user has not moved.
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed(object : Runnable {
