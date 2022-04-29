@@ -1,7 +1,7 @@
 package in2000.pedalio.ui.map
 
 import android.Manifest
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Canvas
 import android.graphics.Color
@@ -13,10 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RelativeLayout
-import android.widget.Switch
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -31,12 +28,10 @@ import com.tomtom.online.sdk.map.route.RouteLayerStyle
 import in2000.pedalio.R
 import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.domain.routing.GetRouteAlternativesUseCase
-import in2000.pedalio.utils.NetworkUtils
-import in2000.pedalio.viewmodel.ERRNO
+import in2000.pedalio.utils.CoordinateUtil
 import in2000.pedalio.viewmodel.MapViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 
 /**
