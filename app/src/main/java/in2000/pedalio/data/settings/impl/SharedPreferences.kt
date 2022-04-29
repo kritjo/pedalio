@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import in2000.pedalio.data.airquality.source.nilu.NILUSource
 import in2000.pedalio.data.search.SearchResult
 import in2000.pedalio.data.settings.SettingsRepository
 import in2000.pedalio.ui.homescreen.FavoriteResult

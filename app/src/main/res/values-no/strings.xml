@@ -77,4 +77,7 @@
     <string name="waiting_for_location">Venter på posisjon…</string>
     <string name="cancel_route">Avbryt</string>
     <string name="arrived_at_dest">Du er fremme!</string>
+    <string name="track_route">Sentrer</string>
+    <string name="track_route_off">Sentrering: på</string>
+    <string name="track_route_on">Sentrering: av</string>
 </resources>

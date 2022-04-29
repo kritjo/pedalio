@@ -75,7 +75,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintBottom_toBottomOf="@+id/fragment_tomtom"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"
+            android:textOff="@string/track_route_off"
+            android:textOn="@string/track_route_on" />
 
     <RelativeLayout
             android:id="@+id/routing_overlay"
