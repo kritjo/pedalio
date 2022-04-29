@@ -1,9 +1,7 @@
 package in2000.pedalio.data.location
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Location
 import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
@@ -11,11 +9,26 @@ import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.location.LocationUpdateListener
 import in2000.pedalio.data.settings.impl.SharedPreferences
 
-class LocationRepository(val context: Context,
-                         private val defaultLocation: LatLng,
-                         private val shouldGetPermission: MutableLiveData<Boolean>,
-                         private val registerListener: (input: LocationUpdateListener) -> Unit) {
+/**
+ * Repository for location data. This class uses the registerListener in order to aquire the location
+ * data.
+ *
+ * @property context
+ * @property defaultLocation the default location to use if no location is available
+ * @property shouldGetPermission whether the permission to access the location should be requested
+ * @property registerListener a function to register a location listener
+ */
+class LocationRepository(
+    val context: Context,
+    private val defaultLocation: LatLng,
+    private val shouldGetPermission: MutableLiveData<Boolean>,
+    private val registerListener: (input: LocationUpdateListener) -> Unit
+) {
+    /**
+     * The location data. Public interface of the location data.
+     */
     val currentPosition = MutableLiveData(defaultLocation)
+    var currentPositionIsDefault = true
     private val settingsRepository = SharedPreferences(context)
 
     init {
@@ -43,16 +56,26 @@ class LocationRepository(val context: Context,
                 // Register location listener
                 registerListener {
                     currentPosition.postValue(LatLng(it.latitude, it.longitude))
+                    currentPositionIsDefault = false
                 }
             }
             return@let locationManager
         }
     }
 
-    @SuppressLint("MissingPermission") // should only be called when we have permissions
     fun locationCallback(registerListener: (input: LocationUpdateListener) -> Unit) {
         registerListener {
             currentPosition.postValue(LatLng(it.latitude, it.longitude))
+            currentPositionIsDefault = false
+        }
+    }
+
+    fun registerNewListener(registerListener: (input: LocationUpdateListener) -> Unit) {
+        registerListener {
+            if (it != defaultLocation) {
+                currentPosition.postValue(LatLng(it.latitude, it.longitude))
+                currentPositionIsDefault = false
+            }
         }
     }
 }

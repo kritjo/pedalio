@@ -1,8 +1,7 @@
 package in2000.pedalio.data.weather.impl
 
 import in2000.pedalio.data.weather.WeatherRepository
-import in2000.pedalio.data.weather.source.locationforecast.LocationforecastSource
-import kotlinx.coroutines.runBlocking
+import in2000.pedalio.data.weather.source.locationforecast.LocationForecastSource
 import kotlin.math.floor
 
 /**
@@ -10,14 +9,19 @@ import kotlin.math.floor
  * Source of truth: LocationForecast API.
  * @property endpoint
  */
-class LocationforecastRepository(
+class LocationForecastRepository(
     private val endpoint: String
 ) : WeatherRepository() {
 
-    override suspend fun getTemp(lat: Double,
-                         lon: Double,
-                         timeDelta: Int): Double? {
-        val forecast = LocationforecastSource
+    /**
+     * @see [WeatherRepository.getTemp]
+     */
+    override suspend fun getTemp(
+        lat: Double,
+        lon: Double,
+        timeDelta: Int
+    ): Double? {
+        val forecast = LocationForecastSource
             .getLocationforecast(endpoint, lat, lon)
         if (forecast != null) {
             if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
@@ -35,10 +39,15 @@ class LocationforecastRepository(
 
     }
 
-    override suspend fun getPercipitationRate(lat: Double,
-                                              lon: Double,
-                                              timeDelta: Int): Double? {
-        val forecast = LocationforecastSource
+    /**
+     * @see [WeatherRepository.getPrecipitationRate]
+     */
+    override suspend fun getPrecipitationRate(
+        lat: Double,
+        lon: Double,
+        timeDelta: Int
+    ): Double? {
+        val forecast = LocationForecastSource
             .getLocationforecast(endpoint, lat, lon)
         if (forecast != null) {
             if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
@@ -55,10 +64,15 @@ class LocationforecastRepository(
             ?.precipitation_amount
     }
 
-    override suspend fun getPercipitation(lat: Double,
-                                          lon: Double,
-                                          timeDelta: Int): Double? {
-        val forecast = LocationforecastSource
+    /**
+     * @see [WeatherRepository.getPrecipitation]
+     */
+    override suspend fun getPrecipitation(
+        lat: Double,
+        lon: Double,
+        timeDelta: Int
+    ): Double? {
+        val forecast = LocationForecastSource
             .getLocationforecast(endpoint, lat, lon)
         if (forecast != null) {
             if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
@@ -76,10 +90,15 @@ class LocationforecastRepository(
 
     }
 
-    override suspend fun getRelativeHumidity(lat: Double,
-                                             lon: Double,
-                                             timeDelta: Int): Double? {
-        val forecast = LocationforecastSource
+    /**
+     * @see [WeatherRepository.getRelativeHumidity]
+     */
+    override suspend fun getRelativeHumidity(
+        lat: Double,
+        lon: Double,
+        timeDelta: Int
+    ): Double? {
+        val forecast = LocationForecastSource
             .getLocationforecast(endpoint, lat, lon)
         if (forecast != null) {
             if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
@@ -97,10 +116,15 @@ class LocationforecastRepository(
 
     }
 
-    override suspend fun getWindDirection(lat: Double,
-                                          lon: Double,
-                                          timeDelta: Int): Double? {
-        val forecast = LocationforecastSource
+    /**
+     * @see [WeatherRepository.getWindDirection]
+     */
+    override suspend fun getWindDirection(
+        lat: Double,
+        lon: Double,
+        timeDelta: Int
+    ): Double? {
+        val forecast = LocationForecastSource
             .getLocationforecast(endpoint, lat, lon)
         if (forecast != null) {
             if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
@@ -108,7 +132,7 @@ class LocationforecastRepository(
         } else {
             return null
         }
-        return  forecast
+        return forecast
             .properties
             ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
             ?.data
@@ -118,10 +142,15 @@ class LocationforecastRepository(
 
     }
 
-    override suspend fun getWindSpeed(lat: Double,
-                                      lon: Double,
-                                      timeDelta: Int): Double? {
-        val forecast = LocationforecastSource
+    /**
+     * @see [WeatherRepository.getWindSpeed]
+     */
+    override suspend fun getWindSpeed(
+        lat: Double,
+        lon: Double,
+        timeDelta: Int
+    ): Double? {
+        val forecast = LocationForecastSource
             .getLocationforecast(endpoint, lat, lon)
         if (forecast != null) {
             if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
@@ -129,7 +158,7 @@ class LocationforecastRepository(
         } else {
             return null
         }
-        return  forecast
+        return forecast
             .properties
             ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
             ?.data
@@ -139,10 +168,15 @@ class LocationforecastRepository(
 
     }
 
-    override suspend fun getGustSpeed(lat: Double,
-                                      lon: Double,
-                                      timeDelta: Int): Double? {
-        val forecast = LocationforecastSource
+    /**
+     * @see [WeatherRepository.getGustSpeed]
+     */
+    override suspend fun getGustSpeed(
+        lat: Double,
+        lon: Double,
+        timeDelta: Int
+    ): Double? {
+        val forecast = LocationForecastSource
             .getLocationforecast(endpoint, lat, lon)
         if (forecast != null) {
             if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
@@ -150,7 +184,7 @@ class LocationforecastRepository(
         } else {
             return null
         }
-        return  forecast
+        return forecast
             .properties
             ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
             ?.data
@@ -159,13 +193,21 @@ class LocationforecastRepository(
             ?.wind_speed_of_gust
     }
 
-    override suspend fun radarCoverage(lat: Double,
-                                       lon: Double): Boolean {
-        throw UnsupportedOperationException("Not implemented by Locationforecast")
+    /**
+     * @see [WeatherRepository.radarCoverage]
+     */
+    override suspend fun radarCoverage(
+        lat: Double,
+        lon: Double
+    ): Boolean {
+        throw UnsupportedOperationException("Not implemented by LocationForecast")
     }
 
+    /**
+     * @see [WeatherRepository.getWeatherIcon]
+     */
     override suspend fun getWeatherIcon(lat: Double, lon: Double, timeDelta: Int): String? {
-        val forecast = LocationforecastSource
+        val forecast = LocationForecastSource
             .getLocationforecast(endpoint, lat, lon)
         if (forecast != null) {
             if ((timeDelta / 60) >= forecast.properties?.timeseries?.size ?: 0)
@@ -173,7 +215,7 @@ class LocationforecastRepository(
         } else {
             return null
         }
-        return  forecast
+        return forecast
             .properties
             ?.timeseries?.get(floor((timeDelta / 60).toDouble()).toInt())
             ?.data

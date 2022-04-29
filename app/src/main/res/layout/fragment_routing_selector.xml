@@ -29,7 +29,7 @@
                     android:layout_height="match_parent">
 
                 <TextView
-                        android:text="Raskeste rute"
+                        android:text="@string/fastest_route"
                         android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                         android:textSize="20sp" />
 
                 <TextView
-                        android:text="km"
+                        android:text="@string/km"
                         android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                         app:layout_constraintVertical_bias="0.85" />
 
                 <TextView
-                        android:text="min"
+                        android:text="@string/min"
                         android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                         app:layout_constraintVertical_bias="0.85" />
 
                 <Button
-                        android:text="\?"
+                        android:text="@string/question_mark"
                         android:layout_width="61dp"
                         android:layout_height="55dp"
                         android:id="@+id/fastest_button"
@@ -92,12 +92,13 @@
                 app:cardElevation="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fastest_view">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                 <TextView
-                        android:text="Tryggeste rute"
+                        android:text="@string/safest_route"
                         android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -111,7 +112,7 @@
                         android:textSize="20sp" />
 
                 <TextView
-                        android:text="km"
+                        android:text="@string/km"
                         android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -124,7 +125,7 @@
                         app:layout_constraintVertical_bias="0.85" />
 
                 <TextView
-                        android:text="min"
+                        android:text="@string/min"
                         android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -137,7 +138,7 @@
                         app:layout_constraintVertical_bias="0.85" />
 
                 <Button
-                        android:text="\?"
+                        android:text="@string/question_mark"
                         android:layout_width="61dp"
                         android:layout_height="55dp"
                         android:id="@+id/safest_button"

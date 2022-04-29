@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layers_selector"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:layerType="hardware"
-    tools:context=".ui.map.LayersSelector">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/layers_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layerType="hardware"
+        tools:context=".ui.map.LayersSelector">
 
     <androidx.cardview.widget.CardView
             android:id="@+id/view"
@@ -34,7 +34,8 @@
                 app:layout_constraintBottom_toTopOf="@+id/switch_weather"
                 app:layout_constraintEnd_toStartOf="@+id/guideline7"
                 app:layout_constraintTop_toTopOf="@+id/guideline4"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
+                tools:ignore="UseSwitchCompatOrMaterialXml"
+                android:text="@string/air_quality" />
 
             <Switch
                 android:id="@+id/switch_weather"
@@ -44,13 +45,15 @@
                 app:layout_constraintBottom_toTopOf="@+id/switch_bikeRoutes"
                 app:layout_constraintEnd_toStartOf="@+id/guideline7"
                 app:layout_constraintTop_toBottomOf="@+id/switch_airquality"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
+                tools:ignore="UseSwitchCompatOrMaterialXml"
+                android:text="@string/weather" />
 
             <Switch
                 android:id="@+id/switch_bikeRoutes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
+                android:text="@string/bike_routes"
                 app:layout_constraintBottom_toTopOf="@+id/guideline5"
                 app:layout_constraintEnd_toStartOf="@+id/guideline7"
                 app:layout_constraintTop_toBottomOf="@+id/switch_weather"
@@ -113,6 +116,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.8" />
+            <Spinner
+                    android:id="@+id/aq_spinner"
+                    android:layout_width="149dp"
+                    android:layout_height="47dp"
+                    android:layout_marginTop="16dp"
+                    android:entries="@array/aq_components"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.4"
+                    app:layout_constraintStart_toEndOf="@+id/switch_airquality"
+                    app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

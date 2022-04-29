@@ -17,6 +17,15 @@ class GetRouteAlternativesUseCase {
     }
 
     companion object {
+        /**
+         * Returns a list of alternative routes, currently shortest and bike route.
+         * TODO: Add air quality route
+         *
+         * @param f the start coordinate
+         * @param t the end coordinate
+         * @param context
+         * @return a list of alternative routes
+         */
         suspend fun getRouteAlternatives(
             f: LatLng,
             t: LatLng,
@@ -30,7 +39,8 @@ class GetRouteAlternativesUseCase {
             bikeRoutesA.forEach { list ->
                 bikeRoutes.add(
                     list.map { LatLng(it.latitude.reduce(4), it.longitude.reduce(4)) }
-                ) }
+                )
+            }
 
             val map = mutableMapOf<RouteType, FullRoute>()
 
@@ -38,8 +48,8 @@ class GetRouteAlternativesUseCase {
             routes?.routes?.minByOrNull { it.summary.lengthInMeters }
                 .also { if (it != null) map[RouteType.SHORTEST] = it }
 
-           findBikeAlternative(bikeRoutes, context, from, to).also {
-                list -> if (list == null) return@also
+            findBikeAlternative(bikeRoutes, context, from, to).also { list ->
+                if (list == null) return@also
                 TomtomRoutingRepository(context).calculateRouteFromWaypoints(
                     CoordinateUtil.limitPointsOnRouteSimple(list, 100)
                 )?.routes?.first().also { if (it != null) map[RouteType.BIKE] = it }
@@ -48,6 +58,18 @@ class GetRouteAlternativesUseCase {
             return map
         }
 
+        /**
+         * Finds alternative route that is the most time in bike route.
+         * It is a simple algorith that finds the closest point on the route to the start and end
+         * point which is on a bike route. It then uses dijkstra to find the shortest path between
+         * the points. It also uses tomtom to find the route to the start and end closest points.
+         *
+         * @param bikeRoutes list of bike routes
+         * @param context
+         * @param start start point
+         * @param end end point
+         * @return list of points that is the most time in bike route
+         */
         private fun findBikeAlternative(
             bikeRoutes: List<List<LatLng>>,
             context: Context,
@@ -63,7 +85,10 @@ class GetRouteAlternativesUseCase {
             val closestEnd = flatMap.minByOrNull { end.distanceTo(it) }!!
 
             // Find a route from start to closestStart
-            val startToClosestStart = TomtomRoutingRepository(context).calculateRoute(start, closestStart)?.routes?.first()?.getCoordinates() ?: return null
+            val startToClosestStart = TomtomRoutingRepository(context).calculateRoute(
+                start,
+                closestStart
+            )?.routes?.first()?.getCoordinates() ?: return null
             // Find a route from closestStart to closestEnd
             val closestStartToClosestEnd = dijkstra(
                 bikeRoutes,
@@ -71,7 +96,9 @@ class GetRouteAlternativesUseCase {
                 LatLng(closestEnd.latitude.reduce(4), closestEnd.longitude.reduce(4))
             )
             // Find a route from closestEnd to end
-            val closestEndToEnd = TomtomRoutingRepository(context).calculateRoute(closestEnd, end)?.routes?.first()?.getCoordinates() ?: return null
+            val closestEndToEnd =
+                TomtomRoutingRepository(context).calculateRoute(closestEnd, end)?.routes?.first()
+                    ?.getCoordinates() ?: return null
 
             alternativeRoute.addAll(startToClosestStart)
             alternativeRoute.addAll(closestStartToClosestEnd)
@@ -82,6 +109,12 @@ class GetRouteAlternativesUseCase {
     }
 }
 
+/**
+ * Calculates the distance between two points on the earth
+ *
+ * @param it the second point
+ * @return the distance in meters
+ */
 private fun LatLng.distanceTo(it: LatLng): Double {
     val earthRadius = 6371000.0
 
@@ -98,6 +131,14 @@ private fun LatLng.distanceTo(it: LatLng): Double {
     return earthRadius * c
 }
 
+/**
+ * Finds the shortest route between two points using Dijkstra's algorithm.
+ *
+ * @param bikeRoutes A list of routes that can be used to travel between the two points.
+ * @param start The starting point.
+ * @param end The ending point.
+ * @return A list of coordinates that represent the shortest route between the two points.
+ */
 private fun dijkstra(
     bikeRoutes: List<List<LatLng>>,
     start: LatLng,
@@ -124,7 +165,8 @@ private fun dijkstra(
     edges.forEach { reversedEdges.add(Pair(it.second, it.first)) }
     edges.addAll(reversedEdges)
 
-    val q = PriorityQueue { a: Pair<Int, LatLng>, b: Pair<Int, LatLng> -> a.first.compareTo(b.first) }
+    val q =
+        PriorityQueue { a: Pair<Int, LatLng>, b: Pair<Int, LatLng> -> a.first.compareTo(b.first) }
     val distances = mutableMapOf<LatLng, Int>()
     vertices.forEach { distances[it] = Int.MAX_VALUE }
     val parents = mutableMapOf<LatLng, LatLng?>()
@@ -155,6 +197,12 @@ private fun dijkstra(
     return path.reversed()
 }
 
+/**
+ * This function reduces the number of decimal places in a double
+ *
+ * @param decp the number of decimal places to reduce to
+ * @return the reduced double
+ */
 private fun Double.reduce(decp: Int): Double {
     var value = this
     value *= 10.0.pow(decp)

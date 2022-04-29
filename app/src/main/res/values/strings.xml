@@ -8,8 +8,8 @@
     <string name="cd_map">Map</string>
 
     <string name="button">Button</string>
-    <string name="sok">sok</string>
-    <string name="s_k">søk</string>
+    <string name="sok">search</string>
+    <string name="s_k">search</string>
 
 
     <string name="settings_title">Settings</string>
@@ -27,35 +27,53 @@
     <string name="degrees">%1$s°</string>
     <string name="m_s">%1$s m/s</string>
     <string name="mm_h">%1$s mm/h</string>
-    <string name="favorites">Favoritter (Hold inne for å fjerne)</string>
-    <string name="recently_searched_hint">Nylige søk</string>
-    <string name="search_result_hint">Søkeresultater</string>
-    <string name="favorite_question">Favoritt?</string>
+    <string name="favorites">Favourites (Hold to remove)</string>
+    <string name="recently_searched_hint">Recently searched</string>
+    <string name="search_result_hint">Search results</string>
+    <string name="favorite_button">Favourite</string>
 
-    <string name="no_network_connection">Ingen nettverkstilgang, vennligst koble til nettverk.</string>
+    <string name="no_network_connection">No internet connection, please connect to either wifi/4g.</string>
 
 
-    <string name ="next">Neste</string>
-    <string name ="welcome_header">Velkommen til Pedalio!</string>
+    <string name="next">Next</string>
+    <string name="welcome_header">Welcome to Pedalio!</string>
 
-    <string name ="welcome_header_2">Smarte syklister...</string>
-    <string name ="rules">
-        1. er synlige i trafikken \n \n
-        2. gir tydelige tegn \n \n
-        3. ser andre trafikanter i øynene \n \n
-        4. lytter til trafikken, ikke til musikken \n \n
-        5. venter på grønt \n \n
-        6. gir fotgjengere førsterett på fortauet \n \n
-        7. bruker lys i mørket \n \n
-        8. bruker hjelm
+    <string name="welcome_header_2">Safety tips…</string>
+    <string name="rules">
+        1. Be visible in traffic \n \n
+        2. Give clear signs \n \n
+        3. Obtain eye contact with other road users \n \n
+        4. Listen to your surroundings, not music \n \n
+        5. Wait for green \n \n
+        6. Give pedestrians priority on the sidewalk \n \n
+        7. Use a flashlight in the dark \n \n
+        8. Use a helmet
     </string>
-    <string name ="rule_2">2. gir tydelige tegn</string>
-    <string name ="rule_3">3. ser andre trafikanter i øynene</string>
-    <string name ="rule_4">4. lytter til trafikken, ikke til musikken</string>
-    <string name ="rule_5">5. venter på grønt</string>
-    <string name ="rule_6">6. gir fotgjengere førsterett på fortauet</string>
-    <string name ="rule_7">7. bruker lys i mørket</string>
-    <string name ="rule_8">8. bruker hjelm</string>
-    <string name ="done">Forstått</string>
+    <string name="rule_2">2. gir tydelige tegn</string>
+    <string name="rule_3">2. Give clear signs</string>
+    <string name="rule_4">3. Obtain eye contact with other road users</string>
+    <string name="rule_5">5. Wait for green</string>
+    <string name="rule_6">6. Give pedestrians priority on the sidewalk</string>
+    <string name="rule_7">7. Use a flashlight in the dark</string>
+    <string name="rule_8">8. Use a helmet</string>
+    <string name="done">Understood</string>
+    <string name="shortest_route">Shortest route</string>
+    <string name="question_fastest_route">Route with shortest distance in meters</string>
+    <string name="question_safest_route">Route that prioritizes bicycle lanes over distance.</string>
+    <string name="content_description_logo">Bicycle on blue background</string>
+    <string name="content_description_weather_symbol">Weather symbol</string>
+    <string name="content_description_favorite">Favourite pin</string>
+    <string name="content_description_location_pin">Location pin</string>
+    <string name="air_quality">Air quality</string>
+    <string name="weather">Weather deviations</string>
+    <string name="bike_routes">Bike routes</string>
+    <string name="fastest_route">Fastest route</string>
+    <string name="km">km</string>
+    <string name="min">min</string>
+    <string name="question_mark">\?</string>
+    <string name="safest_route">Safest route</string>
     <string name="layers">Layers</string>
+    <string name="waiting_for_location">Waiting for location…</string>
+    <string name="cancel_route">Cancel</string>
+    <string name="arrived_at_dest">You have arrived at your destination!</string>
 </resources>

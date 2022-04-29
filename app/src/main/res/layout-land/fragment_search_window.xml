@@ -1,34 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/soket"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/colorOnBackground"
-    tools:context=".MainActivity">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/soket"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/secondaryLightBlue"
+        tools:context=".MainActivity">
 
 
     <com.mindorks.editdrawabletext.EditDrawableText
-        android:id="@+id/search"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_gravity="top|center"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/black"
-        android:background="@drawable/custom_search_button2"
-        android:drawableLeft="@drawable/ic_action_back"
-        android:drawablePadding="10dp"
-        android:drawableTint="@color/black"
-        android:hint="@string/s_k"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/lowerSearch"
-        app:layout_constraintDimensionRatio="9:1"
-        app:layout_constraintEnd_toEndOf="@id/marginRight"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@id/marginLeft"
-        app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/search"
+            android:layout_width="623dp"
+            android:layout_height="48dp"
+            android:layout_gravity="top|center"
+            android:background="@drawable/custom_search_button2"
+            android:drawableLeft="@drawable/ic_action_back"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/black"
+            android:hint="@string/s_k"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/lowerSearch"
+            app:layout_constraintDimensionRatio="9:1"
+            app:layout_constraintEnd_toEndOf="@id/marginRight"
+            app:layout_constraintStart_toStartOf="@id/marginLeft"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="RtlHardcoded"
+            app:layout_constraintVertical_bias="0.625"
             android:inputType="textPostalAddress" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -36,12 +34,11 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            android:background="?attr/colorOnBackground"
-        app:layout_constraintBottom_toTopOf="@id/lowerFavRecycler"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/lowerFavorite"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            app:layout_constraintBottom_toTopOf="@id/lowerFavRecycler"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/lowerFavorite"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <TextView
             android:id="@+id/textFavorite"
@@ -57,10 +54,11 @@
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/marginLeft"
-        app:layout_constraintStart_toStartOf="@id/marginLeft"
-        app:layout_constraintTop_toBottomOf="@id/lowerFavRecycler">
+            app:layout_constraintEnd_toEndOf="@id/marginLeft"
+            app:layout_constraintStart_toStartOf="@id/marginLeft"
+            app:layout_constraintTop_toBottomOf="@id/lowerFavRecycler">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -69,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.10" />
+            app:layout_constraintGuide_percent="0.16" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/marginLeft"
@@ -90,21 +88,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.15" />
+            app:layout_constraintGuide_percent="0.22" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/lowerFavRecycler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.30" />
+            app:layout_constraintGuide_percent="0.44" />
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/lowerRecycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/white"
             android:elevation="10dp"
-        android:background="?attr/colorOnPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/parentGuideRight"
             app:layout_constraintHorizontal_bias="0.5"
@@ -127,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.35" />
+            app:layout_constraintGuide_percent="0.53" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/parentGuideLeft"
@@ -142,20 +140,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="1" />
-
-    <ProgressBar
-        android:id="@+id/search_progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="76dp"
-        android:layout_height="83dp"
-        android:elevation="30dp"
-        android:gravity="center"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/soket"
-        app:layout_constraintTop_toTopOf="@+id/soket"
-        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
