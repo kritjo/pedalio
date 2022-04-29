@@ -396,21 +396,22 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         parseAndUpdateComponentFromPreferences()
-        // Update weather and air quality every 60 seconds even if the user has not moved.
+        // Update weather and air quality every 120 seconds even if the user has not moved.
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed(object : Runnable {
             override fun run() {
                 viewModelScope.launch(Dispatchers.IO) {
                     updateWeatherAndDeviations(application.applicationContext)
                     updateAirQuality(aqComponent)
+                    Log.d("AQ", "Updating AQ with component: ${aqComponent.getParam}")
                     // Wait for update to finish before drawing
                     if (SharedPreferences(application.applicationContext).layerAirQuality) {
                         createAQPolygons(getAirQuality())
                     }
                 }
 
-                handler.postDelayed(this, 60000)
+                handler.postDelayed(this, 120000)
             }
-        }, 1000) // First run is run after 1 second
+        }, 3000) // First run is run after 3 second
     }
 }
