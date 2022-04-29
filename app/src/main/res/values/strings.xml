@@ -38,7 +38,7 @@
     <string name="next">Next</string>
     <string name="welcome_header">Welcome to Pedalio!</string>
 
-    <string name="welcome_header_2">Safety tips…</string>
+    <string name="welcome_header_2">Safety tips</string>
     <string name="rules">
         1. Be visible in traffic \n \n
         2. Give clear signs \n \n
@@ -49,7 +49,7 @@
         7. Use a flashlight in the dark \n \n
         8. Use a helmet
     </string>
-    <string name="rule_2">2. gir tydelige tegn</string>
+    <string name="rule_2">2. Give clear signs</string>
     <string name="rule_3">2. Give clear signs</string>
     <string name="rule_4">3. Obtain eye contact with other road users</string>
     <string name="rule_5">5. Wait for green</string>
@@ -76,4 +76,7 @@
     <string name="waiting_for_location">Waiting for location…</string>
     <string name="cancel_route">Cancel</string>
     <string name="arrived_at_dest">You have arrived at your destination!</string>
+    <string name="track_route">Center</string>
+    <string name="track_route_off">Center: off</string>
+    <string name="track_route_on">Center: on</string>
 </resources>

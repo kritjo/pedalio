@@ -25,7 +25,7 @@ class NILUSource {
             val url = "$endpoint/$lat/$lon/$radius"
             val parameters = listOf(
                 Pair("method", "within"),
-                Pair("components", component)
+                Pair("components", component.getParam)
             )
             return try {
                 val (_: Request, _: Response, res: String) = Fuel.get(url, parameters)
@@ -38,15 +38,10 @@ class NILUSource {
         }
     }
 
-    enum class COMPONENTS {
-        NO2,
-        PM10,
-        PM2_5,
-        ALL {
-            override fun toString(): String {
-                // For all components, we should pass an empty string
-                return ""
-            }
-        }
+    enum class COMPONENTS(val getParam: String) {
+        NO2("no2"),
+        PM10("pm10"),
+        PM2_5("pm2.5"),
+        ALL("") // For all components, we should pass an empty string
     }
 }

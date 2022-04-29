@@ -53,6 +53,17 @@ class LayersSelector : Fragment() {
                     mapViewModel.createAQPolygons(mapViewModel.getAirQuality())
                 }
             }
+
+        view.findViewById<Spinner>(R.id.aq_spinner).setSelection( // get from SharedPreferences
+            sharedPref.layerAQComponent.let {
+                when (it) {
+                    "NO" -> 0
+                    "PM2.5" -> 1
+                    "PM10" -> 2
+                    else -> 0
+                }
+            }
+        )
         return view
     }
 }
