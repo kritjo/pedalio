@@ -8,7 +8,10 @@ import in2000.pedalio.data.routing.source.tomtom.TomtomRoutingSource
 import in2000.pedalio.utils.NetworkUtils
 import kotlinx.coroutines.runBlocking
 
-class TomtomRoutingRepository(val context: Context) : RoutingRepository {
+/**
+ * Implementation of Routing using Tomtom's API.
+ */
+class TomtomRoutingRepository(val context: Context) : RoutingRepository() {
     /**
      * @see [RoutingRepository.calculateRouteFromWaypoints]
      */

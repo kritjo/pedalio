@@ -6,6 +6,9 @@ import in2000.pedalio.domain.weather.GetWeatherUseCase
 import in2000.pedalio.domain.weather.WeatherDataPoint
 
 
+/**
+ * Get the weather for a given route.
+ */
 class GetWeatherOnRouteUseCase(
     private val getWeatherUseCase: GetWeatherUseCase,
     private val context: Context

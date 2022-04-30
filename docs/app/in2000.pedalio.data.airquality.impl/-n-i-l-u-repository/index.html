@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" content="width=device-width, initial-scale=1" name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>NILURepository</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../";</script>
@@ -10,17 +10,17 @@ const savedDarkMode = storage ? JSON.parse(storage) : false
 if(savedDarkMode === true){
     document.getElementsByTagName("html")[0].classList.add("theme-dark")
 }</script>
-<script async="async" src="../../../scripts/sourceset_dependencies.js" type="text/javascript"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
 <link href="../../../styles/style.css" rel="Stylesheet">
 <link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
 <link href="../../../styles/main.css" rel="Stylesheet">
 <link href="../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../styles/logo-styles.css" rel="Stylesheet">
-<script async="async" src="../../../scripts/clipboard.js" type="text/javascript"></script>
-<script async="async" src="../../../scripts/navigation-loader.js" type="text/javascript"></script>
-<script async="async" src="../../../scripts/platform-content-handler.js" type="text/javascript"></script>
-<script defer="defer" src="../../../scripts/main.js" type="text/javascript"></script>
-<script async="async" src="../../../scripts/prism.js" type="text/javascript"></script>
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
 </head>
 <body>
 <div class="navigation-wrapper" id="navigation-wrapper">
@@ -46,13 +46,13 @@ if(savedDarkMode === true){
   <div class="breadcrumbs"><a href="../../../index.html">app</a><span class="delimiter">/</span><a href="../index.html">in2000.pedalio.data.airquality.impl</a><span class="delimiter">/</span><a href="index.html">NILURepository</a></div>
   <div class="cover ">
     <h1 class="cover"><span><span>NILURepository</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">NILURepository</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>endpoint<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">radius<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span> : <a href="../../in2000.pedalio.data.airquality/-air-quality-repository/index.html">AirQualityRepository</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Air Quality implementation from NILU API, shows last recorded value.</p></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">NILURepository</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>endpoint<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">radius<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span> : <a href="../../in2000.pedalio.data.airquality/-air-quality-repository/index.html">AirQualityRepository</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Air Quality implementation from NILU API, shows last recorded value. Do not use timeDelta as NILU only provides data for right now.</p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
     <div class="tabs-section-body">
       <h2 class="tabbedcontent">Constructors</h2>
-      <div class="table" data-togglable="Constructors"><a anchor-label="NILURepository" data-filterable-set=":app:dokkaHtml/release" data-name="1686201608%2FConstructors%2F492899073" id="1686201608%2FConstructors%2F492899073"></a>
+      <div class="table" data-togglable="Constructors"><a data-name="1686201608%2FConstructors%2F492899073" anchor-label="NILURepository" id="1686201608%2FConstructors%2F492899073" data-filterable-set=":app:dokkaHtml/release"></a>
         <div class="table-row" data-filterable-current=":app:dokkaHtml/release" data-filterable-set=":app:dokkaHtml/release">
           <div class="main-subrow keyValue TabbedContent">
             <div class=""><span class="inline-flex">
@@ -62,14 +62,14 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-n-i-l-u-repository.html"><span class="token function">NILURepository</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">endpoint<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">radius<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-n-i-l-u-repository.html"><span class="token function">NILURepository</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">endpoint<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">radius<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph"><span data-unresolved-link="in2000.pedalio.data.airquality.impl/NILURepository/&amp;lt;init&amp;gt;/#kotlin.String#kotlin.Int/PointingToCallableParameters(1)/">radius</span>: Radius of stations to weight</p></div></div></div>
               </div>
             </div>
           </div>
         </div>
       </div>
       <h2 class="">Functions</h2>
-      <div class="table" data-togglable="Functions"><a anchor-label="getAQI" data-filterable-set=":app:dokkaHtml/release" data-name="802500750%2FFunctions%2F492899073" id="802500750%2FFunctions%2F492899073"></a>
+      <div class="table" data-togglable="Functions"><a data-name="802500750%2FFunctions%2F492899073" anchor-label="getAQI" id="802500750%2FFunctions%2F492899073" data-filterable-set=":app:dokkaHtml/release"></a>
         <div class="table-row" data-filterable-current=":app:dokkaHtml/release" data-filterable-set=":app:dokkaHtml/release">
           <div class="main-subrow keyValue ">
             <div class=""><span class="inline-flex">
@@ -84,7 +84,7 @@ if(savedDarkMode === true){
             </div>
           </div>
         </div>
-<a anchor-label="getNO2" data-filterable-set=":app:dokkaHtml/release" data-name="-1643589354%2FFunctions%2F492899073" id="-1643589354%2FFunctions%2F492899073"></a>
+<a data-name="-1643589354%2FFunctions%2F492899073" anchor-label="getNO2" id="-1643589354%2FFunctions%2F492899073" data-filterable-set=":app:dokkaHtml/release"></a>
         <div class="table-row" data-filterable-current=":app:dokkaHtml/release" data-filterable-set=":app:dokkaHtml/release">
           <div class="main-subrow keyValue ">
             <div class=""><span class="inline-flex">
@@ -99,7 +99,7 @@ if(savedDarkMode === true){
             </div>
           </div>
         </div>
-<a anchor-label="getPM10" data-filterable-set=":app:dokkaHtml/release" data-name="1698261311%2FFunctions%2F492899073" id="1698261311%2FFunctions%2F492899073"></a>
+<a data-name="1698261311%2FFunctions%2F492899073" anchor-label="getPM10" id="1698261311%2FFunctions%2F492899073" data-filterable-set=":app:dokkaHtml/release"></a>
         <div class="table-row" data-filterable-current=":app:dokkaHtml/release" data-filterable-set=":app:dokkaHtml/release">
           <div class="main-subrow keyValue ">
             <div class=""><span class="inline-flex">
@@ -114,7 +114,7 @@ if(savedDarkMode === true){
             </div>
           </div>
         </div>
-<a anchor-label="getPM25" data-filterable-set=":app:dokkaHtml/release" data-name="719189147%2FFunctions%2F492899073" id="719189147%2FFunctions%2F492899073"></a>
+<a data-name="719189147%2FFunctions%2F492899073" anchor-label="getPM25" id="719189147%2FFunctions%2F492899073" data-filterable-set=":app:dokkaHtml/release"></a>
         <div class="table-row" data-filterable-current=":app:dokkaHtml/release" data-filterable-set=":app:dokkaHtml/release">
           <div class="main-subrow keyValue ">
             <div class=""><span class="inline-flex">
@@ -131,7 +131,7 @@ if(savedDarkMode === true){
         </div>
       </div>
       <h2 class="">Properties</h2>
-      <div class="table" data-togglable="Properties"><a anchor-label="endpoint" data-filterable-set=":app:dokkaHtml/release" data-name="2129512296%2FProperties%2F492899073" id="2129512296%2FProperties%2F492899073"></a>
+      <div class="table" data-togglable="Properties"><a data-name="2129512296%2FProperties%2F492899073" anchor-label="endpoint" id="2129512296%2FProperties%2F492899073" data-filterable-set=":app:dokkaHtml/release"></a>
         <div class="table-row" data-filterable-current=":app:dokkaHtml/release" data-filterable-set=":app:dokkaHtml/release">
           <div class="main-subrow keyValue ">
             <div class=""><span class="inline-flex">
@@ -141,7 +141,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/release"><a anchor-label="endpoint" data-filterable-set=":app:dokkaHtml/release" data-name="2129512296%2FProperties%2F492899073" id="2129512296%2FProperties%2F492899073"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="endpoint.html">endpoint</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a anchor-label="endpoint" data-filterable-set=":app:dokkaHtml/release" data-name="2129512296%2FProperties%2F492899073" id="2129512296%2FProperties%2F492899073"></a><p class="paragraph">NILU API endpoint for aq api mode</p></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":app:dokkaHtml/release"><a data-name="2129512296%2FProperties%2F492899073" anchor-label="endpoint" id="2129512296%2FProperties%2F492899073" data-filterable-set=":app:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="endpoint.html">endpoint</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="2129512296%2FProperties%2F492899073" anchor-label="endpoint" id="2129512296%2FProperties%2F492899073" data-filterable-set=":app:dokkaHtml/release"></a><p class="paragraph">NILU API endpoint for aq api mode</p></div></div></div>
               </div>
             </div>
           </div>

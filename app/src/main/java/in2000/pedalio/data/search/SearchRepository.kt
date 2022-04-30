@@ -11,10 +11,20 @@ import com.tomtom.online.sdk.search.location.Address
  */
 
 abstract class SearchRepository {
+    /**
+     * @param fuzzySearchSpecification specification of the search to be done.
+     * @return A list of search results or null if no matches.
+     */
     abstract fun doSearch(fuzzySearchSpecification: FuzzySearchSpecification): List<SearchResult>?
 }
 
+/**
+ * Data class of a search result.
+ */
 data class SearchResult(
+    /**
+     * The certainty that this is the correct result.
+     */
     val score: Double,
     val address: Address?,
     val position: LatLng,

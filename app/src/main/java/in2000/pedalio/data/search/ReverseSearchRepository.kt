@@ -2,6 +2,9 @@ package in2000.pedalio.data.search
 
 import com.tomtom.online.sdk.common.location.LatLng
 
+/**
+ * Should give meta-data about a given location.
+ */
 abstract class ReverseSearchRepository {
     /**
      * @param latLng

@@ -10,6 +10,9 @@ import com.github.kittinunf.fuel.coroutines.awaitStringResponse
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
+/**
+ * Data source for LocationForecast api from met.
+ */
 class LocationForecastSource {
     companion object {
         /**

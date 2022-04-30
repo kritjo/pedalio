@@ -12,10 +12,15 @@ import kotlinx.serialization.json.Json
 
 /**
  * Air Quality Forecast source from met api (weatherapi)
- *
  */
 class AQFSource {
     companion object {
+        /**
+         * @param endpoint AQF endpoint
+         * @param lat Latitude
+         * @param lon Longitude
+         * @return AQFDataClass if forecast at specified lat lon was found. Null otherwise
+         */
         @SuppressLint("LogNotTimber")
         @JvmStatic
         suspend fun getForecast(endpoint: String, lat: Double, lon: Double): AQFDataClass? {

@@ -1,5 +1,8 @@
 package in2000.pedalio.data
 
+/**
+ * Class to hold endpoints for injection.
+ */
 class Endpoints {
     companion object {
         // Weather API endpoints

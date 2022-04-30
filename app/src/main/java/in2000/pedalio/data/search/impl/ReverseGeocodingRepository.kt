@@ -9,6 +9,9 @@ import in2000.pedalio.data.search.ReverseSearchRepository
 import in2000.pedalio.utils.NetworkUtils
 import io.reactivex.Single
 
+/**
+ * Provides meta-data about a given location using TomTom's API.
+ */
 class ReverseGeocodingRepository(context: Context) : ReverseSearchRepository() {
     private val api = OnlineSearchApi.create(context, "beN1MD9T81Hr774H5o2lQGGDywkiqcJ8")
 

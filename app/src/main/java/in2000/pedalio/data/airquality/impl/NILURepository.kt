@@ -6,9 +6,10 @@ import in2000.pedalio.data.airquality.source.nilu.NILUSource
 import in2000.pedalio.utils.MathUtil
 
 /**
- * Air Quality implementation from NILU API, shows last recorded value.
+ * Air Quality implementation from NILU API, shows last recorded value. Do not use timeDelta as
+ * NILU only provides data for right now.
  * @property endpoint NILU API endpoint for aq api mode
- * @property radius Radius of stations to weight
+ * @constructor [radius]: Radius of stations to weight
  */
 class NILURepository(val endpoint: String, private val radius: Int) : AirQualityRepository() {
     /**

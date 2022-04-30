@@ -10,8 +10,19 @@ import com.github.kittinunf.fuel.coroutines.awaitStringResponse
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
+/**
+ * Air quality source from NILU api.
+ */
 class NILUSource {
     companion object {
+        /**
+         * @param endpoint AQF endpoint
+         * @param lat Latitude
+         * @param lon Longitude
+         * @param radius The radius of stations to care about
+         * @param component Type of air-quality to get. See [COMPONENTS].
+         * @return List of recorded data points at different locations.
+         */
         @SuppressLint("LogNotTimber")
         @JvmStatic
         suspend fun getNow(
@@ -38,7 +49,14 @@ class NILUSource {
         }
     }
 
-    enum class COMPONENTS(val getParam: String) {
+    /**
+     * Types of NILU data.
+     */
+    enum class COMPONENTS(
+        /**
+         * Value for API.
+         */
+        val getParam: String) {
         NO2("no2"),
         PM10("pm10"),
         PM2_5("pm2.5"),
