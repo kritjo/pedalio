@@ -23,8 +23,8 @@ class TomtomRoutingRepository(val context: Context) : RoutingRepository() {
 
         val source = TomtomRoutingSource(context)
         val route = source.getRouteFromLocations(locations)
-        if (route.isSuccess()) return route.value()
-        else throw Exception("Error while calculating route: ${route.cause()}")
+        return if (route.isSuccess()) route.value()
+        else null
     }
 
     /**
@@ -36,7 +36,7 @@ class TomtomRoutingRepository(val context: Context) : RoutingRepository() {
 
         val source = TomtomRoutingSource(context)
         val route = source.getRouteFromLocations(listOf(from, to))
-        if (route.isSuccess()) return route.value()
-        else throw Exception("Error while calculating route: ${route.cause()}")
+        return if (route.isSuccess()) route.value()
+        else null
     }
 }

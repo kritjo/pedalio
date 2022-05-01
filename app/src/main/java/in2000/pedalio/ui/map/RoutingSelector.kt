@@ -13,7 +13,6 @@ import androidx.cardview.widget.CardView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.routing.route.information.FullRoute
 import in2000.pedalio.R
 import in2000.pedalio.domain.routing.GetRouteAlternativesUseCase
@@ -30,10 +29,14 @@ class RoutingSelector private constructor() : Fragment() {
     @Suppress("UNCHECKED_CAST")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val shrt_uncast =
+            requireArguments().get(GetRouteAlternativesUseCase.RouteType.SHORTEST.name)
+        val safe_uncast = requireArguments().get(GetRouteAlternativesUseCase.RouteType.BIKE.name)
+        if (shrt_uncast == null || safe_uncast == null) return
         shortest =
-            requireArguments().get(GetRouteAlternativesUseCase.RouteType.SHORTEST.name) as FullRoute
+            shrt_uncast as FullRoute
         safest =
-            requireArguments().get(GetRouteAlternativesUseCase.RouteType.BIKE.name) as FullRoute
+            safe_uncast as FullRoute
     }
 
     @SuppressLint("SetTextI18n") // OK as it is only used for international purposes.
@@ -42,6 +45,9 @@ class RoutingSelector private constructor() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        if (!::shortest.isInitialized || !::safest.isInitialized) {
+            return View(context)
+        }
         val view = inflater.inflate(R.layout.fragment_routing_selector, container, false)
         view.findViewById<TextView>(R.id.fastest_route).text = getString(R.string.shortest_route)
         view.findViewById<TextView>(R.id.fastest_km).text =
@@ -58,7 +64,7 @@ class RoutingSelector private constructor() : Fragment() {
         view.findViewById<Button>(R.id.fastest_button).setBackgroundColor(SHORTEST_COLOR)
         view.findViewById<Button>(R.id.fastest_button).setTextColor(SHORTEST_CONTRAST_COLOR)
         view.findViewById<CardView>(R.id.fastest_view).setOnClickListener {
-            chosenRoute.postValue(shortest.getCoordinates())
+            chosenRoute.postValue(shortest)
         }
 
         view.findViewById<TextView>(R.id.safest_route).text = getString(R.string.safest_route)
@@ -76,7 +82,7 @@ class RoutingSelector private constructor() : Fragment() {
         view.findViewById<Button>(R.id.safest_button).setBackgroundColor(SAFEST_COLOR)
         view.findViewById<Button>(R.id.safest_button).setTextColor(SAFEST_CONTRAST_COLOR)
         view.findViewById<CardView>(R.id.safest_view).setOnClickListener {
-            chosenRoute.postValue(safest.getCoordinates())
+            chosenRoute.postValue(safest)
         }
 
         return view
@@ -88,11 +94,11 @@ class RoutingSelector private constructor() : Fragment() {
         const val SHORTEST_COLOR = Color.YELLOW
         const val SHORTEST_CONTRAST_COLOR = Color.BLACK
 
-        private lateinit var chosenRoute: MutableLiveData<List<LatLng>?>
+        private lateinit var chosenRoute: MutableLiveData<FullRoute?>
 
         fun newInstance(
             routes: Map<GetRouteAlternativesUseCase.RouteType, FullRoute>,
-            chosenRoute: MutableLiveData<List<LatLng>?>
+            chosenRoute: MutableLiveData<FullRoute?>
         ) = RoutingSelector().apply {
             arguments = bundleOf(
                 Pair(

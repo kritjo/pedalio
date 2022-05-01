@@ -217,10 +217,10 @@ class SearchWindow : Fragment() {
     }
 
     private fun showProgressBar() {
-        requireView().findViewById<ProgressBar>(R.id.search_progressBar).visibility = View.VISIBLE
+        view?.findViewById<ProgressBar>(R.id.search_progressBar)?.visibility = View.VISIBLE
     }
 
     private fun hideProgressBar() {
-        requireView().findViewById<ProgressBar>(R.id.search_progressBar).visibility = View.GONE
+        view?.findViewById<ProgressBar>(R.id.search_progressBar)?.visibility = View.GONE
     }
 }

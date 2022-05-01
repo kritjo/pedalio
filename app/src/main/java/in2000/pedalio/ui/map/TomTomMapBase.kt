@@ -296,8 +296,8 @@ class TomTomMapBase : Fragment() {
             }
         }
 
-        mapViewModel.chosenRoute.observe(viewLifecycleOwner) { list ->
-            if (list == null) return@observe
+        mapViewModel.chosenRoute.observe(viewLifecycleOwner) { route ->
+            if (route == null) return@observe
 
             // we have handled the search result, so we can clear it
             mapViewModel.newSearchResult = false
@@ -368,7 +368,7 @@ class TomTomMapBase : Fragment() {
             }
 
             // Message when route is finished and cleanup
-            val finishCord = list.last()
+            val finishCord = route.getCoordinates().last()
             mapViewModel.currentPos().observe(viewLifecycleOwner) { latLng ->
                 if (CoordinateUtil.calcDistanceBetweenTwoCoordinates(
                         latLng,
