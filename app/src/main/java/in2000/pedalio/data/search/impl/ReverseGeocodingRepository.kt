@@ -8,6 +8,8 @@ import com.tomtom.online.sdk.search.data.reversegeocoder.ReverseGeocoderSearchRe
 import in2000.pedalio.data.search.ReverseSearchRepository
 import in2000.pedalio.utils.NetworkUtils
 import io.reactivex.Single
+import kotlin.math.floor
+import kotlin.math.pow
 
 /**
  * Provides meta-data about a given location using TomTom's API.
@@ -23,27 +25,22 @@ class ReverseGeocodingRepository(context: Context) : ReverseSearchRepository() {
         if (!networkAvailable) return null
 
         // If the cache contains the country, return it
-        if (cache.containsKey(latLng)) return cache[latLng]!!
-
-        // Otherwise, if there is only small changes, return the last position
+        // If there is only small changes, return the last position
         // This is possibly dangerous, as you could be on the border of two countries
-        if (latLng.latitude - lastPos.latitude < 0.1 ||
-            latLng.longitude - lastPos.longitude < 0.1 ||
-            latLng.latitude - lastPos.latitude > -0.1 ||
-            latLng.longitude - lastPos.longitude > -0.1
-        ) {
 
-            if (cache.containsKey(lastPos)) return cache[lastPos]!!
+        val lng = LatLng(latLng.latitude.reduce(4), latLng.longitude.reduce(4))
+        if (cache.containsKey(lng)) {
+            return cache[lng]!!
         }
 
         // Otherwise, get the country from the API and cache it
         val query = ReverseGeocoderSearchQueryBuilder
-            .create(latLng.latitude, latLng.longitude)
+            .create(lng.latitude, lng.longitude)
             .build()
         val res: Single<ReverseGeocoderSearchResponse> = api.reverseGeocoding(query)
         val country = res.blockingGet().addresses.first().address.countryCodeISO3
-        cache[latLng] = country
-        lastPos = latLng
+        cache[lng] = country
+        lastPos = lng
         return country
     }
 
@@ -52,4 +49,18 @@ class ReverseGeocodingRepository(context: Context) : ReverseSearchRepository() {
         val cache = HashMap<LatLng, String>()
         var lastPos = LatLng(0.0, 0.0)
     }
+}
+
+/**
+ * This function reduces the number of decimal places in a double
+ *
+ * @param decp the number of decimal places to reduce to
+ * @return the reduced double
+ */
+private fun Double.reduce(decp: Int): Double {
+    var value = this
+    value *= 10.0.pow(decp)
+    value = floor(value)
+    value /= 10.0.pow(decp)
+    return value
 }

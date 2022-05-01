@@ -24,7 +24,6 @@ class GetWeatherUseCase(
         assert(timeDelta >= 0)
         if (ReverseGeocodingRepository(context).getCountry(latLng) != "NOR") {
             return WeatherDataPoint(latLng, 0.0, 0.0, 0.0, 0.0, 0.0, null)
-
         }
 
         return when {

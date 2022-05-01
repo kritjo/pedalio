@@ -19,6 +19,7 @@ import in2000.pedalio.data.airquality.source.nilu.NILUSource
 import in2000.pedalio.data.bikeRoutes.impl.OsloBikeRouteRepostiory
 import in2000.pedalio.data.location.LocationRepository
 import in2000.pedalio.data.search.SearchResult
+import in2000.pedalio.data.search.impl.ReverseGeocodingRepository
 import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.data.weather.impl.LocationForecastRepository
 import in2000.pedalio.data.weather.impl.NowcastRepository
@@ -32,6 +33,7 @@ import in2000.pedalio.utils.CoordinateUtil
 import in2000.pedalio.utils.MathUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlin.math.roundToInt
 
 /**
@@ -88,7 +90,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     var newSearchResult = false
 
     /** The chosen route from the route selection overlay. */
-    val chosenRoute = MutableLiveData<List<LatLng>?>()
+    val chosenRoute = MutableLiveData<FullRoute?>()
 
     var savedCameraPosition: CameraPosition? = null
 
@@ -277,6 +279,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
             12,
             component
         )
+
         aqPairs = nilu?.map {
             Pair(
                 it.latitude?.let { lat -> LatLng(lat, it.longitude ?: 0.0) } ?: LatLng(0.0, 0.0),
@@ -373,6 +376,19 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         // Get screen size
         val density = context.resources.displayMetrics.densityDpi
         return (density / bubbleZoomDensityScaler).roundToInt()
+    }
+
+    /**
+     * @param context
+     * @return is the current possition in Norway?
+     */
+    fun isCurrentPosInNorway(context: Context): Boolean {
+        val pos = currentPos().value ?: return false
+        var country: String?
+        runBlocking {
+            country = ReverseGeocodingRepository(context).getCountry(pos)
+        }
+        return country == "NOR"
     }
 
     /**
