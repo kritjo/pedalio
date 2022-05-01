@@ -314,7 +314,7 @@ class TomTomMapBase : Fragment() {
                     .hide(routingSelectorFragment)
                     .commitAllowingStateLoss()
 
-            val rb = RouteBuilder(list)
+            val rb = RouteBuilder(route.getCoordinates())
             tomtomMap.addRoute(rb)
             tomtomMap.centerOn(
                 CameraPosition.builder()
