@@ -26,12 +26,14 @@ import com.tomtom.online.sdk.common.util.LogUtils
 import com.tomtom.online.sdk.map.*
 import com.tomtom.online.sdk.map.route.RouteLayerStyle
 import in2000.pedalio.R
+import in2000.pedalio.data.settings.SettingsRepository
 import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.domain.routing.GetRouteAlternativesUseCase
 import in2000.pedalio.utils.CoordinateUtil
 import in2000.pedalio.viewmodel.MapViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 
 
 /**
@@ -58,9 +60,13 @@ class TomTomMapBase : Fragment() {
 
     private val overlayBubbleViews = mutableListOf<View>()
 
+    private var jsonStyleDark: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         LogUtils.enableLogs(Log.VERBOSE)
+        jsonStyleDark = requireContext().assets!!.open("raw/style.json").
+            bufferedReader().readText()
         requestPermissionLauncher =
             registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
@@ -98,6 +104,19 @@ class TomTomMapBase : Fragment() {
 
     private fun onMapReady(map: TomtomMap) {
         tomtomMap = map
+        val sharedPreferences = SharedPreferences(requireContext())
+        Log.d("styleSettings", sharedPreferences.theme.toString())
+        if (sharedPreferences.theme){
+            tomtomMap.styleSettings.setStyleJson(jsonStyleDark)
+        }
+        else{
+            tomtomMap.styleSettings.loadDefaultStyle()
+        }
+
+        //val fil: File = File(context.resources,"style.json")
+        //val filLeser = FileReader(fil)
+
+        //tomtomMap.uiSettings.setStyleJson(jsonString)
         // This callback should be first thing after this.tomtomMap assign. In order to get pos
         // updates.
         mapViewModel.registerListener = tomtomMap::addLocationUpdateListener
@@ -106,6 +125,11 @@ class TomTomMapBase : Fragment() {
         mapViewModel.currentPos().observe(viewLifecycleOwner) {
             onPosChange(it)
         }
+
+        //bruk map her for style
+
+        tomtomMap.isMyLocationEnabled = true
+        tomtomMap.uiSettings.compassView.hide()
 
         mapViewModel.savedCameraPosition?.let {
             tomtomMap.uiSettings.cameraPosition = it
@@ -316,6 +340,11 @@ class TomTomMapBase : Fragment() {
 
             val rb = RouteBuilder(route.getCoordinates())
             tomtomMap.addRoute(rb)
+            if(rb.id < 0){
+                Log.e("ROUTE", "Route id is negative and not valid, exiting observer")
+                return@observe
+            }
+            mapViewModel.routesOnDisplay.add(rb.id)
             tomtomMap.centerOn(
                 CameraPosition.builder()
                     .pitch(20.0)

@@ -19,7 +19,7 @@
     <string name="adv_header">Advanced</string>
     <string name="routing_header">Routing</string>
     <string name="location_title">Use GPS location</string>
-    <string name="darkmode_title">Dark mode</string>
+    <string name="darkmode_title">Dark mode (Beta)</string>
     <string name="colorblind_title">Color blind mode</string>
     <string name="test">Test</string>
 
@@ -38,18 +38,9 @@
     <string name="next">Next</string>
     <string name="welcome_header">Welcome to Pedalio!</string>
 
-    <string name="welcome_header_2">Safety tips</string>
-    <string name="rules">
-        1. Be visible in traffic \n \n
-        2. Give clear signs \n \n
-        3. Obtain eye contact with other road users \n \n
-        4. Listen to your surroundings, not music \n \n
-        5. Wait for green \n \n
-        6. Give pedestrians priority on the sidewalk \n \n
-        7. Use a flashlight in the dark \n \n
-        8. Use a helmet
-    </string>
-    <string name="rule_2">2. Give clear signs</string>
+    <string name="welcome_header_2">Safety tips…</string>
+    <string name="rule_1">1. Be visible in traffic</string>
+    <string name="rule_2">2. gir tydelige tegn</string>
     <string name="rule_3">2. Give clear signs</string>
     <string name="rule_4">3. Obtain eye contact with other road users</string>
     <string name="rule_5">5. Wait for green</string>

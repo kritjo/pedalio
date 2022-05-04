@@ -1,65 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/fragment_tomtommapbase"
-        tools:context="in2000.pedalio.ui.map.TomTomMapBase">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_tomtommapbase"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in2000.pedalio.ui.map.TomTomMapBase">
 
     <fragment
-            android:id="@+id/fragment_tomtom"
-            android:name="com.tomtom.online.sdk.map.MapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:mapsApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
-            app:trafficApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
-            tools:ignore="FragmentTagUsage"
-            tools:layout_editor_absoluteY="0dp"
-            tools:layout_editor_absoluteX="170dp" />
+        android:id="@+id/fragment_tomtom"
+        android:name="com.tomtom.online.sdk.map.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:mapsApiKey="TeKdz0A0HvMpClYGfpcnnwJlOo9pzcmC"
+
+        app:trafficApiKey="TeKdz0A0HvMpClYGfpcnnwJlOo9pzcmC"
+        tools:ignore="FragmentTagUsage"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
 
     <RelativeLayout
-            android:id="@+id/overlay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/fragment_tomtom" />
+        android:id="@+id/overlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fragment_tomtom" />
 
     <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/weather"
-            android:name="in2000.pedalio.ui.map.WeatherOverlay"
-            android:layout_width="108dp"
-            android:layout_height="140dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.123"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.947" />
+        android:id="@+id/weather"
+        android:name="in2000.pedalio.ui.map.WeatherOverlay"
+        android:layout_width="wrap_content"
+        android:layout_height="135dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline16"
+        app:layout_constraintEnd_toStartOf="@+id/guideline15"
+        app:layout_constraintTop_toTopOf="@+id/guideline20"
+        tools:layout="@layout/fragment_weather_overlay" />
 
     <Button
-            android:id="@+id/layers_button"
-            android:layout_width="wrap_content"
-            android:layout_height="59dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/off_white"
-            android:text="@string/layers"
-            android:textColor="@color/purple_700"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+        android:id="@+id/layers_button"
+        android:layout_width="wrap_content"
+        android:layout_height="59dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="?attr/colorOnSecondary"
+        android:text="@string/layers"
+        android:textColor="@color/secondaryDarkBlue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline15" />
 
     <Button
-            android:id="@+id/cancel_route_button"
-            android:layout_width="wrap_content"
-            android:layout_height="59dp"
-            android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/off_white"
-            android:text="@string/cancel_route"
-            android:textColor="@color/purple_700"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:visibility="invisible"
+        android:id="@+id/cancel_route_button"
+        android:layout_width="wrap_content"
+        android:layout_height="59dp"
+
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="?attr/colorOnSecondary"
+        android:text="@string/cancel_route"
+        android:textColor="?attr/colorPrimary"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline8"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05" />
 
@@ -67,52 +68,78 @@
             android:id="@+id/track_route"
             android:layout_width="wrap_content"
             android:layout_height="59dp"
-            android:backgroundTint="@color/off_white"
+            android:backgroundTint="?attr/colorOnSecondary"
             android:text="@string/track_route"
-            android:textColor="@color/purple_700"
+            android:textColor="?attr/colorPrimary"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintBottom_toBottomOf="@+id/fragment_tomtom"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guideline8"
             android:layout_marginBottom="20dp"
-            android:textOff="@string/track_route_off"
-            android:textOn="@string/track_route_on" />
+            android:textOff="@string/track_route_on"
+            android:textOn="@string/track_route_off" />
 
     <RelativeLayout
-            android:id="@+id/routing_overlay"
-            android:layout_width="336dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/fragment_tomtom"
-            app:layout_constraintEnd_toEndOf="@+id/fragment_tomtom"
-            app:layout_constraintHorizontal_bias="0.492"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/fragment_tomtom"
-            app:layout_constraintVertical_bias="0.857" />
+        android:id="@+id/routing_overlay"
+        android:layout_width="336dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_tomtom"
+        app:layout_constraintEnd_toEndOf="@+id/fragment_tomtom"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fragment_tomtom"
+        app:layout_constraintVertical_bias="0.857" />
 
     <RelativeLayout
-            android:id="@+id/popup_overlay"
-            android:layout_width="336dp"
-            android:layout_height="168dp"
-            app:layout_constraintBottom_toBottomOf="@+id/fragment_tomtom"
-            app:layout_constraintEnd_toEndOf="@+id/fragment_tomtom"
-            app:layout_constraintHorizontal_bias="0.492"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/fragment_tomtom"
-            app:layout_constraintVertical_bias="0.857">
+        android:id="@+id/popup_overlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline8"
+        app:layout_constraintEnd_toEndOf="@+id/fragment_tomtom"
+        app:layout_constraintHorizontal_bias="0.786"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    </RelativeLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95"/>
 
     <ProgressBar
-            style="?android:attr/progressBarStyle"
-            android:layout_width="76dp"
-            android:layout_height="83dp"
-            android:id="@+id/progressBar"
-            app:layout_constraintTop_toTopOf="@+id/fragment_tomtom"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/fragment_tomtom"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone" />
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="76dp"
+        android:layout_height="83dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/fragment_tomtom"
+        app:layout_constraintTop_toTopOf="@+id/fragment_tomtom" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.30" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

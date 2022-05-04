@@ -17,7 +17,7 @@ import com.tomtom.online.sdk.routing.route.description.TravelMode
  */
 class TomtomRoutingSource(context: Context) {
     private val travelMode = TravelMode.BICYCLE
-    private val apiKey: String = "beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
+    private val apiKey: String = "TeKdz0A0HvMpClYGfpcnnwJlOo9pzcmC"
     private val routingApi: RoutingApi = OnlineRoutingApi.create(context, apiKey)
 
     /**

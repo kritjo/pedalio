@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
@@ -40,16 +38,15 @@
 
 
             <TextView
-                    android:id="@+id/rule8"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:text="@string/rules"
-                    android:textColor="@color/teal"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline8"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
-                    app:layout_constraintStart_toStartOf="@+id/guideline3"
-                    app:layout_constraintTop_toTopOf="@+id/guideline10" />
+                android:id="@+id/rule8"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="@string/rule_1"
+                android:textColor="@color/teal"
+                app:layout_constraintBottom_toTopOf="@+id/guideline8"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toTopOf="@+id/guideline10" />
 
             <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline3"
@@ -70,8 +67,8 @@
 
             <Button
                 android:id="@+id/buttonDone2"
-                android:layout_width="163dp"
-                android:layout_height="54dp"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
                 android:text="@string/done"
                 android:textColor="@color/white"
                 android:textSize="14sp"
@@ -108,10 +105,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                android:layout_marginBottom="15dp"
                     app:layout_constraintGuide_percent="0.2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="off_white">#FFF5F5F5</color>
+    <color name="DarkGrey">#252525</color>
 
     <color name="primary">#EB7325</color>
     <color name="primary_t">#C6EB7325</color>
@@ -18,6 +19,8 @@
 
     <color name="red">#FFF44336</color>
     <color name="light_grey">#F0F0F0</color>
+    <color name="grey">#5E5E5E</color>
+
 
     <color name="primaryOrange">#EB7325</color>
 
@@ -31,6 +34,9 @@
 
     <color name="primaryOrangeTrans">#37EB7325</color>
     <color name="secondaryLightBlueTran">#3426E0EB</color>
+    <color name="Transparent">#00FFFFFF</color>
+
+
 
 
 </resources>

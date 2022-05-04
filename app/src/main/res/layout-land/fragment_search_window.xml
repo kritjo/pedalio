@@ -10,35 +10,36 @@
 
 
     <com.mindorks.editdrawabletext.EditDrawableText
-            android:id="@+id/search"
-            android:layout_width="623dp"
-            android:layout_height="48dp"
-            android:layout_gravity="top|center"
-            android:background="@drawable/custom_search_button2"
-            android:drawableLeft="@drawable/ic_action_back"
-            android:drawablePadding="10dp"
-            android:drawableTint="@color/black"
-            android:hint="@string/s_k"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/lowerSearch"
-            app:layout_constraintDimensionRatio="9:1"
-            app:layout_constraintEnd_toEndOf="@id/marginRight"
-            app:layout_constraintStart_toStartOf="@id/marginLeft"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="RtlHardcoded"
-            app:layout_constraintVertical_bias="0.625"
-            android:inputType="textPostalAddress" />
+        android:id="@+id/search"
+        android:layout_width="623dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:background="@drawable/custom_search_button"
+        android:drawableLeft="@drawable/ic_action_back"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/white"
+        android:hint="@string/s_k"
+        android:inputType="textPostalAddress"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/lowerSearch"
+        app:layout_constraintDimensionRatio="9:1"
+        app:layout_constraintEnd_toEndOf="@id/marginRight"
+        app:layout_constraintStart_toStartOf="@id/marginLeft"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.625"
+        tools:ignore="RtlHardcoded" />
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_favorites"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@id/lowerFavRecycler"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/lowerFavorite"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:id="@+id/search_favorites"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/lowerFavRecycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lowerFavorite" />
 
     <TextView
             android:id="@+id/textFavorite"
@@ -51,14 +52,14 @@
             app:layout_constraintTop_toTopOf="@+id/lowerSearch" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/marginLeft"
-            app:layout_constraintStart_toStartOf="@id/marginLeft"
-            app:layout_constraintTop_toBottomOf="@id/lowerFavRecycler">
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?attr/colorSecondaryVariant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/marginLeft"
+        app:layout_constraintStart_toStartOf="@id/marginLeft"
+        app:layout_constraintTop_toBottomOf="@id/lowerFavRecycler">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -67,6 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:scrollbars="none"
             app:layout_constraintGuide_percent="0.16" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -98,17 +100,17 @@
             app:layout_constraintGuide_percent="0.44" />
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/lowerRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/white"
-            android:elevation="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/parentGuideRight"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@id/parentGuideLeft"
-            app:layout_constraintTop_toTopOf="@+id/recGuide"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:id="@+id/lowerRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?attr/colorSecondaryVariant"
+        android:elevation="10dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/parentGuideRight"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/parentGuideLeft"
+        app:layout_constraintTop_toTopOf="@+id/recGuide" />
 
     <TextView
             android:id="@+id/lowerRecyclerHint"
@@ -121,18 +123,19 @@
             app:layout_constraintTop_toBottomOf="@+id/search_favorites" />
 
     <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/recGuide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.53" />
+        android:id="@+id/recGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.53" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/parentGuideLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0" />
+            app:layout_constraintGuide_percent="1" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/parentGuideRight"

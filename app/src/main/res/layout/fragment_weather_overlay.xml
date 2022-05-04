@@ -11,60 +11,64 @@
 
     <androidx.cardview.widget.CardView
             android:id="@+id/view"
-            android:layout_width="108dp"
-            android:layout_height="140dp"
-            app:cardBackgroundColor="@color/off_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/Transparent"
             app:cardCornerRadius="8dp"
-            app:cardElevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp"
+            android:background="?attr/colorOnSecondary">
 
             <ImageView
-                    android:src="@drawable/ic_map_traffic_ice_orange_large"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:id="@+id/weather_icon"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/weather_degrees"
-                    android:contentDescription="@string/content_description_weather_symbol" />
+                android:id="@+id/weather_icon"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:contentDescription="@string/content_description_weather_symbol"
+                android:src="@drawable/ic_map_traffic_ice_orange_large"
+                app:layout_constraintBottom_toTopOf="@+id/weather_degrees"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                    android:text="@string/degrees"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/weather_degrees"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/weather_icon"
-                    app:layout_constraintBottom_toTopOf="@+id/weather_wind" />
+                android:id="@+id/weather_degrees"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/degrees"
+                android:textColor="@color/secondaryDarkBlue"
+                app:layout_constraintBottom_toTopOf="@+id/weather_wind"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/weather_icon" />
 
             <TextView
-                    android:text="@string/m_s"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/weather_wind"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/weather_degrees"
-                    app:layout_constraintBottom_toTopOf="@+id/percipation"
-                    app:layout_constraintStart_toStartOf="parent" />
+                android:id="@+id/weather_wind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/m_s"
+                android:textColor="@color/secondaryDarkBlue"
+                app:layout_constraintBottom_toTopOf="@+id/percipation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/weather_degrees" />
 
             <TextView
-                    android:text="@string/mm_h"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/percipation"
-                    app:layout_constraintTop_toBottomOf="@+id/weather_wind"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                android:id="@+id/percipation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mm_h"
+                android:textColor="@color/secondaryDarkBlue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/weather_wind" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </FrameLayout>
