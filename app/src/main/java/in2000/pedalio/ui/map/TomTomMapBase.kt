@@ -60,9 +60,13 @@ class TomTomMapBase : Fragment() {
 
     private val overlayBubbleViews = mutableListOf<View>()
 
+    private var jsonStyleDark: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         LogUtils.enableLogs(Log.VERBOSE)
+        jsonStyleDark = requireContext().assets!!.open("raw/style.json").
+            bufferedReader().readText()
         requestPermissionLauncher =
             registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
@@ -101,13 +105,9 @@ class TomTomMapBase : Fragment() {
     private fun onMapReady(map: TomtomMap) {
         tomtomMap = map
         val sharedPreferences = SharedPreferences(requireContext())
-        Log.d("Bolsk", sharedPreferences.theme.toString())
+        Log.d("styleSettings", sharedPreferences.theme.toString())
         if (sharedPreferences.theme){
-            tomtomMap.styleSettings.setStyleJson(context?.assets?.open("raw/style.json")?.
-            bufferedReader().
-            use {
-                it?.readText()
-            })
+            tomtomMap.styleSettings.setStyleJson(jsonStyleDark)
         }
         else{
             tomtomMap.styleSettings.loadDefaultStyle()
@@ -340,6 +340,11 @@ class TomTomMapBase : Fragment() {
 
             val rb = RouteBuilder(route.getCoordinates())
             tomtomMap.addRoute(rb)
+            if(rb.id < 0){
+                Log.e("ROUTE", "Route id is negative and not valid, exiting observer")
+                return@observe
+            }
+            mapViewModel.routesOnDisplay.add(rb.id)
             tomtomMap.centerOn(
                 CameraPosition.builder()
                     .pitch(20.0)
