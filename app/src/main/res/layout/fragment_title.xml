@@ -20,23 +20,26 @@
 
 
     <EditText
-        android:id="@+id/search_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center"
-        android:autofillHints=""
-        android:background="@drawable/custom_search_button"
-        android:drawableLeft="@drawable/ic_action_name"
-        android:drawablePadding="5dp"
-        android:drawableTint="@color/black"
-        android:focusableInTouchMode="false"
-        android:hint="@string/s_k"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline14"
-        app:layout_constraintEnd_toStartOf="@+id/guideline17"
-        app:layout_constraintHorizontal_bias="0.609"
-        app:layout_constraintStart_toStartOf="@+id/guideline18"
-        app:layout_constraintTop_toTopOf="@+id/fragment_title" />
+            android:id="@+id/search_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:autofillHints=""
+            android:background="@drawable/custom_search_button"
+            android:drawableLeft="@drawable/ic_action_name"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/black"
+            android:focusableInTouchMode="false"
+            android:hint="@string/s_k"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline14"
+            app:layout_constraintEnd_toStartOf="@+id/guideline17"
+            app:layout_constraintHorizontal_bias="0.609"
+            app:layout_constraintStart_toStartOf="@+id/guideline18"
+            app:layout_constraintTop_toTopOf="@+id/fragment_title"
+            android:minHeight="48dp"
+            android:inputType="textPostalAddress"
+            tools:ignore="RtlHardcoded" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline14"

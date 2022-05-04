@@ -44,17 +44,17 @@
                 app:layout_constraintVertical_bias="0.326" />
 
             <ImageView
-                android:id="@+id/resultLocationIcon"
-                android:layout_width="29dp"
-                android:layout_height="39dp"
-                android:tint="@color/secondaryDarkBlue"
-                android:contentDescription="@string/content_description_location_pin"
-                app:layout_constraintBottom_toBottomOf="@+id/resultUnderLocationText"
-                app:layout_constraintEnd_toStartOf="@+id/resultTitle"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.166"
-                app:srcCompat="@drawable/ic_markedlocation" />
+                    android:id="@+id/resultLocationIcon"
+                    android:layout_width="29dp"
+                    android:layout_height="39dp"
+                    android:contentDescription="@string/content_description_location_pin"
+                    app:layout_constraintBottom_toBottomOf="@+id/resultUnderLocationText"
+                    app:layout_constraintEnd_toStartOf="@+id/resultTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.166"
+                    app:srcCompat="@drawable/ic_markedlocation"
+                    app:tint="@color/secondaryDarkBlue" />
 
 
             <TextView
