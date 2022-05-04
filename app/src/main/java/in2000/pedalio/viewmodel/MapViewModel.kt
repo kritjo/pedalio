@@ -49,7 +49,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     // List of Triple of LatLng, Color, and Opacity
     val aqPolygons = MutableLiveData(listOf<Triple<List<LatLng>, Int, Float>>())
     var aqComponent: NILUSource.COMPONENTS = NILUSource.COMPONENTS.NO2
-    var aqMaxValue: Float = 50f
+    private var aqMinValue: Float = 0f
+    private var aqMaxValue: Float = 50f
 
     /** overlayBubbles to be drawn on the map. */
     var overlayBubbles = MutableLiveData(mutableListOf<OverlayBubble>())
@@ -280,11 +281,38 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
             component
         )
 
-        aqPairs = nilu?.map {
-            Pair(
-                it.latitude?.let { lat -> LatLng(lat, it.longitude ?: 0.0) } ?: LatLng(0.0, 0.0),
-                it.value ?: 0.0
-            )
+        if(component == NILUSource.COMPONENTS.ALL){ // AQI Index
+            aqPairs = nilu?.map {
+                Pair(
+                    it.latitude?.let { lat -> LatLng(lat, it.longitude ?: 0.0) } ?: LatLng(
+                        0.0,
+                        0.0
+                    ),
+                    it.index?.toDouble() ?: 0.0
+                )
+            }
+            // if coordinates are the same, select max value
+            val found = mutableMapOf<LatLng, Double>()
+            aqPairs?.forEach {
+                if (found.containsKey(it.first)) {
+                    if (it.second > found[it.first]!!) {
+                        found[it.first] = it.second
+                    }
+                } else {
+                    found[it.first] = it.second
+                }
+            }
+            aqPairs = found.toList()
+        } else {
+            aqPairs = nilu?.map {
+                Pair(
+                    it.latitude?.let { lat -> LatLng(lat, it.longitude ?: 0.0) } ?: LatLng(
+                        0.0,
+                        0.0
+                    ),
+                    it.value ?: 0.0
+                )
+            }
         }
     }
 
@@ -299,16 +327,24 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         val prefs = SharedPreferences(getApplication<Application>().applicationContext)
         val component = when (prefs.layerAQComponent) {
             "NO2" -> {
+                aqMinValue = 0.0f
                 aqMaxValue = 60.0f
                 NILUSource.COMPONENTS.NO2
             }
             "PM2.5" -> {
+                aqMinValue = 0.0f
                 aqMaxValue = 40.0f // Moderate level, limit prolonged outdoor exertion
                 NILUSource.COMPONENTS.PM2_5
             }
             "PM10" -> {
+                aqMinValue = 0.0f
                 aqMaxValue = 100.0f
                 NILUSource.COMPONENTS.PM10
+            }
+            "AQI" -> {
+                aqMinValue = 1.0f
+                aqMaxValue = 4.0f
+                NILUSource.COMPONENTS.ALL
             }
             else -> {
                 null
@@ -346,7 +382,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                     bottomLeft
                 )
                 val value = interpolateAirQuality(middle, resPair)
-                val normValue = (value / aqMaxValue) // 0 - 1f
+                val normValue = (value - aqMinValue) / (aqMaxValue - aqMinValue) // Normalize value to 0-1
                 val color : Int = Color.HSVToColor(
                     floatArrayOf( // red
                         ((240f + normValue * 120f) % 360f).toFloat(),
@@ -419,14 +455,14 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                 viewModelScope.launch(Dispatchers.IO) {
                     updateWeatherAndDeviations(application.applicationContext)
                     updateAirQuality(aqComponent)
-                    Log.d("AQ", "Updating AQ with component: ${aqComponent.getParam}")
+                    Log.d("AQ", "Updating AQ with component: ${aqComponent}")
                     // Wait for update to finish before drawing
                     if (SharedPreferences(application.applicationContext).layerAirQuality) {
                         createAQPolygons(getAirQuality())
                     }
                 }
 
-                handler.postDelayed(this, 120000)
+                handler.postDelayed(this, 120 * 1000)
             }
         }, 3000) // First run is run after 3 second
     }

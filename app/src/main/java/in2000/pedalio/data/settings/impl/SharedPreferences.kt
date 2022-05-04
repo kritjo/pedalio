@@ -78,7 +78,7 @@ class SharedPreferences(context: Context) : SettingsRepository() {
             .apply()
 
     /**
-     * Which AQ layer to show?
+     * Which AQ layer to show
      */
     override var layerAQComponent : String?
         get() : String? = sharedPreferences.getString(SettingsKey.LAYER_AQ_COMPONENT.name, "NO2")
