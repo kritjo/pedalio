@@ -20,7 +20,7 @@
     <string name="adv_header">Avansert innstillinger</string>
     <string name="routing_header">Ruting</string>
     <string name="location_title">Bruk GPS</string>
-    <string name="darkmode_title">Mørkt tema</string>
+    <string name="darkmode_title">Mørkt tema (Beta)</string>
     <string name="colorblind_title">Fargeblind modus</string>
     <string name="test">Test</string>
 
@@ -40,16 +40,6 @@
     <string name="welcome_header">Velkommen til Pedalio!</string>
 
     <string name="welcome_header_2">Smarte syklister…</string>
-    <string name="rules">
-        1. er synlige i trafikken \n \n
-        2. gir tydelige tegn \n \n
-        3. ser andre trafikanter i øynene \n \n
-        4. lytter til trafikken, ikke til musikken \n \n
-        5. venter på grønt \n \n
-        6. gir fotgjengere førsterett på fortauet \n \n
-        7. bruker lys i mørket \n \n
-        8. bruker hjelm
-    </string>
     <string name="rule_2">2. gir tydelige tegn</string>
     <string name="rule_3">3. ser andre trafikanter i øynene</string>
     <string name="rule_4">4. lytter til trafikken, ikke til musikken</string>
@@ -80,4 +70,5 @@
     <string name="track_route">Sentrer</string>
     <string name="track_route_off">Sentrering: på</string>
     <string name="track_route_on">Sentrering: av</string>
+    <string name="rule_1">1. Er synlig i trafikken</string>
 </resources>
