@@ -10,9 +10,18 @@ import in2000.pedalio.utils.CoordinateUtil
 import java.util.*
 import kotlin.math.*
 
+/**
+ * Get different route types.
+ */
 class GetRouteAlternativesUseCase {
     enum class RouteType {
+        /**
+         * Shortest route.
+         */
         SHORTEST,
+        /**
+         * Route with the most time in bike-lanes
+         */
         BIKE
     }
 

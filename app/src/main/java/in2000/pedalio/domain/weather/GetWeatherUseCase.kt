@@ -6,6 +6,10 @@ import in2000.pedalio.data.search.impl.ReverseGeocodingRepository
 import in2000.pedalio.data.weather.impl.LocationForecastRepository
 import in2000.pedalio.data.weather.impl.NowcastRepository
 
+/**
+ * Domain layer to get weather using different underlying repositories. E.g. nowcast for now, auto
+ * switch to locationforecast for later.
+ */
 class GetWeatherUseCase(
     private val nowcastRepository: NowcastRepository,
     private val locationForecastRepository: LocationForecastRepository
@@ -20,7 +24,6 @@ class GetWeatherUseCase(
         assert(timeDelta >= 0)
         if (ReverseGeocodingRepository(context).getCountry(latLng) != "NOR") {
             return WeatherDataPoint(latLng, 0.0, 0.0, 0.0, 0.0, 0.0, null)
-
         }
 
         return when {

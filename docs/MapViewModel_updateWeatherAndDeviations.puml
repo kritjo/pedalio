@@ -1,0 +1,286 @@
+@startuml
+participant Actor
+Actor -> MapViewModel : updateWeatherAndDeviations
+activate MapViewModel
+MapViewModel -> MapViewModel : currentPos
+activate MapViewModel
+MapViewModel -> MapViewModel : locationRepository
+activate MapViewModel
+MapViewModel -> LocationRepository : new
+activate LocationRepository
+LocationRepository --> MapViewModel
+deactivate LocationRepository
+MapViewModel --> MapViewModel
+deactivate MapViewModel
+MapViewModel --> MapViewModel
+deactivate MapViewModel
+MapViewModel -> MapViewModel : currentPos
+activate MapViewModel
+MapViewModel -> MapViewModel : locationRepository
+activate MapViewModel
+MapViewModel -> LocationRepository : new
+activate LocationRepository
+LocationRepository --> MapViewModel
+deactivate LocationRepository
+MapViewModel --> MapViewModel
+deactivate MapViewModel
+MapViewModel --> MapViewModel
+deactivate MapViewModel
+MapViewModel -> NowcastRepository : new
+activate NowcastRepository
+NowcastRepository --> MapViewModel
+deactivate NowcastRepository
+MapViewModel -> LocationForecastRepository : new
+activate LocationForecastRepository
+LocationForecastRepository --> MapViewModel
+deactivate LocationForecastRepository
+MapViewModel -> GetWeatherUseCase : new
+activate GetWeatherUseCase
+GetWeatherUseCase --> MapViewModel
+deactivate GetWeatherUseCase
+MapViewModel -> GetDeviatingWeather : new
+activate GetDeviatingWeather
+GetDeviatingWeather --> MapViewModel
+deactivate GetDeviatingWeather
+MapViewModel -> MapViewModel : currentPos
+activate MapViewModel
+MapViewModel -> MapViewModel : locationRepository
+activate MapViewModel
+MapViewModel -> LocationRepository : new
+activate LocationRepository
+LocationRepository --> MapViewModel
+deactivate LocationRepository
+MapViewModel --> MapViewModel
+deactivate MapViewModel
+MapViewModel --> MapViewModel
+deactivate MapViewModel
+MapViewModel -> GetWeatherUseCase : getWeather
+activate GetWeatherUseCase
+GetWeatherUseCase -> ReverseGeocodingRepository : new
+activate ReverseGeocodingRepository
+ReverseGeocodingRepository --> GetWeatherUseCase
+deactivate ReverseGeocodingRepository
+GetWeatherUseCase -> ReverseGeocodingRepository : getCountry
+activate ReverseGeocodingRepository
+ReverseGeocodingRepository -> NetworkUtil : isNetworkAvailable
+activate NetworkUtil
+NetworkUtil --> ReverseGeocodingRepository
+deactivate NetworkUtil
+ReverseGeocodingRepository --> GetWeatherUseCase
+deactivate ReverseGeocodingRepository
+alt not in norway
+    GetWeatherUseCase -> WeatherDataPoint : new
+    activate WeatherDataPoint
+    WeatherDataPoint --> GetWeatherUseCase
+    deactivate WeatherDataPoint
+
+else get weather for now
+    GetWeatherUseCase -> NowcastRepository : getTemp
+    activate NowcastRepository
+    NowcastRepository -> NowcastSource : getNowcast
+    activate NowcastSource
+    NowcastSource --> NowcastRepository
+    deactivate NowcastSource
+    NowcastRepository --> GetWeatherUseCase
+    deactivate NowcastRepository
+    GetWeatherUseCase -> NowcastRepository : getPrecipitation
+    activate NowcastRepository
+    NowcastRepository -> NowcastSource : getNowcast
+    activate NowcastSource
+    NowcastSource --> NowcastRepository
+    deactivate NowcastSource
+    NowcastRepository --> GetWeatherUseCase
+    deactivate NowcastRepository
+    GetWeatherUseCase -> NowcastRepository : getRelativeHumidity
+    activate NowcastRepository
+    NowcastRepository -> NowcastSource : getNowcast
+    activate NowcastSource
+    NowcastSource --> NowcastRepository
+    deactivate NowcastSource
+    NowcastRepository --> GetWeatherUseCase
+    deactivate NowcastRepository
+    GetWeatherUseCase -> NowcastRepository : getWindSpeed
+    activate NowcastRepository
+    NowcastRepository -> NowcastSource : getNowcast
+    activate NowcastSource
+    NowcastSource --> NowcastRepository
+    deactivate NowcastSource
+    NowcastRepository --> GetWeatherUseCase
+    deactivate NowcastRepository
+    GetWeatherUseCase -> NowcastRepository : getWindDirection
+    activate NowcastRepository
+    NowcastRepository -> NowcastSource : getNowcast
+    activate NowcastSource
+    NowcastSource --> NowcastRepository
+    deactivate NowcastSource
+    NowcastRepository --> GetWeatherUseCase
+    deactivate NowcastRepository
+    GetWeatherUseCase -> NowcastRepository : getWeatherIcon
+    activate NowcastRepository
+    NowcastRepository -> NowcastSource : getNowcast
+    activate NowcastSource
+    NowcastSource --> NowcastRepository
+    deactivate NowcastSource
+    NowcastRepository --> GetWeatherUseCase
+    deactivate NowcastRepository
+    GetWeatherUseCase -> WeatherDataPoint : new
+    activate WeatherDataPoint
+    WeatherDataPoint --> GetWeatherUseCase
+    deactivate WeatherDataPoint
+
+else get weather for next hour
+    GetWeatherUseCase -> LocationForecastRepository : getTemp
+    activate LocationForecastRepository
+    LocationForecastRepository -> LocationForecastSource : getLocationforecast
+    activate LocationForecastSource
+    LocationForecastSource --> LocationForecastRepository
+    deactivate LocationForecastSource
+    LocationForecastRepository --> GetWeatherUseCase
+    deactivate LocationForecastRepository
+    GetWeatherUseCase -> NowcastRepository : getPrecipitation
+    activate NowcastRepository
+    NowcastRepository -> NowcastSource : getNowcast
+    activate NowcastSource
+    NowcastSource --> NowcastRepository
+    deactivate NowcastSource
+    NowcastRepository --> GetWeatherUseCase
+    deactivate NowcastRepository
+    GetWeatherUseCase -> LocationForecastRepository : getRelativeHumidity
+    activate LocationForecastRepository
+    LocationForecastRepository -> LocationForecastSource : getLocationforecast
+    activate LocationForecastSource
+    LocationForecastSource --> LocationForecastRepository
+    deactivate LocationForecastSource
+    LocationForecastRepository --> GetWeatherUseCase
+    deactivate LocationForecastRepository
+    GetWeatherUseCase -> LocationForecastRepository : getWindSpeed
+    activate LocationForecastRepository
+    LocationForecastRepository -> LocationForecastSource : getLocationforecast
+    activate LocationForecastSource
+    LocationForecastSource --> LocationForecastRepository
+    deactivate LocationForecastSource
+    LocationForecastRepository --> GetWeatherUseCase
+    deactivate LocationForecastRepository
+    GetWeatherUseCase -> LocationForecastRepository : getWindDirection
+    activate LocationForecastRepository
+    LocationForecastRepository -> LocationForecastSource : getLocationforecast
+    activate LocationForecastSource
+    LocationForecastSource --> LocationForecastRepository
+    deactivate LocationForecastSource
+    LocationForecastRepository --> GetWeatherUseCase
+    deactivate LocationForecastRepository
+    GetWeatherUseCase -> LocationForecastRepository : getWeatherIcon
+    activate LocationForecastRepository
+    LocationForecastRepository -> LocationForecastSource : getLocationforecast
+    activate LocationForecastSource
+    LocationForecastSource --> LocationForecastRepository
+    deactivate LocationForecastSource
+    LocationForecastRepository --> GetWeatherUseCase
+    deactivate LocationForecastRepository
+    GetWeatherUseCase -> WeatherDataPoint : new
+    activate WeatherDataPoint
+    WeatherDataPoint --> GetWeatherUseCase
+    deactivate WeatherDataPoint
+
+else get weather for future
+    GetWeatherUseCase -> LocationForecastRepository : getTemp
+    activate LocationForecastRepository
+    LocationForecastRepository -> LocationForecastSource : getLocationforecast
+    activate LocationForecastSource
+    LocationForecastSource --> LocationForecastRepository
+    deactivate LocationForecastSource
+    LocationForecastRepository --> GetWeatherUseCase
+    deactivate LocationForecastRepository
+    GetWeatherUseCase -> LocationForecastRepository : getPrecipitation
+    activate LocationForecastRepository
+    LocationForecastRepository -> LocationForecastSource : getLocationforecast
+    activate LocationForecastSource
+    LocationForecastSource --> LocationForecastRepository
+    deactivate LocationForecastSource
+    LocationForecastRepository --> GetWeatherUseCase
+    deactivate LocationForecastRepository
+    GetWeatherUseCase -> LocationForecastRepository : getRelativeHumidity
+    activate LocationForecastRepository
+    LocationForecastRepository -> LocationForecastSource : getLocationforecast
+    activate LocationForecastSource
+    LocationForecastSource --> LocationForecastRepository
+    deactivate LocationForecastSource
+    LocationForecastRepository --> GetWeatherUseCase
+    deactivate LocationForecastRepository
+    GetWeatherUseCase -> LocationForecastRepository : getWindSpeed
+    activate LocationForecastRepository
+    LocationForecastRepository -> LocationForecastSource : getLocationforecast
+    activate LocationForecastSource
+    LocationForecastSource --> LocationForecastRepository
+    deactivate LocationForecastSource
+    LocationForecastRepository --> GetWeatherUseCase
+    deactivate LocationForecastRepository
+    GetWeatherUseCase -> LocationForecastRepository : getWindDirection
+    activate LocationForecastRepository
+    LocationForecastRepository -> LocationForecastSource : getLocationforecast
+    activate LocationForecastSource
+    LocationForecastSource --> LocationForecastRepository
+    deactivate LocationForecastSource
+    LocationForecastRepository --> GetWeatherUseCase
+    deactivate LocationForecastRepository
+    GetWeatherUseCase -> LocationForecastRepository : getWeatherIcon
+    activate LocationForecastRepository
+    LocationForecastRepository -> LocationForecastSource : getLocationforecast
+    activate LocationForecastSource
+    LocationForecastSource --> LocationForecastRepository
+    deactivate LocationForecastSource
+    LocationForecastRepository --> GetWeatherUseCase
+    deactivate LocationForecastRepository
+    GetWeatherUseCase -> WeatherDataPoint : new
+    activate WeatherDataPoint
+    WeatherDataPoint --> GetWeatherUseCase
+    deactivate WeatherDataPoint
+end
+GetWeatherUseCase --> MapViewModel
+deactivate GetWeatherUseCase
+MapViewModel -> GetDeviatingWeather : deviatingPoints
+activate GetDeviatingWeather
+GetDeviatingWeather -> GetWeatherUseCase : getWeather [shortened]
+GetWeatherUseCase --> GetDeviatingWeather
+
+loop foreach possible deviating point
+    alt above precip limit -> DeviationTypes.PRECIPITATION
+        GetDeviatingWeather -> GetDeviatingWeather : notNullDeviation
+        activate GetDeviatingWeather
+        GetDeviatingWeather --> GetDeviatingWeather
+        deactivate GetDeviatingWeather
+        GetDeviatingWeather -> DeviatingPoint : new
+        activate DeviatingPoint
+        DeviatingPoint --> GetDeviatingWeather
+        deactivate DeviatingPoint
+    else above temp limit -> DeviationTypes.TEMPERATURE
+        GetDeviatingWeather -> GetDeviatingWeather : notNullDeviation
+        activate GetDeviatingWeather
+        GetDeviatingWeather --> GetDeviatingWeather
+        deactivate GetDeviatingWeather
+        GetDeviatingWeather -> DeviatingPoint : new
+        activate DeviatingPoint
+        DeviatingPoint --> GetDeviatingWeather
+        deactivate DeviatingPoint
+    else above wind limit -> DeviationTypes.WIND
+        GetDeviatingWeather -> GetDeviatingWeather : notNullDeviation
+        activate GetDeviatingWeather
+        GetDeviatingWeather --> GetDeviatingWeather
+        deactivate GetDeviatingWeather
+        GetDeviatingWeather -> DeviatingPoint : new
+        activate DeviatingPoint
+        DeviatingPoint --> GetDeviatingWeather
+        deactivate DeviatingPoint
+    else else
+    end
+end
+GetDeviatingWeather --> MapViewModel
+alt DeviationTypes.PRECIPITATION or DeviationTypes.TEMPERATURE
+deactivate GetDeviatingWeather
+MapViewModel -> OverlayBubble : new
+activate OverlayBubble
+OverlayBubble --> MapViewModel
+deactivate OverlayBubble
+end
+return
+@enduml

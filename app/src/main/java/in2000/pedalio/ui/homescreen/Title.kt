@@ -44,7 +44,11 @@ class Title : Fragment() {
 
             // Set up the search button.
             searchButton.setOnClickListener {
-                if (!mapViewModel.currentLocationIsDefault()) {
+                val c = context
+                if (c != null &&
+                    !mapViewModel.currentLocationIsDefault() &&
+                    mapViewModel.isCurrentPosInNorway(c)
+                ) {
                     Navigation.findNavController(v)
                         .navigate(R.id.action_titleScreen_to_search_window)
                 } else {

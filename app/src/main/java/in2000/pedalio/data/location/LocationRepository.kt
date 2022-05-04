@@ -13,10 +13,9 @@ import in2000.pedalio.data.settings.impl.SharedPreferences
  * Repository for location data. This class uses the registerListener in order to aquire the location
  * data.
  *
- * @property context
- * @property defaultLocation the default location to use if no location is available
- * @property shouldGetPermission whether the permission to access the location should be requested
- * @property registerListener a function to register a location listener
+ * @constructor [defaultLocation]: the default location to use if no location is available,
+ * [shouldGetPermission]: whether the permission to access the location should be requested,
+ * [registerListener]: a function to register a location listener
  */
 class LocationRepository(
     val context: Context,
@@ -28,6 +27,10 @@ class LocationRepository(
      * The location data. Public interface of the location data.
      */
     val currentPosition = MutableLiveData(defaultLocation)
+    /**
+     * Is the current position recorded unchanged? In that case it is a "fake" location and not
+     * recorded from the GPS.
+     */
     var currentPositionIsDefault = true
     private val settingsRepository = SharedPreferences(context)
 
@@ -63,6 +66,9 @@ class LocationRepository(
         }
     }
 
+    /**
+     * Register a new location listener.
+     */
     fun locationCallback(registerListener: (input: LocationUpdateListener) -> Unit) {
         registerListener {
             currentPosition.postValue(LatLng(it.latitude, it.longitude))
@@ -70,6 +76,9 @@ class LocationRepository(
         }
     }
 
+    /**
+     * Register a new location listener that only cares about non default values.
+     */
     fun registerNewListener(registerListener: (input: LocationUpdateListener) -> Unit) {
         registerListener {
             if (it != defaultLocation) {

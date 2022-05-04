@@ -7,8 +7,8 @@ import in2000.pedalio.data.weather.source.nowcast.NowcastSource
 import kotlin.math.floor
 
 /**
- * Implementation of Weather using Nowcast API. Provides no caching.
- * Source of truth: Nowcast API.
+ * Implementation of Weather using Nowcast API. Provides caching.
+ * Source of truth: Nowcast API or local cache if same pos as last time.
  */
 class NowcastRepository(
     private val endpoint: String

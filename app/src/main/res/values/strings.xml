@@ -67,4 +67,7 @@
     <string name="waiting_for_location">Waiting for location…</string>
     <string name="cancel_route">Cancel</string>
     <string name="arrived_at_dest">You have arrived at your destination!</string>
+    <string name="track_route">Center</string>
+    <string name="track_route_off">Center: off</string>
+    <string name="track_route_on">Center: on</string>
 </resources>

@@ -6,8 +6,15 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.coroutines.awaitStringResponse
 
+/**
+ * Source for Oslo Kommune's Bike route API.
+ */
 class OsloBikeRoutesSource {
     companion object {
+        /**
+         * @param endpoint The endpoint from Oslo Kommune.
+         * @return String value of GEOJson.
+         */
         @SuppressLint("LogNotTimber")
         @JvmStatic
         suspend fun getRoutes(

@@ -7,7 +7,6 @@ import kotlin.math.floor
 /**
  * Implementation of Weather using LocationForecast API. Provides no caching.
  * Source of truth: LocationForecast API.
- * @property endpoint
  */
 class LocationForecastRepository(
     private val endpoint: String

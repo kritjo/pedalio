@@ -14,9 +14,8 @@ import in2000.pedalio.data.search.SearchResult
 /**
  * Recycler for the search result list inside of the search window
  *
- * @property searchWindow
- * @property searchList The list of search results
- * @property chosenResult A MutableLiveData that is used to trigger a callback if a favorite is
+ * @constructor [searchList]: The list of search results,
+ * [chosenResult]: A MutableLiveData that is used to trigger a callback if a favorite is
  * clicked
  */
 class ResultAdapter(

@@ -6,15 +6,14 @@ import com.tomtom.online.sdk.common.location.LatLng
 /**
  * Class used to get the weather difference between a master location and a list of locations.
  *
- * @property getWeatherUseCase
- * @property deviationLimitTemp How many degrees the temperature can deviate from the master
+ * @constructor [getWeatherUseCase]: Master location.
+ * [deviationLimitTemp]: How many degrees the temperature can deviate from the master
  * location, before it is considered as deviating.
- * @property deviationLimitWind How many meters per second the wind speed can deviate from the
+ * [deviationLimitWind]: How many meters per second the wind speed can deviate from the
  * master location, before it is considered as deviating.
- * @property deviationLimitPrecipitation How many millimeters per hour the precipitation can deviate
+ * [deviationLimitPrecipitation]: How many millimeters per hour the precipitation can deviate
  * from the master location, before it is considered as deviating.
- * @property possibleDeviationPoints The list of locations that should be checked for deviation.
- * @property context
+ * [possibleDeviationPoints]: The list of locations that should be checked for deviation.
  */
 class GetDeviatingWeather(
     private val getWeatherUseCase: GetWeatherUseCase,

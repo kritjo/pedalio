@@ -52,7 +52,7 @@
         android:id="@+id/cancel_route_button"
         android:layout_width="wrap_content"
         android:layout_height="59dp"
-        android:layout_marginStart="16dp"
+
         android:layout_marginBottom="20dp"
         android:backgroundTint="?attr/colorOnSecondary"
         android:text="@string/cancel_route"
@@ -60,7 +60,25 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline8" />
+        app:layout_constraintTop_toTopOf="@+id/guideline8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05" />
+
+    <ToggleButton
+            android:id="@+id/track_route"
+            android:layout_width="wrap_content"
+            android:layout_height="59dp"
+            android:backgroundTint="@color/off_white"
+            android:text="@string/track_route"
+            android:textColor="@color/purple_700"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_tomtom"
+            android:layout_marginBottom="20dp"
+            android:textOff="@string/track_route_off"
+            android:textOn="@string/track_route_on" />
 
     <RelativeLayout
         android:id="@+id/routing_overlay"
@@ -102,7 +120,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.95" />
+        app:layout_constraintGuide_percent="0.95"/>
 
     <ProgressBar
         android:id="@+id/progressBar"

@@ -1,0 +1,155 @@
+@startuml
+participant Actor
+Actor -> MapViewModel : getRoute
+activate MapViewModel
+loop foreach cached route
+    MapViewModel -> CoordinateUtil : calcDistanceBetweenTwoCoordinates
+    activate CoordinateUtil
+    CoordinateUtil --> MapViewModel
+    deactivate CoordinateUtil
+end
+MapViewModel -> GetRouteAlternativesUseCase : getRouteAlternatives
+activate GetRouteAlternativesUseCase
+GetRouteAlternativesUseCase -> OsloBikeRouteRepostiory : new
+activate OsloBikeRouteRepostiory
+OsloBikeRouteRepostiory --> GetRouteAlternativesUseCase
+deactivate OsloBikeRouteRepostiory
+GetRouteAlternativesUseCase -> OsloBikeRouteRepostiory : getRoutes
+activate OsloBikeRouteRepostiory
+OsloBikeRouteRepostiory -> OsloBikeRouteSource : getRoutes
+activate OsloBikeRouteSource
+OsloBikeRouteSource --> OsloBikeRouteRepostiory
+deactivate OsloBikeRouteSource
+OsloBikeRouteRepostiory --> GetRouteAlternativesUseCase
+deactivate OsloBikeRouteRepostiory
+GetRouteAlternativesUseCase -> TomtomRoutingRepository : new
+activate TomtomRoutingRepository
+TomtomRoutingRepository --> GetRouteAlternativesUseCase
+deactivate TomtomRoutingRepository
+GetRouteAlternativesUseCase -> TomtomRoutingRepository : calculateRoute
+activate TomtomRoutingRepository
+TomtomRoutingRepository -> NetworkUtil : isNetworkAvailable
+activate NetworkUtil
+NetworkUtil --> TomtomRoutingRepository
+deactivate NetworkUtil
+TomtomRoutingRepository -> TomtomRoutingSource : new
+activate TomtomRoutingSource
+TomtomRoutingSource --> TomtomRoutingRepository
+deactivate TomtomRoutingSource
+TomtomRoutingRepository -> TomtomRoutingSource : getRouteFromLocations
+activate TomtomRoutingSource
+TomtomRoutingSource -> TomtomRoutingSource : createRouteSpecification
+activate TomtomRoutingSource
+TomtomRoutingSource --> TomtomRoutingSource
+deactivate TomtomRoutingSource
+TomtomRoutingSource --> TomtomRoutingRepository
+deactivate TomtomRoutingSource
+TomtomRoutingRepository --> GetRouteAlternativesUseCase
+deactivate TomtomRoutingRepository
+GetRouteAlternativesUseCase -> GetRouteAlternativesUseCase : findBikeAlternative
+activate GetRouteAlternativesUseCase
+loop foreach coordinate in bike routes
+    GetRouteAlternativesUseCase -> GetRouteAlternativesUseCase : distanceTo
+    activate GetRouteAlternativesUseCase
+    GetRouteAlternativesUseCase --> GetRouteAlternativesUseCase
+    deactivate GetRouteAlternativesUseCase
+end
+loop foreach coordinate in bike routes
+       GetRouteAlternativesUseCase -> GetRouteAlternativesUseCase : distanceTo
+       activate GetRouteAlternativesUseCase
+       GetRouteAlternativesUseCase --> GetRouteAlternativesUseCase
+       deactivate GetRouteAlternativesUseCase
+  end
+GetRouteAlternativesUseCase -> TomtomRoutingRepository : new
+activate TomtomRoutingRepository
+TomtomRoutingRepository --> GetRouteAlternativesUseCase
+deactivate TomtomRoutingRepository
+GetRouteAlternativesUseCase -> TomtomRoutingRepository : calculateRoute
+activate TomtomRoutingRepository
+TomtomRoutingRepository -> NetworkUtil : isNetworkAvailable
+activate NetworkUtil
+NetworkUtil --> TomtomRoutingRepository
+deactivate NetworkUtil
+TomtomRoutingRepository -> TomtomRoutingSource : new
+activate TomtomRoutingSource
+TomtomRoutingSource --> TomtomRoutingRepository
+deactivate TomtomRoutingSource
+TomtomRoutingRepository -> TomtomRoutingSource : getRouteFromLocations
+activate TomtomRoutingSource
+TomtomRoutingSource -> TomtomRoutingSource : createRouteSpecification
+activate TomtomRoutingSource
+TomtomRoutingSource --> TomtomRoutingSource
+deactivate TomtomRoutingSource
+TomtomRoutingSource --> TomtomRoutingRepository
+deactivate TomtomRoutingSource
+TomtomRoutingRepository --> GetRouteAlternativesUseCase
+deactivate TomtomRoutingRepository
+deactivate GetRouteAlternativesUseCase
+GetRouteAlternativesUseCase -> GetRouteAlternativesUseCase : dijkstra
+activate GetRouteAlternativesUseCase
+loop foreach edge
+    loop foreach edge
+    GetRouteAlternativesUseCase -> GetRouteAlternativesUseCase : distanceTo
+    activate GetRouteAlternativesUseCase
+    GetRouteAlternativesUseCase --> GetRouteAlternativesUseCase
+    deactivate GetRouteAlternativesUseCase
+    end
+end
+GetRouteAlternativesUseCase --> GetRouteAlternativesUseCase
+deactivate GetRouteAlternativesUseCase
+GetRouteAlternativesUseCase -> TomtomRoutingRepository : new
+activate TomtomRoutingRepository
+TomtomRoutingRepository --> GetRouteAlternativesUseCase
+deactivate TomtomRoutingRepository
+GetRouteAlternativesUseCase -> TomtomRoutingRepository : calculateRoute
+activate TomtomRoutingRepository
+TomtomRoutingRepository -> NetworkUtil : isNetworkAvailable
+activate NetworkUtil
+NetworkUtil --> TomtomRoutingRepository
+deactivate NetworkUtil
+TomtomRoutingRepository -> TomtomRoutingSource : new
+activate TomtomRoutingSource
+TomtomRoutingSource --> TomtomRoutingRepository
+deactivate TomtomRoutingSource
+TomtomRoutingRepository -> TomtomRoutingSource : getRouteFromLocations
+activate TomtomRoutingSource
+TomtomRoutingSource -> TomtomRoutingSource : createRouteSpecification
+activate TomtomRoutingSource
+TomtomRoutingSource --> TomtomRoutingSource
+deactivate TomtomRoutingSource
+TomtomRoutingSource --> TomtomRoutingRepository
+deactivate TomtomRoutingSource
+TomtomRoutingRepository --> GetRouteAlternativesUseCase
+deactivate TomtomRoutingRepository
+GetRouteAlternativesUseCase -> TomtomRoutingRepository : new
+activate TomtomRoutingRepository
+TomtomRoutingRepository --> GetRouteAlternativesUseCase
+deactivate TomtomRoutingRepository
+GetRouteAlternativesUseCase -> CoordinateUtil : limitPointsOnRouteSimple
+activate CoordinateUtil
+CoordinateUtil --> GetRouteAlternativesUseCase
+deactivate CoordinateUtil
+GetRouteAlternativesUseCase -> TomtomRoutingRepository : calculateRouteFromWaypoints
+activate TomtomRoutingRepository
+TomtomRoutingRepository -> NetworkUtil : isNetworkAvailable
+activate NetworkUtil
+NetworkUtil --> TomtomRoutingRepository
+deactivate NetworkUtil
+TomtomRoutingRepository -> TomtomRoutingSource : new
+activate TomtomRoutingSource
+TomtomRoutingSource --> TomtomRoutingRepository
+deactivate TomtomRoutingSource
+TomtomRoutingRepository -> TomtomRoutingSource : getRouteFromLocations
+activate TomtomRoutingSource
+TomtomRoutingSource -> TomtomRoutingSource : createRouteSpecification
+activate TomtomRoutingSource
+TomtomRoutingSource --> TomtomRoutingSource
+deactivate TomtomRoutingSource
+TomtomRoutingSource --> TomtomRoutingRepository
+deactivate TomtomRoutingSource
+TomtomRoutingRepository --> GetRouteAlternativesUseCase
+deactivate TomtomRoutingRepository
+GetRouteAlternativesUseCase --> MapViewModel
+deactivate GetRouteAlternativesUseCase
+return
+@enduml

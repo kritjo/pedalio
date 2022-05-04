@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import in2000.pedalio.data.airquality.source.nilu.NILUSource
 import in2000.pedalio.data.search.SearchResult
 import in2000.pedalio.data.settings.SettingsRepository
 import in2000.pedalio.ui.homescreen.FavoriteResult
@@ -15,50 +14,72 @@ import in2000.pedalio.ui.homescreen.FavoriteResult
  */
 class SharedPreferences(context: Context) : SettingsRepository() {
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-    override var distanceUnit: String?
-        get() = sharedPreferences.getString(SettingsKey.DISTANCE_UNIT.name, "")
-        set(value) = sharedPreferences.edit().putString(SettingsKey.DISTANCE_UNIT.name, value)
-            .apply()
 
-
+    /**
+     * Theme (dark or light mode). Light is false, dark is true.
+     */
     override var theme: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.THEME.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.THEME.name, value).apply()
 
+    /**
+     * Color blind mode on/off.
+     */
     override var colorBlindMode: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.COLOR_BLIND_MODE.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.COLOR_BLIND_MODE.name, value)
             .apply()
 
+    /**
+     * Should use user-location?
+     */
     override var gpsToggle: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.GPS_TOGGLE.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.GPS_TOGGLE.name, value).apply()
 
+    /**
+     * Have we asked for GPS permission?
+     */
     override var askedForGps: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.ASKED_FOR_GPS.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.ASKED_FOR_GPS.name, value)
             .apply()
 
+    /**
+     * Have we shown first boot screen?
+     */
     override var shownWelcomeScreen: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.SHOWN_WELCOME_SCREEN.name, false)
         set(value) = sharedPreferences.edit()
             .putBoolean(SettingsKey.SHOWN_WELCOME_SCREEN.name, value).apply()
 
+    /**
+     * Is the Air Quality layer turned on?
+     */
     override var layerAirQuality: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.LAYER_AIR_QUALITY.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_AIR_QUALITY.name, value)
             .apply()
 
+    /**
+     * Is the weather layer turned on?
+     */
     override var layerWeather: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.LAYER_WEATHER.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_WEATHER.name, value)
             .apply()
 
+    /**
+     * Is the bike route layer turned on?
+     */
     override var layerBikeRoutes: Boolean
         get() = sharedPreferences.getBoolean(SettingsKey.LAYER_BIKE_ROUTES.name, false)
         set(value) = sharedPreferences.edit().putBoolean(SettingsKey.LAYER_BIKE_ROUTES.name, value)
             .apply()
 
+    /**
+     * Which AQ layer to show?
+     */
     override var layerAQComponent : String?
         get() : String? = sharedPreferences.getString(SettingsKey.LAYER_AQ_COMPONENT.name, "NO2")
         set(value) = sharedPreferences.edit().putString(SettingsKey.LAYER_AQ_COMPONENT.name, value).apply()
@@ -78,6 +99,9 @@ class SharedPreferences(context: Context) : SettingsRepository() {
             SettingsKey.RECENT_SEARCHES.name, Gson().toJson(value)
         ).apply()
 
+    /**
+     * Add a recent search. Do not add duplicates.
+     */
     fun appendRecentSearch(searchResult: SearchResult) {
         // return if duplicate
         if (recentSearches.contains(searchResult)) return
@@ -103,6 +127,9 @@ class SharedPreferences(context: Context) : SettingsRepository() {
             SettingsKey.FAVORITE_SEARCHES.name, Gson().toJson(value)
         ).apply()
 
+    /**
+     * Add a favorite.
+     */
     fun appendFavoriteSearch(favoriteResult: FavoriteResult) {
         // return if duplicate
         if (favoriteSearches.contains(favoriteResult)) return
@@ -112,21 +139,22 @@ class SharedPreferences(context: Context) : SettingsRepository() {
         }
     }
 
+    /**
+     * Remove a favorite
+     */
     fun removeFavorite(favoriteResult: FavoriteResult) {
         favoriteSearches = favoriteSearches.toMutableList().apply { remove(favoriteResult) }
     }
 }
 
+/**
+ * Keys to be used in sharedPreferences.get*.
+ */
 enum class SettingsKey {
     /**
      * The key for the setting that stores the current theme.
      */
     THEME,
-
-    /**
-     * The key for the setting that stores the selected distance unit.
-     */
-    DISTANCE_UNIT,
 
     /**
      * The key for the setting that stores the color blind mode.

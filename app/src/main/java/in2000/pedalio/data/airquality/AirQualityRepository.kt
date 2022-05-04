@@ -1,7 +1,10 @@
 package in2000.pedalio.data.airquality
 
+/**
+ * Specifies the functions required by an AirQuality Repository.
+ * Should be implemented by a repository using a specific source of truth.
+ */
 abstract class AirQualityRepository {
-
     /**
      * @param lat latitude
      * @param lon longitude
