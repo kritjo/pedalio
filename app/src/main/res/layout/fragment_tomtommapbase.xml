@@ -12,9 +12,9 @@
         android:name="com.tomtom.online.sdk.map.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:mapsApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
+        app:mapsApiKey="TeKdz0A0HvMpClYGfpcnnwJlOo9pzcmC"
 
-        app:trafficApiKey="beN1MD9T81Hr774H5o2lQGGDywkiqcJ8"
+        app:trafficApiKey="TeKdz0A0HvMpClYGfpcnnwJlOo9pzcmC"
         tools:ignore="FragmentTagUsage"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />

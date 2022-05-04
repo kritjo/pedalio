@@ -15,7 +15,7 @@ import kotlin.math.pow
  * Provides meta-data about a given location using TomTom's API.
  */
 class ReverseGeocodingRepository(context: Context) : ReverseSearchRepository() {
-    private val api = OnlineSearchApi.create(context, "beN1MD9T81Hr774H5o2lQGGDywkiqcJ8")
+    private val api = OnlineSearchApi.create(context, "TeKdz0A0HvMpClYGfpcnnwJlOo9pzcmC")
 
     /**
      * @see [ReverseSearchRepository.getCountry]

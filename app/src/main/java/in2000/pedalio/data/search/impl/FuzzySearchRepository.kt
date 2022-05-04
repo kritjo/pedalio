@@ -14,7 +14,7 @@ import kotlinx.coroutines.runBlocking
  */
 class FuzzySearchRepository(context: Context) : SearchRepository() {
     private var searchApi: SearchApi =
-        OnlineSearchApi.create(context, "beN1MD9T81Hr774H5o2lQGGDywkiqcJ8")
+        OnlineSearchApi.create(context, "TeKdz0A0HvMpClYGfpcnnwJlOo9pzcmC")
 
     /**
      * Perform fuzzy search based on the search specification.
