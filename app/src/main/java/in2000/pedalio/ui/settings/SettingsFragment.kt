@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.activityViewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.tomtom.online.sdk.map.MapFragment
 import in2000.pedalio.R
 import in2000.pedalio.data.settings.impl.SettingsKey
 import in2000.pedalio.data.settings.impl.SharedPreferences
@@ -24,11 +25,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
             mapViewModel.shouldGetPermission.postValue(newValue as Boolean)
             true
         }
-
         theme?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue as Boolean){
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 sharedPreferences.theme = true
+
+
+
             }
             else{
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)

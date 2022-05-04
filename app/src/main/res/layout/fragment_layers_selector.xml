@@ -24,7 +24,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="197dp"
-            android:background="?attr/colorOnPrimary">
+            android:background="?attr/colorOnSecondary">
 
             <Switch
                 android:id="@+id/switch_airquality"
@@ -34,8 +34,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/switch_weather"
                 app:layout_constraintEnd_toStartOf="@+id/guideline7"
                 app:layout_constraintTop_toTopOf="@+id/guideline4"
-                tools:ignore="UseSwitchCompatOrMaterialXml"
-                android:text="@string/air_quality" />
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             <Switch
                 android:id="@+id/switch_weather"
@@ -45,15 +44,13 @@
                 app:layout_constraintBottom_toTopOf="@+id/switch_bikeRoutes"
                 app:layout_constraintEnd_toStartOf="@+id/guideline7"
                 app:layout_constraintTop_toBottomOf="@+id/switch_airquality"
-                tools:ignore="UseSwitchCompatOrMaterialXml"
-                android:text="@string/weather" />
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             <Switch
                 android:id="@+id/switch_bikeRoutes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
-                android:text="@string/bike_routes"
                 app:layout_constraintBottom_toTopOf="@+id/guideline5"
                 app:layout_constraintEnd_toStartOf="@+id/guideline7"
                 app:layout_constraintTop_toBottomOf="@+id/switch_weather"
@@ -61,30 +58,30 @@
 
             <TextView
                 android:id="@+id/textView"
-                android:textColor="?attr/colorSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Air Quality"
+                android:text="@string/air_quality"
+                android:textColor="?attr/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="@+id/switch_airquality"
                 app:layout_constraintStart_toStartOf="@+id/guideline6"
                 app:layout_constraintTop_toTopOf="@+id/switch_airquality" />
 
             <TextView
                 android:id="@+id/textView2"
-                android:textColor="?attr/colorSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Weather"
+                android:text="@string/weather"
+                android:textColor="?attr/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="@+id/switch_weather"
                 app:layout_constraintStart_toStartOf="@+id/guideline6"
                 app:layout_constraintTop_toTopOf="@+id/switch_weather" />
 
             <TextView
                 android:id="@+id/textView3"
-                android:textColor="?attr/colorSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bike Routes"
+                android:text="@string/bike_routes"
+                android:textColor="?attr/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="@+id/switch_bikeRoutes"
                 app:layout_constraintStart_toStartOf="@+id/guideline6"
                 app:layout_constraintTop_toTopOf="@+id/switch_bikeRoutes" />
@@ -108,24 +105,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.2" />
+                app:layout_constraintGuide_percent="0.1" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.8" />
+                app:layout_constraintGuide_percent="0.65" />
+
             <Spinner
-                    android:id="@+id/aq_spinner"
-                    android:layout_width="149dp"
-                    android:layout_height="47dp"
-                    android:layout_marginTop="16dp"
-                    android:entries="@array/aq_components"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.4"
-                    app:layout_constraintStart_toEndOf="@+id/switch_airquality"
-                    app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/aq_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:entries="@array/aq_components"
+                app:layout_constraintBottom_toTopOf="@+id/guideline5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline7"
+                app:layout_constraintTop_toTopOf="@+id/guideline4" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

@@ -40,16 +40,15 @@
 
 
             <TextView
-                    android:id="@+id/rule8"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:text="@string/rules"
-                    android:textColor="@color/teal"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline8"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline6"
-                    app:layout_constraintStart_toStartOf="@+id/guideline3"
-                    app:layout_constraintTop_toTopOf="@+id/guideline10" />
+                android:id="@+id/rule8"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="@string/rule_1"
+                android:textColor="@color/teal"
+                app:layout_constraintBottom_toTopOf="@+id/guideline8"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toTopOf="@+id/guideline10" />
 
             <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline3"
@@ -108,6 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                android:layout_marginBottom="15dp"
                     app:layout_constraintGuide_percent="0.2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

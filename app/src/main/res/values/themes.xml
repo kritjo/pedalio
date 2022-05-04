@@ -2,21 +2,22 @@
     <!-- Base application theme. -->
     <style name="Theme.Pedalio" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primaryOrange</item>
-        <item name="colorPrimaryVariant">@color/secondarySuperLightBlue</item>
+        <item name="colorPrimary">@color/secondaryDarkBlue</item>
+        <item name="colorPrimaryVariant">@color/primaryOrange</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondaryDarkBlue</item>
-        <item name="colorSecondaryVariant">@color/secondaryLightOrange</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <item name="colorOnBackground">@color/secondarySuperLightBlue</item>
+        <item name="colorSecondaryVariant">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorOnBackground">@color/white</item>
 
 
 
 
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+         <item name="android:statusBarColor">@color/secondaryDarkBlue</item>
+
         <!-- Customize your theme here. -->
         <item name="colorButtonNormal">@color/white</item>
         <item name="android:colorButtonNormal">@color/white</item>

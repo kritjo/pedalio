@@ -26,12 +26,14 @@ import com.tomtom.online.sdk.common.util.LogUtils
 import com.tomtom.online.sdk.map.*
 import com.tomtom.online.sdk.map.route.RouteLayerStyle
 import in2000.pedalio.R
+import in2000.pedalio.data.settings.SettingsRepository
 import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.domain.routing.GetRouteAlternativesUseCase
 import in2000.pedalio.utils.CoordinateUtil
 import in2000.pedalio.viewmodel.MapViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 
 
 /**
@@ -98,6 +100,23 @@ class TomTomMapBase : Fragment() {
 
     private fun onMapReady(map: TomtomMap) {
         tomtomMap = map
+        val sharedPreferences = SharedPreferences(requireContext())
+        Log.d("Bolsk", sharedPreferences.theme.toString())
+        if (sharedPreferences.theme){
+            tomtomMap.styleSettings.setStyleJson(context?.assets?.open("raw/style.json")?.
+            bufferedReader().
+            use {
+                it?.readText()
+            })
+        }
+        else{
+            tomtomMap.styleSettings.loadDefaultStyle()
+        }
+
+        //val fil: File = File(context.resources,"style.json")
+        //val filLeser = FileReader(fil)
+
+        //tomtomMap.uiSettings.setStyleJson(jsonString)
         // This callback should be first thing after this.tomtomMap assign. In order to get pos
         // updates.
         mapViewModel.registerListener = tomtomMap::addLocationUpdateListener
@@ -106,6 +125,8 @@ class TomTomMapBase : Fragment() {
         mapViewModel.currentPos().observe(viewLifecycleOwner) {
             onPosChange(it)
         }
+
+        //bruk map her for style
 
         tomtomMap.isMyLocationEnabled = true
         tomtomMap.uiSettings.compassView.hide()

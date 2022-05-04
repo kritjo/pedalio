@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:overScrollMode="never"
+    android:scrollIndicators="none"
+    android:scrollbars="none"
+    app:cardBackgroundColor="?attr/colorOnBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="76dp"
-            android:background="@color/white">
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:background="?attr/colorOnBackground"
+        android:foregroundTint="@color/grey"
+        android:foregroundTintMode="src_atop"
+        android:scrollIndicators="none"
+        android:scrollbars="none">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/searchResultClickGroup"
@@ -18,28 +26,35 @@
             <TextView
                 android:id="@+id/resultTitle"
                 android:layout_width="0dp"
-                    android:layout_height="27dp"
-                    android:textAlignment="viewStart"
-                android:textColor="@color/black"
+                android:layout_height="27dp"
+                android:background="?attr/colorOnPrimary"
+                android:enabled="false"
+                android:fadeScrollbars="false"
+                android:isScrollContainer="false"
+                android:scrollIndicators="none"
+                android:scrollbars="none"
+                android:textAlignment="viewStart"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
                 app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.326" />
+                app:layout_constraintVertical_bias="0.326" />
 
             <ImageView
                 android:id="@+id/resultLocationIcon"
                 android:layout_width="29dp"
                 android:layout_height="39dp"
+                android:tint="@color/secondaryDarkBlue"
+                android:contentDescription="@string/content_description_location_pin"
                 app:layout_constraintBottom_toBottomOf="@+id/resultUnderLocationText"
                 app:layout_constraintEnd_toStartOf="@+id/resultTitle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.166"
-                app:srcCompat="@drawable/ic_markedlocation"
-            android:contentDescription="@string/content_description_location_pin" />
+                app:srcCompat="@drawable/ic_markedlocation" />
 
 
             <TextView
@@ -47,37 +62,37 @@
                 android:layout_width="68dp"
                 android:layout_height="25dp"
                 android:layout_marginBottom="5dp"
-                android:background="@color/white"
+                android:background="?attr/colorOnPrimary"
                 android:textAlignment="center"
-                android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/resultSubTitle"
-                    app:layout_constraintHorizontal_bias="0.046"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                android:textColor="?attr/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/resultSubTitle"
+                app:layout_constraintHorizontal_bias="0.046"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0" />
 
             <TextView
                 android:id="@+id/resultSubTitle"
                 android:layout_width="0dp"
-                    android:layout_height="24dp"
-                    android:background="@color/white"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline2"
-                    app:layout_constraintHorizontal_bias="0.538"
+                android:layout_height="24dp"
+                android:background="?attr/colorOnPrimary"
+                android:textColor="?attr/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintHorizontal_bias="0.538"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
                 app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.846" />
+                app:layout_constraintVertical_bias="0.846" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/secondarySuperLightOrange"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent" />
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline2"
@@ -96,20 +111,21 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:id="@+id/favButton"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintHorizontal_bias="0.954"
-                app:layout_constraintVertical_bias="0.567"
-                android:text="@string/favorite_button"
-                android:textSize="11sp"
-                android:lines="1"
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp" />
+            android:id="@+id/favButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:lines="1"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:text="@string/favorite_button"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.954"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.567" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

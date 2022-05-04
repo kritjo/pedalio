@@ -1,10 +1,11 @@
 package in2000.pedalio
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import androidx.appcompat.app.AppCompatDelegate
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
