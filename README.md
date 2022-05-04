@@ -10,3 +10,9 @@
 - Nowcast [API](https://api.met.no/weatherapi/nowcast/2.0/documentation)
 - AirQualityForecast [API](https://api.met.no/weatherapi/airqualityforecast/0.1/documentation)
 
+
+## Libraries:
+- Tomtom Maps SDK 
+- GeoJson Kotlin
+- Gson
+- Fuel
