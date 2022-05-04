@@ -10,9 +10,12 @@ import android.widget.Spinner
 import android.widget.Switch
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import in2000.pedalio.R
 import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.viewmodel.MapViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * Overlay that allows the user to select which layers are displayed on the map.
@@ -50,7 +53,10 @@ class LayersSelector : Fragment() {
                     sharedPref.layerAQComponent = selectedItem
                     val mapViewModel: MapViewModel by activityViewModels()
                     mapViewModel.parseAndUpdateComponentFromPreferences()
-                    mapViewModel.createAQPolygons(mapViewModel.getAirQuality())
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        mapViewModel.updateAirQuality(mapViewModel.aqComponent)
+                        mapViewModel.createAQPolygons(mapViewModel.getAirQuality())
+                    }
                 }
             }
 
@@ -60,6 +66,7 @@ class LayersSelector : Fragment() {
                     "NO" -> 0
                     "PM2.5" -> 1
                     "PM10" -> 2
+                    "AQI" -> 3
                     else -> 0
                 }
             }

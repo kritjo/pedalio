@@ -12,5 +12,6 @@
         <item>NO2</item>
         <item>PM2.5</item>
         <item>PM10</item>
+        <item>AQI</item>
     </string-array>
 </resources>
