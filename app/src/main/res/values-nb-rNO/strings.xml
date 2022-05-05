@@ -40,13 +40,16 @@
     <string name="welcome_header">Velkommen til Pedalio!</string>
 
     <string name="welcome_header_2">Smarte syklister…</string>
-    <string name="rule_2">2. gir tydelige tegn</string>
-    <string name="rule_3">3. ser andre trafikanter i øynene</string>
-    <string name="rule_4">4. lytter til trafikken, ikke til musikken</string>
-    <string name="rule_5">5. venter på grønt</string>
-    <string name="rule_6">6. gir fotgjengere førsterett på fortauet</string>
-    <string name="rule_7">7. bruker lys i mørket</string>
-    <string name="rule_8">8. bruker hjelm</string>
+    <string name="rules">
+        1. Er synlig i trafikken \n \n
+        2. gir tydelige tegn \n \n
+        3. ser andre trafikanter i øynene \n \n
+        4. lytter til trafikken, ikke til musikken \n \n
+        5. venter på grønt \n \n
+        6. gir fotgjengere førsterett på fortauet \n \n
+        7. bruker lys i mørket \n \n
+        8. bruker hjelm \n \n
+    </string>
     <string name="done">Forstått</string>
     <string name="shortest_route">Korteste rute</string>
     <string name="question_fastest_route">Ruten med færrest meter i lengde.</string>
@@ -70,5 +73,7 @@
     <string name="track_route">Sentrer</string>
     <string name="track_route_off">Sentrering: på</string>
     <string name="track_route_on">Sentrering: av</string>
-    <string name="rule_1">1. Er synlig i trafikken</string>
+    <string name="darkmode_system">Følg systeminnstillinger</string>
+    <string name="theme_header">Tema</string>
+    <string name="gps_header">Lokasjon</string>
 </resources>
