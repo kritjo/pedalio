@@ -14,6 +14,7 @@ import in2000.pedalio.ui.homescreen.FavoriteResult
  */
 class SharedPreferences(context: Context) : SettingsRepository() {
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
     /**
      * Follow system theme (dark or light mode).
      */
@@ -86,9 +87,10 @@ class SharedPreferences(context: Context) : SettingsRepository() {
     /**
      * Which AQ layer to show
      */
-    override var layerAQComponent : String?
+    override var layerAQComponent: String?
         get() : String? = sharedPreferences.getString(SettingsKey.LAYER_AQ_COMPONENT.name, "NO2")
-        set(value) = sharedPreferences.edit().putString(SettingsKey.LAYER_AQ_COMPONENT.name, value).apply()
+        set(value) = sharedPreferences.edit().putString(SettingsKey.LAYER_AQ_COMPONENT.name, value)
+            .apply()
 
     /**
      * Should use [appendRecentSearch] instead of using this directly.

@@ -27,6 +27,7 @@ class LocationRepository(
      * The location data. Public interface of the location data.
      */
     val currentPosition = MutableLiveData(defaultLocation)
+
     /**
      * Is the current position recorded unchanged? In that case it is a "fake" location and not
      * recorded from the GPS.

@@ -11,7 +11,7 @@ import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.viewmodel.MapViewModel
 
 class SettingsFragment : PreferenceFragmentCompat() {
-    private val mapViewModel : MapViewModel by activityViewModels()
+    private val mapViewModel: MapViewModel by activityViewModels()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.fragment_settings, rootKey)
@@ -31,10 +31,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
             if (sharedPreferences.followSystem) {
                 return@setOnPreferenceChangeListener true
             }
-            if (newValue){
+            if (newValue) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-            else{
+            } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
             true

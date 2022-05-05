@@ -63,8 +63,7 @@ class TomTomMapBase : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         LogUtils.enableLogs(Log.VERBOSE)
-        jsonStyleDark = requireContext().assets!!.open("raw/style.json").
-            bufferedReader().readText()
+        jsonStyleDark = requireContext().assets!!.open("raw/style.json").bufferedReader().readText()
         requestPermissionLauncher =
             registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
@@ -105,9 +104,9 @@ class TomTomMapBase : Fragment() {
         tomtomMap = map
         val sharedPreferences = SharedPreferences(requireContext())
         Log.d("styleSettings", sharedPreferences.theme.toString())
-        if (sharedPreferences.theme){
+        if (sharedPreferences.theme) {
             tomtomMap.styleSettings.setStyleJson(jsonStyleDark)
-        } else{
+        } else {
             tomtomMap.styleSettings.loadDefaultStyle()
         }
 
@@ -225,18 +224,19 @@ class TomTomMapBase : Fragment() {
             }
         }
 
-        layersSelectorFragment.requireView().findViewById<Switch>(R.id.switch_airquality).setOnCheckedChangeListener { _, isChecked ->
-            SharedPreferences(requireContext()).layerAirQuality = isChecked
-            if (isChecked) {
-                // Do this in a separate thread to avoid blocking the UI.
-                mapViewModel.viewModelScope.launch(Dispatchers.Default) {
-                    mapViewModel.updateAirQuality(mapViewModel.aqComponent)
-                    mapViewModel.createAQPolygons(mapViewModel.getAirQuality())
+        layersSelectorFragment.requireView().findViewById<Switch>(R.id.switch_airquality)
+            .setOnCheckedChangeListener { _, isChecked ->
+                SharedPreferences(requireContext()).layerAirQuality = isChecked
+                if (isChecked) {
+                    // Do this in a separate thread to avoid blocking the UI.
+                    mapViewModel.viewModelScope.launch(Dispatchers.Default) {
+                        mapViewModel.updateAirQuality(mapViewModel.aqComponent)
+                        mapViewModel.createAQPolygons(mapViewModel.getAirQuality())
+                    }
+                } else {
+                    removeMapOverlay("air_quality_polygons")
                 }
-            } else {
-                removeMapOverlay("air_quality_polygons")
             }
-        }
 
         layersSelectorFragment.requireView().findViewById<Switch>(R.id.switch_weather)
             .setOnCheckedChangeListener { _, checked: Boolean ->
@@ -338,7 +338,7 @@ class TomTomMapBase : Fragment() {
 
             val rb = RouteBuilder(route.getCoordinates())
             tomtomMap.addRoute(rb)
-            if(rb.id < 0){
+            if (rb.id < 0) {
                 Log.e("ROUTE", "Route id is negative and not valid, exiting observer")
                 return@observe
             }
