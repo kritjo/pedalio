@@ -14,6 +14,12 @@ import in2000.pedalio.ui.homescreen.FavoriteResult
  */
 class SharedPreferences(context: Context) : SettingsRepository() {
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    /**
+     * Follow system theme (dark or light mode).
+     */
+    override var followSystem: Boolean
+        get() = sharedPreferences.getBoolean(SettingsKey.FOLLOW_SYS.name, true)
+        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.FOLLOW_SYS.name, value).apply()
 
     /**
      * Theme (dark or light mode). Light is false, dark is true.
@@ -151,6 +157,11 @@ class SharedPreferences(context: Context) : SettingsRepository() {
  * Keys to be used in sharedPreferences.get*.
  */
 enum class SettingsKey {
+    /**
+     * The key for the setting that stores if we should follow system theme or not.
+     */
+    FOLLOW_SYS,
+
     /**
      * The key for the setting that stores the current theme.
      */

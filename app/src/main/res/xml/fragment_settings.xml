@@ -1,21 +1,23 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory app:title="@string/basic_header">
+    <PreferenceCategory app:title="@string/theme_header">
         <SwitchPreferenceCompat
                 app:key="THEME"
                 app:defaultValue="false"
                 app:persistent="true"
-                app:title="@string/darkmode_title" />
+                app:title="@string/darkmode_title"
+                app:enabled="false"/>
+
+        <SwitchPreferenceCompat
+                app:key="FOLLOW_SYS"
+                app:defaultValue="true"
+                app:persistent="true"
+                app:title="@string/darkmode_system"/>
     </PreferenceCategory>
 
 
-    <PreferenceCategory app:title="@string/adv_header">
-        <SwitchPreferenceCompat
-                app:key="COLOR_BLIND_MODE"
-                app:defaultValue="false"
-                app:persistent="true"
-                app:title="@string/colorblind_title" />
+    <PreferenceCategory app:title="@string/gps_header">
         <SwitchPreferenceCompat
                 app:key="GPS_TOGGLE"
                 app:defaultValue="true"

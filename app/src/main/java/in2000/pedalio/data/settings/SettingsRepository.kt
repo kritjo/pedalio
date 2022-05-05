@@ -6,6 +6,10 @@ import in2000.pedalio.ui.homescreen.FavoriteResult
 
 abstract class SettingsRepository {
     /**
+     * Follow system theme (dark or light mode). Light is false, dark is true.
+     */
+    abstract var followSystem: Boolean
+    /**
      * Is the bike route layer turned on?
      */
     abstract var layerBikeRoutes: Boolean
