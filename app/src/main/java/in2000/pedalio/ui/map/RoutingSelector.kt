@@ -29,14 +29,14 @@ class RoutingSelector private constructor() : Fragment() {
     @Suppress("UNCHECKED_CAST")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val shrt_uncast =
+        val shrtUncast =
             requireArguments().get(GetRouteAlternativesUseCase.RouteType.SHORTEST.name)
-        val safe_uncast = requireArguments().get(GetRouteAlternativesUseCase.RouteType.BIKE.name)
-        if (shrt_uncast == null || safe_uncast == null) return
+        val safeUncast = requireArguments().get(GetRouteAlternativesUseCase.RouteType.BIKE.name)
+        if (shrtUncast == null || safeUncast == null) return
         shortest =
-            shrt_uncast as FullRoute
+            shrtUncast as FullRoute
         safest =
-            safe_uncast as FullRoute
+            safeUncast as FullRoute
     }
 
     @SuppressLint("SetTextI18n") // OK as it is only used for international purposes.

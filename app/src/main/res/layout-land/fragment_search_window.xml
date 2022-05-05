@@ -5,36 +5,36 @@
         android:id="@+id/soket"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/secondaryLightBlue"
+        android:background="?attr/colorOnBackground"
         tools:context=".MainActivity">
 
-
     <com.mindorks.editdrawabletext.EditDrawableText
-        android:id="@+id/search"
-        android:layout_width="623dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center"
-        android:background="@drawable/custom_search_button"
-        android:drawableLeft="@drawable/ic_action_back"
-        android:drawablePadding="10dp"
-        android:drawableTint="@color/white"
-        android:hint="@string/s_k"
-        android:inputType="textPostalAddress"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/lowerSearch"
-        app:layout_constraintDimensionRatio="9:1"
-        app:layout_constraintEnd_toEndOf="@id/marginRight"
-        app:layout_constraintStart_toStartOf="@id/marginLeft"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.625"
-        tools:ignore="RtlHardcoded" />
+            android:id="@+id/search"
+            android:layout_width="537dp"
+            android:layout_height="48dp"
+            android:layout_gravity="top|center"
+            android:background="@drawable/custom_search_button2"
+            android:drawableLeft="@drawable/ic_action_back"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/black"
+            android:hint="@string/s_k"
+            android:inputType="textPostalAddress"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/lowerSearch"
+            app:layout_constraintDimensionRatio="9:1"
+            app:layout_constraintEnd_toEndOf="@id/marginRight"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@id/marginLeft"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlHardcoded" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_favorites"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
+            android:layout_height="0dp"
+            android:background="?android:attr/colorBackground"
+            android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/lowerFavRecycler"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,17 +46,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/favorites"
-            android:textColor="@color/primaryOrange"
+            android:textColor="?attr/colorPrimary"
             app:layout_constraintBottom_toTopOf="@id/lowerFavorite"
             app:layout_constraintStart_toStartOf="@+id/marginLeft"
-            app:layout_constraintTop_toTopOf="@+id/lowerSearch" />
+            app:layout_constraintTop_toTopOf="@+id/lowerSearch"
+            tools:ignore="TextContrastCheck" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="?attr/colorSecondaryVariant"
-        app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="0dp"
+            android:background="?attr/colorOnBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/marginLeft"
         app:layout_constraintStart_toStartOf="@id/marginLeft"
         app:layout_constraintTop_toBottomOf="@id/lowerFavRecycler">
@@ -68,8 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:scrollbars="none"
-            app:layout_constraintGuide_percent="0.16" />
+            app:layout_constraintGuide_percent="0.10" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/marginLeft"
@@ -90,22 +90,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.22" />
+            app:layout_constraintGuide_percent="0.15" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/lowerFavRecycler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.44" />
+            app:layout_constraintGuide_percent="0.30" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lowerRecycler"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="?attr/colorSecondaryVariant"
-        android:elevation="10dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="0dp"
+            android:background="?attr/colorOnPrimary"
+            android:elevation="10dp"
+            android:scrollbars="horizontal|none"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/parentGuideRight"
         app:layout_constraintHorizontal_bias="0.5"
@@ -117,25 +118,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/recently_searched_hint"
-            android:textColor="@color/primaryOrange"
+            android:textColor="?attr/colorPrimary"
             app:layout_constraintBottom_toTopOf="@+id/recGuide"
             app:layout_constraintStart_toStartOf="@+id/marginLeft"
-            app:layout_constraintTop_toBottomOf="@+id/search_favorites" />
+            app:layout_constraintTop_toBottomOf="@+id/search_favorites"
+            tools:ignore="TextContrastCheck" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/recGuide"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.53" />
+            android:id="@+id/recGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.35" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/parentGuideLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="1" />
+            app:layout_constraintGuide_percent="0" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/parentGuideRight"
@@ -144,5 +145,18 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="1" />
 
+    <ProgressBar
+            android:id="@+id/search_progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="76dp"
+            android:layout_height="83dp"
+            android:elevation="30dp"
+            android:gravity="center"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/soket"
+            app:layout_constraintTop_toTopOf="@+id/soket"
+            tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

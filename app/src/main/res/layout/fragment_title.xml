@@ -39,7 +39,7 @@
             app:layout_constraintTop_toTopOf="@+id/fragment_title"
             android:minHeight="48dp"
             android:inputType="textPostalAddress"
-            tools:ignore="RtlHardcoded" />
+            tools:ignore="RtlHardcoded,TextContrastCheck" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline14"

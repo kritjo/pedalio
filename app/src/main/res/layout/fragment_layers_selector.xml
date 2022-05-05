@@ -27,64 +27,70 @@
             android:background="?attr/colorOnSecondary">
 
             <Switch
-                android:id="@+id/switch_airquality"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                app:layout_constraintBottom_toTopOf="@+id/switch_weather"
-                app:layout_constraintEnd_toStartOf="@+id/guideline7"
-                app:layout_constraintTop_toTopOf="@+id/guideline4"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    android:id="@+id/switch_airquality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    app:layout_constraintBottom_toTopOf="@+id/switch_weather"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                    app:layout_constraintTop_toTopOf="@+id/guideline4"
+                    tools:ignore="UseSwitchCompatOrMaterialXml,DuplicateSpeakableTextCheck"
+                    android:minWidth="48dp" />
 
             <Switch
-                android:id="@+id/switch_weather"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                app:layout_constraintBottom_toTopOf="@+id/switch_bikeRoutes"
-                app:layout_constraintEnd_toStartOf="@+id/guideline7"
-                app:layout_constraintTop_toBottomOf="@+id/switch_airquality"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    android:id="@+id/switch_weather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    app:layout_constraintBottom_toTopOf="@+id/switch_bikeRoutes"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                    app:layout_constraintTop_toBottomOf="@+id/switch_airquality"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+                    android:minWidth="48dp" />
 
             <Switch
-                android:id="@+id/switch_bikeRoutes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                app:layout_constraintBottom_toTopOf="@+id/guideline5"
-                app:layout_constraintEnd_toStartOf="@+id/guideline7"
-                app:layout_constraintTop_toBottomOf="@+id/switch_weather"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    android:id="@+id/switch_bikeRoutes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline5"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                    app:layout_constraintTop_toBottomOf="@+id/switch_weather"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+                    android:minWidth="48dp" />
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/air_quality"
-                android:textColor="?attr/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="@+id/switch_airquality"
-                app:layout_constraintStart_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toTopOf="@+id/switch_airquality" />
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/air_quality"
+                    android:textColor="?attr/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@+id/switch_airquality"
+                    app:layout_constraintStart_toStartOf="@+id/guideline6"
+                    app:layout_constraintTop_toTopOf="@+id/switch_airquality"
+                    tools:ignore="TextContrastCheck" />
 
             <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/weather"
-                android:textColor="?attr/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="@+id/switch_weather"
-                app:layout_constraintStart_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toTopOf="@+id/switch_weather" />
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weather"
+                    android:textColor="?attr/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@+id/switch_weather"
+                    app:layout_constraintStart_toStartOf="@+id/guideline6"
+                    app:layout_constraintTop_toTopOf="@+id/switch_weather"
+                    tools:ignore="TextContrastCheck" />
 
             <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bike_routes"
-                android:textColor="?attr/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="@+id/switch_bikeRoutes"
-                app:layout_constraintStart_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toTopOf="@+id/switch_bikeRoutes" />
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bike_routes"
+                    android:textColor="?attr/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@+id/switch_bikeRoutes"
+                    app:layout_constraintStart_toStartOf="@+id/guideline6"
+                    app:layout_constraintTop_toTopOf="@+id/switch_bikeRoutes"
+                    tools:ignore="TextContrastCheck" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline4"
@@ -124,7 +130,8 @@
                     app:layout_constraintStart_toStartOf="@+id/guideline7"
                     app:layout_constraintTop_toTopOf="@+id/guideline4"
                     app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintVertical_bias="0.127" />
+                    app:layout_constraintVertical_bias="0.127"
+                    android:minHeight="48dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

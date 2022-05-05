@@ -21,7 +21,8 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="@+id/guideline11"
             app:layout_constraintTop_toTopOf="@+id/guideline13"
-            app:layout_constraintVertical_bias="0.668" />
+            app:layout_constraintVertical_bias="0.668"
+            tools:ignore="TextContrastCheck" />
 
     <Button
             android:id="@+id/buttonDone"
@@ -35,7 +36,8 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="@+id/guideline11"
             app:layout_constraintTop_toTopOf="@+id/guideline5"
-            app:layout_constraintVertical_bias="0.926" />
+            app:layout_constraintVertical_bias="0.926"
+            tools:ignore="TextContrastCheck" />
 
     <ImageView
             android:id="@+id/imageView"
