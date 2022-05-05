@@ -39,14 +39,15 @@
     <string name="welcome_header">Welcome to Pedalio!</string>
 
     <string name="welcome_header_2">Safety tips…</string>
-    <string name="rule_1">1. Be visible in traffic</string>
-    <string name="rule_2">2. gir tydelige tegn</string>
-    <string name="rule_3">2. Give clear signs</string>
-    <string name="rule_4">3. Obtain eye contact with other road users</string>
-    <string name="rule_5">5. Wait for green</string>
-    <string name="rule_6">6. Give pedestrians priority on the sidewalk</string>
-    <string name="rule_7">7. Use a flashlight in the dark</string>
-    <string name="rule_8">8. Use a helmet</string>
+    <string name="rules">
+        1. Be visible in traffic \n \n
+        2. Give clear signs \n \n
+        3. Obtain eye contact with other road users \n \n
+        4. Listen to your surroundings, not music \n \n
+        5. Wait for green \n \n
+        6. Give pedestrians priority on the sidewalk \n \n
+        7. Use a flashlight in the dark \n \n
+        8. Use a helmet</string>
     <string name="done">Understood</string>
     <string name="shortest_route">Shortest route</string>
     <string name="question_fastest_route">Route with shortest distance in meters</string>
@@ -70,4 +71,7 @@
     <string name="track_route">Center</string>
     <string name="track_route_off">Center: off</string>
     <string name="track_route_on">Center: on</string>
+    <string name="darkmode_system">Follow system settings</string>
+    <string name="theme_header">Theme</string>
+    <string name="gps_header">Location</string>
 </resources>

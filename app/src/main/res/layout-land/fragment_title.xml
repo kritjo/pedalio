@@ -38,7 +38,7 @@
             android:minHeight="48dp"
             app:layout_constraintVertical_bias="0.043"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:ignore="RtlHardcoded"
+            tools:ignore="RtlHardcoded,TextContrastCheck"
             android:inputType="textPostalAddress"
             android:autofillHints="postalAddress" />
 

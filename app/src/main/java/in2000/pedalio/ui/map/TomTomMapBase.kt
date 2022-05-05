@@ -26,14 +26,12 @@ import com.tomtom.online.sdk.common.util.LogUtils
 import com.tomtom.online.sdk.map.*
 import com.tomtom.online.sdk.map.route.RouteLayerStyle
 import in2000.pedalio.R
-import in2000.pedalio.data.settings.SettingsRepository
 import in2000.pedalio.data.settings.impl.SharedPreferences
 import in2000.pedalio.domain.routing.GetRouteAlternativesUseCase
 import in2000.pedalio.utils.CoordinateUtil
 import in2000.pedalio.viewmodel.MapViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
 
 
 /**
@@ -65,8 +63,7 @@ class TomTomMapBase : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         LogUtils.enableLogs(Log.VERBOSE)
-        jsonStyleDark = requireContext().assets!!.open("raw/style.json").
-            bufferedReader().readText()
+        jsonStyleDark = requireContext().assets!!.open("raw/style.json").bufferedReader().readText()
         requestPermissionLauncher =
             registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
@@ -102,14 +99,14 @@ class TomTomMapBase : Fragment() {
         super.onPause()
     }
 
+    @SuppressLint("LogNotTimber")
     private fun onMapReady(map: TomtomMap) {
         tomtomMap = map
         val sharedPreferences = SharedPreferences(requireContext())
         Log.d("styleSettings", sharedPreferences.theme.toString())
-        if (sharedPreferences.theme){
+        if (sharedPreferences.theme) {
             tomtomMap.styleSettings.setStyleJson(jsonStyleDark)
-        }
-        else{
+        } else {
             tomtomMap.styleSettings.loadDefaultStyle()
         }
 
@@ -227,18 +224,19 @@ class TomTomMapBase : Fragment() {
             }
         }
 
-        layersSelectorFragment.requireView().findViewById<Switch>(R.id.switch_airquality).setOnCheckedChangeListener { _, isChecked ->
-            SharedPreferences(requireContext()).layerAirQuality = isChecked
-            if (isChecked) {
-                // Do this in a separate thread to avoid blocking the UI.
-                mapViewModel.viewModelScope.launch(Dispatchers.Default) {
-                    mapViewModel.updateAirQuality(mapViewModel.aqComponent)
-                    mapViewModel.createAQPolygons(mapViewModel.getAirQuality())
+        layersSelectorFragment.requireView().findViewById<Switch>(R.id.switch_airquality)
+            .setOnCheckedChangeListener { _, isChecked ->
+                SharedPreferences(requireContext()).layerAirQuality = isChecked
+                if (isChecked) {
+                    // Do this in a separate thread to avoid blocking the UI.
+                    mapViewModel.viewModelScope.launch(Dispatchers.Default) {
+                        mapViewModel.updateAirQuality(mapViewModel.aqComponent)
+                        mapViewModel.createAQPolygons(mapViewModel.getAirQuality())
+                    }
+                } else {
+                    removeMapOverlay("air_quality_polygons")
                 }
-            } else {
-                removeMapOverlay("air_quality_polygons")
             }
-        }
 
         layersSelectorFragment.requireView().findViewById<Switch>(R.id.switch_weather)
             .setOnCheckedChangeListener { _, checked: Boolean ->
@@ -340,7 +338,7 @@ class TomTomMapBase : Fragment() {
 
             val rb = RouteBuilder(route.getCoordinates())
             tomtomMap.addRoute(rb)
-            if(rb.id < 0){
+            if (rb.id < 0) {
                 Log.e("ROUTE", "Route id is negative and not valid, exiting observer")
                 return@observe
             }
@@ -355,12 +353,12 @@ class TomTomMapBase : Fragment() {
 
             // Show progress along the route
             tomtomMap.activateProgressAlongRoute(rb.id, RouteLayerStyle.Builder().build())
-            val track_button = requireView().findViewById<ToggleButton>(R.id.track_route)
+            val trackButton = requireView().findViewById<ToggleButton>(R.id.track_route)
             var tracking = false
-            track_button.setOnCheckedChangeListener { _, b ->
+            trackButton.setOnCheckedChangeListener { _, b ->
                 tracking = b
             }
-            track_button.visibility = View.VISIBLE
+            trackButton.visibility = View.VISIBLE
             mapViewModel.currentPos().observe(viewLifecycleOwner) {
                 if (!finished && !canceled && tracking) {
                     tomtomMap.updateProgressAlongRoute(rb.id, it.toLocation())
@@ -392,7 +390,7 @@ class TomTomMapBase : Fragment() {
                     mapViewModel.routesOnDisplay.clear()
                     requireView().findViewById<Button>(R.id.cancel_route_button).visibility =
                         View.GONE
-                    track_button?.visibility = View.GONE
+                    trackButton?.visibility = View.GONE
                 }
             }
 

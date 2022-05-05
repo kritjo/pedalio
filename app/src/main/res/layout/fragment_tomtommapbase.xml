@@ -38,15 +38,16 @@
         tools:layout="@layout/fragment_weather_overlay" />
 
     <Button
-        android:id="@+id/layers_button"
-        android:layout_width="wrap_content"
-        android:layout_height="59dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="?attr/colorOnSecondary"
-        android:text="@string/layers"
-        android:textColor="@color/secondaryDarkBlue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline15" />
+            android:id="@+id/layers_button"
+            android:layout_width="wrap_content"
+            android:layout_height="59dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="?attr/colorOnSecondary"
+            android:text="@string/layers"
+            android:textColor="@color/secondaryDarkBlue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline15"
+            tools:ignore="TextContrastCheck" />
 
     <Button
         android:id="@+id/cancel_route_button"

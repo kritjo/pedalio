@@ -16,6 +16,13 @@ class SharedPreferences(context: Context) : SettingsRepository() {
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     /**
+     * Follow system theme (dark or light mode).
+     */
+    override var followSystem: Boolean
+        get() = sharedPreferences.getBoolean(SettingsKey.FOLLOW_SYS.name, true)
+        set(value) = sharedPreferences.edit().putBoolean(SettingsKey.FOLLOW_SYS.name, value).apply()
+
+    /**
      * Theme (dark or light mode). Light is false, dark is true.
      */
     override var theme: Boolean
@@ -80,9 +87,10 @@ class SharedPreferences(context: Context) : SettingsRepository() {
     /**
      * Which AQ layer to show
      */
-    override var layerAQComponent : String?
+    override var layerAQComponent: String?
         get() : String? = sharedPreferences.getString(SettingsKey.LAYER_AQ_COMPONENT.name, "NO2")
-        set(value) = sharedPreferences.edit().putString(SettingsKey.LAYER_AQ_COMPONENT.name, value).apply()
+        set(value) = sharedPreferences.edit().putString(SettingsKey.LAYER_AQ_COMPONENT.name, value)
+            .apply()
 
     /**
      * Should use [appendRecentSearch] instead of using this directly.
@@ -151,6 +159,11 @@ class SharedPreferences(context: Context) : SettingsRepository() {
  * Keys to be used in sharedPreferences.get*.
  */
 enum class SettingsKey {
+    /**
+     * The key for the setting that stores if we should follow system theme or not.
+     */
+    FOLLOW_SYS,
+
     /**
      * The key for the setting that stores the current theme.
      */

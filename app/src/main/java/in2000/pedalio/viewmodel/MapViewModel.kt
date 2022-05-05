@@ -1,5 +1,6 @@
 package in2000.pedalio.viewmodel
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.graphics.Color
@@ -323,7 +324,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         return aqPairs!!.filter { it.first.latitude != 0.0 && it.first.longitude != 0.0 }
     }
 
-     fun parseAndUpdateComponentFromPreferences(){
+    @SuppressLint("LogNotTimber")
+    fun parseAndUpdateComponentFromPreferences(){
         val prefs = SharedPreferences(getApplication<Application>().applicationContext)
         val component = when (prefs.layerAQComponent) {
             "NO2" -> {
@@ -451,11 +453,12 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         // Update weather and air quality every 120 seconds even if the user has not moved.
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed(object : Runnable {
+            @SuppressLint("LogNotTimber")
             override fun run() {
                 viewModelScope.launch(Dispatchers.IO) {
                     updateWeatherAndDeviations(application.applicationContext)
                     updateAirQuality(aqComponent)
-                    Log.d("AQ", "Updating AQ with component: ${aqComponent}")
+                    Log.d("AQ", "Updating AQ with component: $aqComponent")
                     // Wait for update to finish before drawing
                     if (SharedPreferences(application.applicationContext).layerAirQuality) {
                         createAQPolygons(getAirQuality())
