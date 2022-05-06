@@ -3,6 +3,8 @@ package in2000.pedalio.ui.map
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -104,16 +106,14 @@ class TomTomMapBase : Fragment() {
         tomtomMap = map
         val sharedPreferences = SharedPreferences(requireContext())
         Log.d("styleSettings", sharedPreferences.theme.toString())
-        if (sharedPreferences.theme) {
+        val systemDarkMode = resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
+
+        if ((!sharedPreferences.followSystem && sharedPreferences.theme)
+            || (sharedPreferences.followSystem && systemDarkMode))
             tomtomMap.styleSettings.setStyleJson(jsonStyleDark)
-        } else {
-            tomtomMap.styleSettings.loadDefaultStyle()
-        }
+         else tomtomMap.styleSettings.loadDefaultStyle()
 
-        //val fil: File = File(context.resources,"style.json")
-        //val filLeser = FileReader(fil)
-
-        //tomtomMap.uiSettings.setStyleJson(jsonString)
         // This callback should be first thing after this.tomtomMap assign. In order to get pos
         // updates.
         mapViewModel.registerListener = tomtomMap::addLocationUpdateListener
