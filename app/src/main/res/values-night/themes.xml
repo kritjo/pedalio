@@ -4,12 +4,12 @@
 
         <item name="colorPrimary">@color/secondaryDarkBlue</item>
         <item name="colorPrimaryVariant">@color/primaryOrange</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorOnPrimary">#1C1C1C</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondaryDarkBlue</item>
         <item name="colorSecondaryVariant">@color/black</item>
         <item name="colorOnSecondary">@color/DarkGrey</item>
-        <item name="colorOnBackground">@color/black</item>
+        <item name="colorOnBackground">#1C1C1C</item>
 
 
 

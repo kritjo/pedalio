@@ -5,37 +5,37 @@
     android:id="@+id/soket"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorOnBackground"
+    android:background="?android:attr/colorBackground"
     tools:context=".MainActivity">
 
 
     <com.mindorks.editdrawabletext.EditDrawableText
-            android:id="@+id/search"
-            android:layout_width="370dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center"
-            android:background="@drawable/custom_search_button2"
-            android:drawableLeft="@drawable/ic_action_back"
-            android:drawablePadding="10dp"
-            android:drawableTint="@color/black"
-            android:hint="@string/s_k"
-            android:inputType="textPostalAddress"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/lowerSearch"
-            app:layout_constraintDimensionRatio="9:1"
-            app:layout_constraintEnd_toEndOf="@id/marginRight"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@id/marginLeft"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="RtlHardcoded"
-            android:minHeight="48dp" />
+        android:id="@+id/search"
+        android:layout_width="370dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:background="@drawable/custom_search_button2"
+        android:drawableLeft="@drawable/ic_action_back"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/black"
+        android:hint="@string/s_k"
+        android:inputType="textPostalAddress"
+        android:minHeight="48dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/lowerSearch"
+        app:layout_constraintDimensionRatio="9:1"
+        app:layout_constraintEnd_toEndOf="@id/marginRight"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/marginLeft"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlHardcoded" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_favorites"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="?android:attr/colorBackground"
+        android:background="?attr/colorOnBackground"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/lowerFavRecycler"
@@ -44,21 +44,21 @@
         app:layout_constraintTop_toTopOf="@+id/lowerFavorite" />
 
     <TextView
-            android:id="@+id/textFavorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/favorites"
-            android:textColor="?attr/colorPrimary"
-            app:layout_constraintBottom_toTopOf="@id/lowerFavorite"
-            app:layout_constraintStart_toStartOf="@+id/marginLeft"
-            app:layout_constraintTop_toTopOf="@+id/lowerSearch"
-            tools:ignore="TextContrastCheck" />
+        android:id="@+id/textFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/favorites"
+        android:textColor="?attr/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@id/lowerFavorite"
+        app:layout_constraintStart_toStartOf="@+id/marginLeft"
+        app:layout_constraintTop_toTopOf="@+id/lowerSearch"
+        tools:ignore="TextContrastCheck" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="?attr/colorOnBackground"
+        android:background="?android:attr/colorBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/marginLeft"
         app:layout_constraintStart_toStartOf="@id/marginLeft"
@@ -105,7 +105,7 @@
         android:id="@+id/lowerRecycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="?attr/colorOnPrimary"
+        android:background="?android:attr/colorBackground"
         android:elevation="10dp"
         android:scrollbars="horizontal|none"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -116,15 +116,15 @@
         app:layout_constraintTop_toTopOf="@+id/recGuide" />
 
     <TextView
-            android:id="@+id/lowerRecyclerHint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/recently_searched_hint"
-            android:textColor="?attr/colorPrimary"
-            app:layout_constraintBottom_toTopOf="@+id/recGuide"
-            app:layout_constraintStart_toStartOf="@+id/marginLeft"
-            app:layout_constraintTop_toBottomOf="@+id/search_favorites"
-            tools:ignore="TextContrastCheck" />
+        android:id="@+id/lowerRecyclerHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recently_searched_hint"
+        android:textColor="?attr/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/recGuide"
+        app:layout_constraintStart_toStartOf="@+id/marginLeft"
+        app:layout_constraintTop_toBottomOf="@+id/search_favorites"
+        tools:ignore="TextContrastCheck" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/recGuide"
