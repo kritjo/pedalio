@@ -565,9 +565,11 @@ class TomTomMapBase : Fragment() {
      * @param overlayBubble the overlay bubble to initialize
      */
     private fun initializeOverlayBubble(overlayBubble: OverlayBubble) {
-        overlayBubble.button = Button(this.requireContext())
-        overlayBubble.button.text = overlayBubble.text
-        overlayBubble.button.setTextColor(overlayBubble.textColor)
+        if (overlayBubble.button == null) {
+            overlayBubble.button = Button(this.requireContext())
+        }
+        overlayBubble.button!!.text = overlayBubble.text
+        overlayBubble.button!!.setTextColor(overlayBubble.textColor)
         val bubbleSize = bubbleSize()
         val shape = ShapeDrawable(object : OvalShape() {
             override fun draw(canvas: Canvas, paint: Paint) {
@@ -577,7 +579,7 @@ class TomTomMapBase : Fragment() {
                 canvas.drawCircle(bubbleSize / 2f, bubbleSize / 2f, bubbleSize / 2f, paint)
             }
         })
-        overlayBubble.button.background = shape
+        overlayBubble.button!!.background = shape
     }
 
     /**
@@ -602,8 +604,8 @@ class TomTomMapBase : Fragment() {
             // Anchor the button to x,y on screen and center it.
             params.leftMargin = x.toInt() - bubbleSize / 2
             params.topMargin = y.toInt() - bubbleSize / 2
-            it.button.tag = tag
-            overlayBubbleViews.add(it.button)
+            it.button?.tag = tag
+            it.button?.let { it1 -> overlayBubbleViews.add(it1) }
             overlay?.addView(it.button, params)
         }
     }

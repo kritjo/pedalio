@@ -18,6 +18,6 @@ class OverlayBubble(
     @ColorInt var textColor: Int,
     @ColorInt var backgroundColor: Int
 ) {
-    lateinit var button: Button
+    var button: Button? = null
 }
 
