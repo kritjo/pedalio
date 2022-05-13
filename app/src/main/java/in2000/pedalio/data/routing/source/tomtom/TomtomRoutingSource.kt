@@ -25,7 +25,7 @@ class TomtomRoutingSource(context: Context) {
      */
     private fun createRouteSpecification(
         waypoints: List<LatLng>,
-        considerTraffic: Boolean = false
+        considerTraffic: Boolean = true
     ): RouteSpecification {
         val routeDescriptor = RouteDescriptor.Builder()
             .travelMode(travelMode)
