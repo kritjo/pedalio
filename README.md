@@ -2,7 +2,7 @@
 [![Gradle CI](https://github.com/kritjo/in2000-team18/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/kritjo/in2000-team18/actions/workflows/gradle.yml)
 ###### (Gruppa: Igor, Jonas, Kristian, Martha, Axel, Omar)
 
-[Documentation](https://kritjo.github.io/in2000-team18/)
+[Documentation](https://kritjo.github.io/pedalio/)
 
 ## APIer:
 - NILU [API](https://api.nilu.no/) - målinger av luftkvalitet (sanntid og historisk)
