@@ -200,7 +200,7 @@ $dokka.location:in2000.pedalio.data.search/ReverseSearchRepository/ReverseSearch
 $dokka.location:in2000.pedalio.data.search/ReverseSearchRepository/getCountry/#com.tomtom.online.sdk.common.location.LatLng/PointingToDeclaration/app/in2000.pedalio.data.search/-reverse-search-repository/get-country.html
 $dokka.location:in2000.pedalio.data.search/SearchRepository///PointingToDeclaration/app/in2000.pedalio.data.search/-search-repository/index.html
 $dokka.location:in2000.pedalio.data.search/SearchRepository/SearchRepository/#/PointingToDeclaration/app/in2000.pedalio.data.search/-search-repository/-search-repository.html
-$dokka.location:in2000.pedalio.data.search/SearchRepository/doSearch/#kotlin.Any/PointingToDeclaration/app/in2000.pedalio.data.search/-search-repository/do-search.html
+$dokka.location:in2000.pedalio.data.search/SearchRepository/doSearch/#com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification/PointingToDeclaration/app/in2000.pedalio.data.search/-search-repository/do-search.html
 $dokka.location:in2000.pedalio.data.search/SearchResult///PointingToDeclaration/app/in2000.pedalio.data.search/-search-result/index.html
 $dokka.location:in2000.pedalio.data.search/SearchResult/SearchResult/#kotlin.Double#com.tomtom.online.sdk.search.location.Address?#com.tomtom.online.sdk.common.location.LatLng#kotlin.Double#kotlin.String#com.tomtom.online.sdk.search.information.Poi?/PointingToDeclaration/app/in2000.pedalio.data.search/-search-result/-search-result.html
 $dokka.location:in2000.pedalio.data.search/SearchResult/address/#/PointingToDeclaration/app/in2000.pedalio.data.search/-search-result/address.html
@@ -213,6 +213,7 @@ $dokka.location:in2000.pedalio.data.settings.impl////PointingToDeclaration/app/
 $dokka.location:in2000.pedalio.data.settings.impl/SettingsKey.ASKED_FOR_GPS///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}app/in2000.pedalio.data.settings.impl/-settings-key/-a-s-k-e-d_-f-o-r_-g-p-s/index.html
 $dokka.location:in2000.pedalio.data.settings.impl/SettingsKey.COLOR_BLIND_MODE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}app/in2000.pedalio.data.settings.impl/-settings-key/-c-o-l-o-r_-b-l-i-n-d_-m-o-d-e/index.html
 $dokka.location:in2000.pedalio.data.settings.impl/SettingsKey.FAVORITE_SEARCHES///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}app/in2000.pedalio.data.settings.impl/-settings-key/-f-a-v-o-r-i-t-e_-s-e-a-r-c-h-e-s/index.html
+$dokka.location:in2000.pedalio.data.settings.impl/SettingsKey.FOLLOW_SYS///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}app/in2000.pedalio.data.settings.impl/-settings-key/-f-o-l-l-o-w_-s-y-s/index.html
 $dokka.location:in2000.pedalio.data.settings.impl/SettingsKey.GPS_TOGGLE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}app/in2000.pedalio.data.settings.impl/-settings-key/-g-p-s_-t-o-g-g-l-e/index.html
 $dokka.location:in2000.pedalio.data.settings.impl/SettingsKey.LAYER_AIR_QUALITY///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}app/in2000.pedalio.data.settings.impl/-settings-key/-l-a-y-e-r_-a-i-r_-q-u-a-l-i-t-y/index.html
 $dokka.location:in2000.pedalio.data.settings.impl/SettingsKey.LAYER_AQ_COMPONENT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}app/in2000.pedalio.data.settings.impl/-settings-key/-l-a-y-e-r_-a-q_-c-o-m-p-o-n-e-n-t/index.html
@@ -229,6 +230,7 @@ $dokka.location:in2000.pedalio.data.settings.impl/SharedPreferences/appendRecent
 $dokka.location:in2000.pedalio.data.settings.impl/SharedPreferences/askedForGps/#/PointingToDeclaration/app/in2000.pedalio.data.settings.impl/-shared-preferences/asked-for-gps.html
 $dokka.location:in2000.pedalio.data.settings.impl/SharedPreferences/colorBlindMode/#/PointingToDeclaration/app/in2000.pedalio.data.settings.impl/-shared-preferences/color-blind-mode.html
 $dokka.location:in2000.pedalio.data.settings.impl/SharedPreferences/favoriteSearches/#/PointingToDeclaration/app/in2000.pedalio.data.settings.impl/-shared-preferences/favorite-searches.html
+$dokka.location:in2000.pedalio.data.settings.impl/SharedPreferences/followSystem/#/PointingToDeclaration/app/in2000.pedalio.data.settings.impl/-shared-preferences/follow-system.html
 $dokka.location:in2000.pedalio.data.settings.impl/SharedPreferences/gpsToggle/#/PointingToDeclaration/app/in2000.pedalio.data.settings.impl/-shared-preferences/gps-toggle.html
 $dokka.location:in2000.pedalio.data.settings.impl/SharedPreferences/layerAQComponent/#/PointingToDeclaration/app/in2000.pedalio.data.settings.impl/-shared-preferences/layer-a-q-component.html
 $dokka.location:in2000.pedalio.data.settings.impl/SharedPreferences/layerAirQuality/#/PointingToDeclaration/app/in2000.pedalio.data.settings.impl/-shared-preferences/layer-air-quality.html
@@ -244,6 +246,7 @@ $dokka.location:in2000.pedalio.data.settings/SettingsRepository/SettingsReposito
 $dokka.location:in2000.pedalio.data.settings/SettingsRepository/askedForGps/#/PointingToDeclaration/app/in2000.pedalio.data.settings/-settings-repository/asked-for-gps.html
 $dokka.location:in2000.pedalio.data.settings/SettingsRepository/colorBlindMode/#/PointingToDeclaration/app/in2000.pedalio.data.settings/-settings-repository/color-blind-mode.html
 $dokka.location:in2000.pedalio.data.settings/SettingsRepository/favoriteSearches/#/PointingToDeclaration/app/in2000.pedalio.data.settings/-settings-repository/favorite-searches.html
+$dokka.location:in2000.pedalio.data.settings/SettingsRepository/followSystem/#/PointingToDeclaration/app/in2000.pedalio.data.settings/-settings-repository/follow-system.html
 $dokka.location:in2000.pedalio.data.settings/SettingsRepository/gpsToggle/#/PointingToDeclaration/app/in2000.pedalio.data.settings/-settings-repository/gps-toggle.html
 $dokka.location:in2000.pedalio.data.settings/SettingsRepository/layerAQComponent/#/PointingToDeclaration/app/in2000.pedalio.data.settings/-settings-repository/layer-a-q-component.html
 $dokka.location:in2000.pedalio.data.settings/SettingsRepository/layerAirQuality/#/PointingToDeclaration/app/in2000.pedalio.data.settings/-settings-repository/layer-air-quality.html
@@ -554,7 +557,7 @@ $dokka.location:in2000.pedalio.ui.map/RoutingSelector.Companion/SAFEST_COLOR/#/P
 $dokka.location:in2000.pedalio.ui.map/RoutingSelector.Companion/SAFEST_CONTRAST_COLOR/#/PointingToDeclaration/app/in2000.pedalio.ui.map/-routing-selector/-companion/-s-a-f-e-s-t_-c-o-n-t-r-a-s-t_-c-o-l-o-r.html
 $dokka.location:in2000.pedalio.ui.map/RoutingSelector.Companion/SHORTEST_COLOR/#/PointingToDeclaration/app/in2000.pedalio.ui.map/-routing-selector/-companion/-s-h-o-r-t-e-s-t_-c-o-l-o-r.html
 $dokka.location:in2000.pedalio.ui.map/RoutingSelector.Companion/SHORTEST_CONTRAST_COLOR/#/PointingToDeclaration/app/in2000.pedalio.ui.map/-routing-selector/-companion/-s-h-o-r-t-e-s-t_-c-o-n-t-r-a-s-t_-c-o-l-o-r.html
-$dokka.location:in2000.pedalio.ui.map/RoutingSelector.Companion/newInstance/#kotlin.collections.Map[in2000.pedalio.domain.routing.GetRouteAlternativesUseCase.RouteType,com.tomtom.online.sdk.routing.route.information.FullRoute]#androidx.lifecycle.MutableLiveData[kotlin.collections.List[com.tomtom.online.sdk.common.location.LatLng]?]/PointingToDeclaration/app/in2000.pedalio.ui.map/-routing-selector/-companion/new-instance.html
+$dokka.location:in2000.pedalio.ui.map/RoutingSelector.Companion/newInstance/#kotlin.collections.Map[in2000.pedalio.domain.routing.GetRouteAlternativesUseCase.RouteType,com.tomtom.online.sdk.routing.route.information.FullRoute]#androidx.lifecycle.MutableLiveData[com.tomtom.online.sdk.routing.route.information.FullRoute?]/PointingToDeclaration/app/in2000.pedalio.ui.map/-routing-selector/-companion/new-instance.html
 $dokka.location:in2000.pedalio.ui.map/RoutingSelector///PointingToDeclaration/app/in2000.pedalio.ui.map/-routing-selector/index.html
 $dokka.location:in2000.pedalio.ui.map/RoutingSelector/onCreate/#android.os.Bundle?/PointingToDeclaration/app/in2000.pedalio.ui.map/-routing-selector/on-create.html
 $dokka.location:in2000.pedalio.ui.map/RoutingSelector/onCreateView/#android.view.LayoutInflater#android.view.ViewGroup?#android.os.Bundle?/PointingToDeclaration/app/in2000.pedalio.ui.map/-routing-selector/on-create-view.html
@@ -570,6 +573,7 @@ $dokka.location:in2000.pedalio.ui.settings////PointingToDeclaration/app/in2000.
 $dokka.location:in2000.pedalio.ui.settings/SettingsFragment///PointingToDeclaration/app/in2000.pedalio.ui.settings/-settings-fragment/index.html
 $dokka.location:in2000.pedalio.ui.settings/SettingsFragment/SettingsFragment/#/PointingToDeclaration/app/in2000.pedalio.ui.settings/-settings-fragment/-settings-fragment.html
 $dokka.location:in2000.pedalio.ui.settings/SettingsFragment/onCreatePreferences/#android.os.Bundle?#kotlin.String?/PointingToDeclaration/app/in2000.pedalio.ui.settings/-settings-fragment/on-create-preferences.html
+$dokka.location:in2000.pedalio.ui.settings/SettingsFragment/onResume/#/PointingToDeclaration/app/in2000.pedalio.ui.settings/-settings-fragment/on-resume.html
 $dokka.location:in2000.pedalio.utils////PointingToDeclaration/app/in2000.pedalio.utils/index.html
 $dokka.location:in2000.pedalio.utils/CoordinateUtil.Companion///PointingToDeclaration/app/in2000.pedalio.utils/-coordinate-util/-companion/index.html
 $dokka.location:in2000.pedalio.utils/CoordinateUtil.Companion/calcDistanceBetweenTwoCoordinates/#com.tomtom.online.sdk.common.location.LatLng#com.tomtom.online.sdk.common.location.LatLng/PointingToDeclaration/app/in2000.pedalio.utils/-coordinate-util/-companion/calc-distance-between-two-coordinates.html
@@ -595,7 +599,6 @@ $dokka.location:in2000.pedalio.viewmodel////PointingToDeclaration/app/in2000.pe
 $dokka.location:in2000.pedalio.viewmodel/MapViewModel///PointingToDeclaration/app/in2000.pedalio.viewmodel/-map-view-model/index.html
 $dokka.location:in2000.pedalio.viewmodel/MapViewModel/MapViewModel/#android.app.Application/PointingToDeclaration/app/in2000.pedalio.viewmodel/-map-view-model/-map-view-model.html
 $dokka.location:in2000.pedalio.viewmodel/MapViewModel/aqComponent/#/PointingToDeclaration/app/in2000.pedalio.viewmodel/-map-view-model/aq-component.html
-$dokka.location:in2000.pedalio.viewmodel/MapViewModel/aqMaxValue/#/PointingToDeclaration/app/in2000.pedalio.viewmodel/-map-view-model/aq-max-value.html
 $dokka.location:in2000.pedalio.viewmodel/MapViewModel/aqPolygons/#/PointingToDeclaration/app/in2000.pedalio.viewmodel/-map-view-model/aq-polygons.html
 $dokka.location:in2000.pedalio.viewmodel/MapViewModel/bikeRoutes/#/PointingToDeclaration/app/in2000.pedalio.viewmodel/-map-view-model/bike-routes.html
 $dokka.location:in2000.pedalio.viewmodel/MapViewModel/chosenRoute/#/PointingToDeclaration/app/in2000.pedalio.viewmodel/-map-view-model/chosen-route.html
@@ -606,6 +609,7 @@ $dokka.location:in2000.pedalio.viewmodel/MapViewModel/currentPos/#/PointingToDec
 $dokka.location:in2000.pedalio.viewmodel/MapViewModel/getAirQuality/#/PointingToDeclaration/app/in2000.pedalio.viewmodel/-map-view-model/get-air-quality.html
 $dokka.location:in2000.pedalio.viewmodel/MapViewModel/getBubbleSquareSize/#android.content.Context/PointingToDeclaration/app/in2000.pedalio.viewmodel/-map-view-model/get-bubble-square-size.html
 $dokka.location:in2000.pedalio.viewmodel/MapViewModel/getRoute/#com.tomtom.online.sdk.common.location.LatLng#com.tomtom.online.sdk.common.location.LatLng#android.content.Context/PointingToDeclaration/app/in2000.pedalio.viewmodel/-map-view-model/get-route.html
+$dokka.location:in2000.pedalio.viewmodel/MapViewModel/isCurrentPosInNorway/#android.content.Context/PointingToDeclaration/app/in2000.pedalio.viewmodel/-map-view-model/is-current-pos-in-norway.html
 $dokka.location:in2000.pedalio.viewmodel/MapViewModel/newSearchResult/#/PointingToDeclaration/app/in2000.pedalio.viewmodel/-map-view-model/new-search-result.html
 $dokka.location:in2000.pedalio.viewmodel/MapViewModel/overlayBubbles/#/PointingToDeclaration/app/in2000.pedalio.viewmodel/-map-view-model/overlay-bubbles.html
 $dokka.location:in2000.pedalio.viewmodel/MapViewModel/parseAndUpdateComponentFromPreferences/#/PointingToDeclaration/app/in2000.pedalio.viewmodel/-map-view-model/parse-and-update-component-from-preferences.html
